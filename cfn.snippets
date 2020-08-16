@@ -1,5 +1,13 @@
+snippet cfn_init
+AWSTemplateFormatVersion: "2010-09-09"
+Description: ${1: Welcome to CFn template!!}
+Parameters:
+Mappings:
+Resources:
+Outputs:
+
 ### AWS Resource snippets
-snippet AWS::AmazonMQ::Broker
+snippet cfn_AWS::AmazonMQ::Broker
   Type: "AWS::AmazonMQ::Broker"
   Properties:
     AutoMinorVersionUpgrade: Boolean
@@ -22,7 +30,7 @@ snippet AWS::AmazonMQ::Broker
       - Resource Tag  
 
 
-snippet AWS::AmazonMQ::Configuration
+snippet cfn_AWS::AmazonMQ::Configuration
   Type: "AWS::AmazonMQ::Configuration"
   Properties:
     Data: String
@@ -32,13 +40,13 @@ snippet AWS::AmazonMQ::Configuration
     Name: String
 
 
-snippet AWS::ApiGateway::Account
+snippet cfn_AWS::ApiGateway::Account
   Type: AWS::ApiGateway::Account
   Properties: 
     CloudWatchRoleArn: String
 
 
-snippet AWS::ApiGateway::ApiKey
+snippet cfn_AWS::ApiGateway::ApiKey
   Type: AWS::ApiGateway::ApiKey
   Properties: 
     CustomerId: String
@@ -51,7 +59,7 @@ snippet AWS::ApiGateway::ApiKey
       - ...
 
 
-snippet AWS::ApiGateway::Authorizer
+snippet cfn_AWS::ApiGateway::Authorizer
   Type: AWS::ApiGateway::Authorizer
   Properties:
     AuthType: String
@@ -67,7 +75,7 @@ snippet AWS::ApiGateway::Authorizer
     Type: String
 
 
-snippet AWS::ApiGateway::BasePathMapping
+snippet cfn_AWS::ApiGateway::BasePathMapping
   Type: AWS::ApiGateway::BasePathMapping
   Properties:
     BasePath: String
@@ -76,13 +84,13 @@ snippet AWS::ApiGateway::BasePathMapping
     Stage: String
 
 
-snippet AWS::ApiGateway::ClientCertificate
+snippet cfn_AWS::ApiGateway::ClientCertificate
   Type: AWS::ApiGateway::ClientCertificate
   Properties:
     Description: String
 
 
-snippet AWS::ApiGateway::Deployment
+snippet cfn_AWS::ApiGateway::Deployment
   Type: AWS::ApiGateway::Deployment
   Properties:
     DeploymentCanarySettings: DeploymentCanarySettings
@@ -92,7 +100,7 @@ snippet AWS::ApiGateway::Deployment
     StageName: String
 
 
-snippet AWS::ApiGateway::DocumentationPart
+snippet cfn_AWS::ApiGateway::DocumentationPart
   Type: AWS::ApiGateway::DocumentationPart
   Properties:
     Location: 
@@ -101,7 +109,7 @@ snippet AWS::ApiGateway::DocumentationPart
     RestApiId: String
 
 
-snippet AWS::ApiGateway::DocumentationVersion
+snippet cfn_AWS::ApiGateway::DocumentationVersion
   Type: AWS::ApiGateway::DocumentationVersion
   Properties:
     Description: String
@@ -109,7 +117,7 @@ snippet AWS::ApiGateway::DocumentationVersion
     RestApiId: String
 
 
-snippet AWS::ApiGateway::DomainName
+snippet cfn_AWS::ApiGateway::DomainName
   Type: AWS::ApiGateway::DomainName
   Properties: 
     CertificateArn: String
@@ -119,7 +127,7 @@ snippet AWS::ApiGateway::DomainName
     RegionalCertificateArn: String
 
 
-snippet AWS::ApiGateway::GatewayResponse
+snippet cfn_AWS::ApiGateway::GatewayResponse
   Type: AWS::ApiGateway::GatewayResponse
   Properties:
     ResponseParameters: 
@@ -131,7 +139,7 @@ snippet AWS::ApiGateway::GatewayResponse
     StatusCode: String
 
 
-snippet AWS::ApiGateway::Method
+snippet cfn_AWS::ApiGateway::Method
   Type: AWS::ApiGateway::Method
   Properties:
     ApiKeyRequired: Boolean
@@ -154,7 +162,7 @@ snippet AWS::ApiGateway::Method
     RestApiId: String
 
 
-snippet AWS::ApiGateway::Model
+snippet cfn_AWS::ApiGateway::Model
   Type: AWS::ApiGateway::Model
   Properties:
     ContentType: String
@@ -164,7 +172,7 @@ snippet AWS::ApiGateway::Model
     Schema: JSON object
 
 
-snippet AWS::ApiGateway::RequestValidator
+snippet cfn_AWS::ApiGateway::RequestValidator
   Type: AWS::ApiGateway::RequestValidator
   Properties:
     Name: String
@@ -173,7 +181,7 @@ snippet AWS::ApiGateway::RequestValidator
     ValidateRequestParameters: Boolean
 
 
-snippet AWS::ApiGateway::Resource
+snippet cfn_AWS::ApiGateway::Resource
   Type: AWS::ApiGateway::Resource
   Properties:
     ParentId: String
@@ -181,7 +189,7 @@ snippet AWS::ApiGateway::Resource
     RestApiId: String
 
 
-snippet AWS::ApiGateway::RestApi
+snippet cfn_AWS::ApiGateway::RestApi
   Type: AWS::ApiGateway::RestApi
   Properties:
     ApiKeySourceType: String
@@ -201,7 +209,7 @@ snippet AWS::ApiGateway::RestApi
     Policy: JSON object
 
 
-snippet AWS::ApiGateway::Stage
+snippet cfn_AWS::ApiGateway::Stage
   Type: AWS::ApiGateway::Stage
   Properties:
     AccessLogSetting: AccessLogSetting
@@ -223,7 +231,7 @@ snippet AWS::ApiGateway::Stage
       String: String
 
 
-snippet AWS::ApiGateway::UsagePlan
+snippet cfn_AWS::ApiGateway::UsagePlan
   Type: AWS::ApiGateway::UsagePlan
   Properties:
     ApiStages: 
@@ -234,7 +242,7 @@ snippet AWS::ApiGateway::UsagePlan
     UsagePlanName: String
 
 
-snippet AWS::ApiGateway::UsagePlanKey
+snippet cfn_AWS::ApiGateway::UsagePlanKey
   Type: AWS::ApiGateway::UsagePlanKey
   Properties:
     KeyId: String
@@ -242,7 +250,7 @@ snippet AWS::ApiGateway::UsagePlanKey
     UsagePlanId: String
 
 
-snippet AWS::ApiGateway::VpcLink
+snippet cfn_AWS::ApiGateway::VpcLink
   Type: AWS::ApiGateway::VpcLink
   Properties:
     Description: String
@@ -251,7 +259,7 @@ snippet AWS::ApiGateway::VpcLink
       - String
 
 
-snippet AWS::ApplicationAutoScaling::ScalableTarget
+snippet cfn_AWS::ApplicationAutoScaling::ScalableTarget
   Type: AWS::ApplicationAutoScaling::ScalableTarget
   Properties:
     MaxCapacity: Integer
@@ -264,7 +272,7 @@ snippet AWS::ApplicationAutoScaling::ScalableTarget
     ServiceNamespace: String
 
 
-snippet AWS::ApplicationAutoScaling::ScalingPolicy
+snippet cfn_AWS::ApplicationAutoScaling::ScalingPolicy
   Type : "AWS::ApplicationAutoScaling::ScalingPolicy"
   Properties: 
     PolicyName: String
@@ -279,7 +287,7 @@ snippet AWS::ApplicationAutoScaling::ScalingPolicy
       *TargetTrackingScalingPolicyConfiguration*
 
 
-snippet AWS::AppStream::DirectoryConfig
+snippet cfn_AWS::AppStream::DirectoryConfig
   Type: "AWS::AppStream::DirectoryConfig"
   Properties:
     OrganizationalUnitDistinguishedNames: 
@@ -288,7 +296,7 @@ snippet AWS::AppStream::DirectoryConfig
     DirectoryName: String
 
 
-snippet AWS::AppStream::Fleet
+snippet cfn_AWS::AppStream::Fleet
   Type: "AWS::AppStream::Fleet"
   Properties:
     ComputeCapacity: *ComputeCapacity*
@@ -306,7 +314,7 @@ snippet AWS::AppStream::Fleet
     VpcConfig: *VpcConfig*
 
 
-snippet AWS::AppStream::ImageBuilder
+snippet cfn_AWS::AppStream::ImageBuilder
   Type: "AWS::AppStream::ImageBuilder"
   Properties:
     AppstreamAgentVersion: String
@@ -321,7 +329,7 @@ snippet AWS::AppStream::ImageBuilder
     VpcConfig: *VpcConfig*
 
 
-snippet AWS::AppStream::Stack
+snippet cfn_AWS::AppStream::Stack
   Type: "AWS::AppStream::Stack"
   Properties:
     ApplicationSettings: 
@@ -340,14 +348,14 @@ snippet AWS::AppStream::Stack
       - *UserSetting*
 
 
-snippet AWS::AppStream::StackFleetAssociation
+snippet cfn_AWS::AppStream::StackFleetAssociation
   Type: "AWS::AppStream::StackFleetAssociation"
   Properties:
     FleetName: String
     StackName: String
 
 
-snippet AWS::AppStream::StackUserAssociation
+snippet cfn_AWS::AppStream::StackUserAssociation
   Type: "AWS::AppStream::StackUserAssociation"
   Properties:
     AuthenticationType: String
@@ -356,7 +364,7 @@ snippet AWS::AppStream::StackUserAssociation
     Username: String
 
 
-snippet AWS::AppStream::User
+snippet cfn_AWS::AppStream::User
   Type: "AWS::AppStream::User"
   Properties:
     AuthenticationType: String
@@ -366,7 +374,7 @@ snippet AWS::AppStream::User
     UserName: String
 
 
-snippet AWS::AppSync::ApiKey
+snippet cfn_AWS::AppSync::ApiKey
   Type: "AWS::AppSync::ApiKey"
   Properties:
     Description: String
@@ -374,7 +382,7 @@ snippet AWS::AppSync::ApiKey
     ApiId: String
 
 
-snippet AWS::AppSync::DataSource
+snippet cfn_AWS::AppSync::DataSource
   Type: "AWS::AppSync::DataSource"
   Properties:
     Type: String
@@ -389,7 +397,7 @@ snippet AWS::AppSync::DataSource
     RelationalDatabaseConfig: *RelationalDatabaseConfig*
 
 
-snippet AWS::AppSync::FunctionConfiguration
+snippet cfn_AWS::AppSync::FunctionConfiguration
   Type: "AWS::AppSync::FunctionConfiguration"
    Properties:
      ApiId: String
@@ -403,7 +411,7 @@ snippet AWS::AppSync::FunctionConfiguration
      ResponseMappingTemplateS3Location: String
 
 
-snippet AWS::AppSync::GraphQLApi
+snippet cfn_AWS::AppSync::GraphQLApi
   Type: "AWS::AppSync::GraphQLApi"
   Properties:
     UserPoolConfig: *UserPoolConfig*
@@ -413,7 +421,7 @@ snippet AWS::AppSync::GraphQLApi
     LogConfig: *LogConfig*
 
 
-snippet AWS::AppSync::GraphQLSchema
+snippet cfn_AWS::AppSync::GraphQLSchema
   Type: "AWS::AppSync::GraphQLSchema"
   Properties:
     Definition: String
@@ -421,7 +429,7 @@ snippet AWS::AppSync::GraphQLSchema
     ApiId: String
 
 
-snippet AWS::AppSync::Resolver
+snippet cfn_AWS::AppSync::Resolver
   Type: "AWS::AppSync::Resolver"
   Properties:
     ResponseMappingTemplateS3Location: String
@@ -436,7 +444,7 @@ snippet AWS::AppSync::Resolver
     PipelineConfig: *PipelineConfig*
 
 
-snippet AWS::AutoScaling::LifecycleHook
+snippet cfn_AWS::AutoScaling::LifecycleHook
   Type: AWS::AutoScaling::LifecycleHook
   Properties:
     AutoScalingGroupName: String
@@ -449,7 +457,7 @@ snippet AWS::AutoScaling::LifecycleHook
     RoleARN: String
 
 
-snippet AWS::AutoScaling::ScheduledAction
+snippet cfn_AWS::AutoScaling::ScheduledAction
   Type: AWS::AutoScaling::ScheduledAction
   Properties:
     AutoScalingGroupName: String
@@ -471,7 +479,7 @@ snippet Alexa::ASK::Skill
     VendorId: String
 
 
-snippet AWS::Athena::NamedQuery
+snippet cfn_AWS::Athena::NamedQuery
   Type: AWS::Athena::NamedQuery
   Properties:
     Description: String
@@ -480,7 +488,7 @@ snippet AWS::Athena::NamedQuery
     Name: String
 
 
-snippet AWS::CloudFormation::Authentication
+snippet cfn_AWS::CloudFormation::Authentication
   Type: AWS::CloudFormation::Authentication
   String:
     accessKeyId: String
@@ -495,7 +503,7 @@ snippet AWS::CloudFormation::Authentication
     roleName: String
 
 
-snippet AWS::AutoScalingPlans::ScalingPlan
+snippet cfn_AWS::AutoScalingPlans::ScalingPlan
   Type: "AWS::AutoScalingPlans::ScalingPlan"
   Properties:
     ApplicationSource: *ApplicationSource*
@@ -503,7 +511,7 @@ snippet AWS::AutoScalingPlans::ScalingPlan
       - *ScalingInstruction*
 
 
-snippet AWS::Batch::ComputeEnvironment
+snippet cfn_AWS::Batch::ComputeEnvironment
   Type: AWS::Batch::ComputeEnvironment
   Properties:
     Type: String
@@ -514,7 +522,7 @@ snippet AWS::Batch::ComputeEnvironment
     State: String
 
 
-snippet AWS::Batch::JobDefinition
+snippet cfn_AWS::Batch::JobDefinition
   Type: "AWS::Batch::JobDefinition"
   Properties:
     Type: String
@@ -527,7 +535,7 @@ snippet AWS::Batch::JobDefinition
     RetryStrategy: *RetryStrategy*
 
 
-snippet AWS::Batch::JobQueue
+snippet cfn_AWS::Batch::JobQueue
   Type: AWS::Batch::JobQueue
   Properties:
     ComputeEnvironmentOrder: 
@@ -537,7 +545,7 @@ snippet AWS::Batch::JobQueue
     JobQueueName: String
 
 
-snippet AWS::ElasticBeanstalk::ConfigurationTemplate
+snippet cfn_AWS::ElasticBeanstalk::ConfigurationTemplate
   Type: AWS::ElasticBeanstalk::ConfigurationTemplate
   Properties:
     ApplicationName: String
@@ -551,7 +559,7 @@ snippet AWS::ElasticBeanstalk::ConfigurationTemplate
       *SourceConfiguration*
 
 
-snippet AWS::Budgets::Budget
+snippet cfn_AWS::Budgets::Budget
   Type: "AWS::Budgets::Budget"
   Properties:
     NotificationsWithSubscribers: 
@@ -559,7 +567,7 @@ snippet AWS::Budgets::Budget
     Budget: *BudgetData*
 
 
-snippet AWS::CertificateManager::Certificate
+snippet cfn_AWS::CertificateManager::Certificate
   Type: AWS::CertificateManager::Certificate
   Properties: 
     DomainName: String
@@ -572,7 +580,7 @@ snippet AWS::CertificateManager::Certificate
     ValidationMethod: String
 
 
-snippet AWS::CloudFormation::CustomResource
+snippet cfn_AWS::CloudFormation::CustomResource
   Type: "Custom::String"
   Version: "1.0"
   Properties:
@@ -580,7 +588,7 @@ snippet AWS::CloudFormation::CustomResource
       ... provider-defined properties ...
 
 
-snippet AWS::Cloud9::EnvironmentEC2
+snippet cfn_AWS::Cloud9::EnvironmentEC2
   Type: AWS::Cloud9::EnvironmentEC2
   Properties:
     Repositories: 
@@ -593,7 +601,7 @@ snippet AWS::Cloud9::EnvironmentEC2
     SubnetId: String
 
 
-snippet AWS::CloudFormation::Interface
+snippet cfn_AWS::CloudFormation::Interface
   Metadata:
     AWS::CloudFormation::Interface:
       ParameterGroups:
@@ -602,7 +610,7 @@ snippet AWS::CloudFormation::Interface
         ParameterLabel
 
 
-snippet AWS::CloudFormation::Macro
+snippet cfn_AWS::CloudFormation::Macro
   Type: "AWS::CloudFormation::Macro"
   Properties:
     Description: String
@@ -612,13 +620,13 @@ snippet AWS::CloudFormation::Macro
     Name: String
 
 
-snippet AWS::CloudFront::CloudFrontOriginAccessIdentity
+snippet cfn_AWS::CloudFront::CloudFrontOriginAccessIdentity
   Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
   Properties:
     CloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
 
 
-snippet AWS::CloudFront::Distribution
+snippet cfn_AWS::CloudFront::Distribution
   Type: AWS::CloudFront::Distribution
   Properties:
     DistributionConfig: 
@@ -627,7 +635,7 @@ snippet AWS::CloudFront::Distribution
       - *Tag*
 
 
-snippet AWS::CloudFront::StreamingDistribution
+snippet cfn_AWS::CloudFront::StreamingDistribution
   Type: AWS::CloudFront::StreamingDistribution
   Properties:
     StreamingDistributionConfig: StreamingDistributionConfig
@@ -635,7 +643,7 @@ snippet AWS::CloudFront::StreamingDistribution
       - *Tag*
 
 
-snippet AWS::CloudTrail::Trail
+snippet cfn_AWS::CloudTrail::Trail
   Type: AWS::CloudTrail::Trail
   Properties:
     CloudWatchLogsLogGroupArn: String
@@ -655,7 +663,7 @@ snippet AWS::CloudTrail::Trail
     TrailName: String
 
 
-snippet AWS::CodeBuild::Project
+snippet cfn_AWS::CodeBuild::Project
   Type: AWS::CodeBuild::Project
   Properties: 
     Artifacts: *Artifacts*
@@ -679,7 +687,7 @@ snippet AWS::CodeBuild::Project
     VpcConfig: *VpcConfig*
 
 
-snippet AWS::CodeCommit::Repository
+snippet cfn_AWS::CodeCommit::Repository
   Type: AWS::CodeCommit::Repository
   Properties: 
     RepositoryDescription: String
@@ -688,14 +696,14 @@ snippet AWS::CodeCommit::Repository
     - Trigger
 
 
-snippet AWS::CodeDeploy::Application
+snippet cfn_AWS::CodeDeploy::Application
   Type: AWS::CodeDeploy::Application
   Properties:
     ApplicationName: String	    
     ComputePlatform: String
 
 
-snippet AWS::CodeDeploy::DeploymentConfig
+snippet cfn_AWS::CodeDeploy::DeploymentConfig
   Type: AWS::CodeDeploy::DeploymentConfig
   Properties:
     DeploymentConfigName: String
@@ -703,7 +711,7 @@ snippet AWS::CodeDeploy::DeploymentConfig
       MinimumHealthyHosts
 
 
-snippet AWS::CodeDeploy::DeploymentGroup
+snippet cfn_AWS::CodeDeploy::DeploymentGroup
   Type: AWS::CodeDeploy::DeploymentGroup
   Properties:
     AlarmConfiguration:
@@ -732,7 +740,7 @@ snippet AWS::CodeDeploy::DeploymentGroup
       - *TriggerConfig*
 
 
-snippet AWS::CodePipeline::CustomActionType::ConfigurationProperties
+snippet cfn_AWS::CodePipeline::CustomActionType::ConfigurationProperties
   Description: String
   Key: Boolean
   Name: String
@@ -742,14 +750,14 @@ snippet AWS::CodePipeline::CustomActionType::ConfigurationProperties
   Type: String
 
 
-snippet AWS::CodePipeline::CustomActionType::Settings
+snippet cfn_AWS::CodePipeline::CustomActionType::Settings
   EntityUrlTemplate: String
   ExecutionUrlTemplate: String
   RevisionUrlTemplate: String
   ThirdPartyConfigurationUrl: String
 
 
-snippet AWS::CodePipeline::CustomActionType
+snippet cfn_AWS::CodePipeline::CustomActionType
   Type: AWS::CodePipeline::CustomActionType
   Properties:
     Category: String,
@@ -765,7 +773,7 @@ snippet AWS::CodePipeline::CustomActionType
     Version: String
 
 
-snippet AWS::CodePipeline::Pipeline
+snippet cfn_AWS::CodePipeline::Pipeline
   Type: AWS::CodePipeline::Pipeline
   Properties:
     ArtifactStore:
@@ -781,7 +789,7 @@ snippet AWS::CodePipeline::Pipeline
       - Stages
 
 
-snippet AWS::CodePipeline::Webhook
+snippet cfn_AWS::CodePipeline::Webhook
   Type: "AWS::CodePipeline::Webhook"
   Properties:
     AuthenticationConfiguration:
@@ -796,7 +804,7 @@ snippet AWS::CodePipeline::Webhook
     RegisterWithThirdParty: Boolean
 
 
-snippet AWS::Cognito::IdentityPool
+snippet cfn_AWS::Cognito::IdentityPool
   Type: AWS::Cognito::IdentityPool
   Properties:
     IdentityPoolName: String
@@ -818,7 +826,7 @@ snippet AWS::Cognito::IdentityPool
       String: String
 
 
-snippet AWS::Cognito::IdentityPoolRoleAttachment
+snippet cfn_AWS::Cognito::IdentityPoolRoleAttachment
   Type: AWS::Cognito::IdentityPoolRoleAttachment
   Properties:
     IdentityPoolId: String
@@ -828,7 +836,7 @@ snippet AWS::Cognito::IdentityPoolRoleAttachment
       String:String
 
 
-snippet AWS::Cognito::UserPool
+snippet cfn_AWS::Cognito::UserPool
   Type: AWS::Cognito::UserPool
   Properties:
     AdminCreateUserConfig: 
@@ -861,7 +869,7 @@ snippet AWS::Cognito::UserPool
       String: String
 
 
-snippet AWS::Cognito::UserPoolClient
+snippet cfn_AWS::Cognito::UserPoolClient
   Type: AWS::Cognito::UserPoolClient
   Properties:
       ClientName: String
@@ -876,7 +884,7 @@ snippet AWS::Cognito::UserPoolClient
         - String
 
 
-snippet AWS::Cognito::UserPoolGroup
+snippet cfn_AWS::Cognito::UserPoolGroup
   Type: AWS::Cognito::UserPoolGroup
   Properties:
     Description: String
@@ -886,7 +894,7 @@ snippet AWS::Cognito::UserPoolGroup
     UserPoolId: String
 
 
-snippet AWS::Cognito::UserPoolUser
+snippet cfn_AWS::Cognito::UserPoolUser
   Type: AWS::Cognito::UserPoolUser
   Properties:
     DesiredDeliveryMediums: 
@@ -901,7 +909,7 @@ snippet AWS::Cognito::UserPoolUser
       - AttributeType
 
 
-snippet AWS::Cognito::UserPoolUserToGroupAttachment
+snippet cfn_AWS::Cognito::UserPoolUserToGroupAttachment
   Type: AWS::Cognito::UserPoolUserToGroupAttachment
   Properties:
     GroupName: String
@@ -909,14 +917,14 @@ snippet AWS::Cognito::UserPoolUserToGroupAttachment
     UserPoolId: String
 
 
-snippet AWS::Config::AggregationAuthorization
+snippet cfn_AWS::Config::AggregationAuthorization
   Type: "AWS::Config::AggregationAuthorization"
   Properties:
     AuthorizedAccountId: String
     AuthorizedAwsRegion: String
 
 
-snippet AWS::Config::ConfigRule
+snippet cfn_AWS::Config::ConfigRule
   Type: AWS::Config::ConfigRule
   Properties:
     ConfigRuleName: String
@@ -930,7 +938,7 @@ snippet AWS::Config::ConfigRule
       Source
 
 
-snippet AWS::Config::ConfigurationAggregator
+snippet cfn_AWS::Config::ConfigurationAggregator
   Type: "AWS::Config::ConfigurationAggregator"
   Properties:
     AccountAggregationSources: 
@@ -940,7 +948,7 @@ snippet AWS::Config::ConfigurationAggregator
     ConfigurationAggregatorName: String
 
 
-snippet AWS::Config::ConfigurationRecorder
+snippet cfn_AWS::Config::ConfigurationRecorder
   Type: AWS::Config::ConfigurationRecorder
   Properties:
     Name: String
@@ -949,7 +957,7 @@ snippet AWS::Config::ConfigurationRecorder
     RoleARN: String
 
 
-snippet AWS::Config::DeliveryChannel
+snippet cfn_AWS::Config::DeliveryChannel
   Type: AWS::Config::DeliveryChannel
   Properties:
     ConfigSnapshotDeliveryProperties:
@@ -960,7 +968,7 @@ snippet AWS::Config::DeliveryChannel
     SnsTopicARN: String
 
 
-snippet AWS::DataPipeline::Pipeline
+snippet cfn_AWS::DataPipeline::Pipeline
   Type: AWS::DataPipeline::Pipeline
   Properties:
     Activate: Boolean
@@ -976,7 +984,7 @@ snippet AWS::DataPipeline::Pipeline
       - Pipeline tag
 
 
-snippet AWS::DAX::Cluster
+snippet cfn_AWS::DAX::Cluster
   Type: AWS::DAX::Cluster
   Properties:
         AvailabilityZones:  String, ... 
@@ -995,7 +1003,7 @@ snippet AWS::DAX::Cluster
         Tags: { String:String, ... }
 
 
-snippet AWS::DAX::ParameterGroup
+snippet cfn_AWS::DAX::ParameterGroup
   Type: AWS::DAX::ParameterGroup
   Properties:
         ParameterGroupName: String
@@ -1003,7 +1011,7 @@ snippet AWS::DAX::ParameterGroup
         ParameterNameValues: { String:String, ... }
 
 
-snippet AWS::DAX::SubnetGroup
+snippet cfn_AWS::DAX::SubnetGroup
   Type: AWS::DAX::SubnetGroup
   Properties:
         SubnetGroupName: String
@@ -1011,7 +1019,7 @@ snippet AWS::DAX::SubnetGroup
         SubnetIds:  String, ... 
 
 
-snippet AWS::DirectoryService::MicrosoftAD
+snippet cfn_AWS::DirectoryService::MicrosoftAD
   Type: AWS::DirectoryService::MicrosoftAD
   Properties:
     CreateAlias: Boolean
@@ -1024,7 +1032,7 @@ snippet AWS::DirectoryService::MicrosoftAD
       VpcSettings
 
 
-snippet AWS::DirectoryService::SimpleAD
+snippet cfn_AWS::DirectoryService::SimpleAD
   Type: AWS::DirectoryService::SimpleAD
   Properties:
     CreateAlias: Boolean
@@ -1038,7 +1046,7 @@ snippet AWS::DirectoryService::SimpleAD
       VpcSettings
 
 
-snippet AWS::DLM::LifecyclePolicy
+snippet cfn_AWS::DLM::LifecyclePolicy
   Type: "AWS::DLM::LifecyclePolicy"
   Properties:
     Description: String
@@ -1048,7 +1056,7 @@ snippet AWS::DLM::LifecyclePolicy
     State: String
 
 
-snippet AWS::DMS::Certificate
+snippet cfn_AWS::DMS::Certificate
   Type: AWS::DMS::Certificate
   Properties:
     CertificateIdentifier: String
@@ -1056,7 +1064,7 @@ snippet AWS::DMS::Certificate
     CertificateWallet: String
 
 
-snippet AWS::DMS::Endpoint
+snippet cfn_AWS::DMS::Endpoint
   Type: AWS::DMS::Endpoint
   Properties:
     CertificateArn: String
@@ -1081,7 +1089,7 @@ snippet AWS::DMS::Endpoint
     Username: String
 
 
-snippet AWS::DMS::EventSubscription
+snippet cfn_AWS::DMS::EventSubscription
   Type: AWS::DMS::EventSubscription
   Properties: 
     Enabled: Boolean
@@ -1097,7 +1105,7 @@ snippet AWS::DMS::EventSubscription
       - Resource Tag
 
 
-snippet AWS::DMS::ReplicationInstance
+snippet cfn_AWS::DMS::ReplicationInstance
   Type: AWS::DMS::ReplicationInstance
   Properties:
     AllocatedStorage: Integer
@@ -1117,7 +1125,7 @@ snippet AWS::DMS::ReplicationInstance
       - String
 
 
-snippet AWS::DMS::ReplicationSubnetGroup
+snippet cfn_AWS::DMS::ReplicationSubnetGroup
   Type: AWS::DMS::ReplicationSubnetGroup
   Properties: 
     ReplicationSubnetGroupIdentifier: String
@@ -1128,7 +1136,7 @@ snippet AWS::DMS::ReplicationSubnetGroup
       - Resource Tag
 
 
-snippet AWS::DMS::ReplicationTask
+snippet cfn_AWS::DMS::ReplicationTask
   Type: AWS::DMS::ReplicationTask
   Properties:
     CdcStartTime: Timestamp
@@ -1143,7 +1151,7 @@ snippet AWS::DMS::ReplicationTask
     TargetEndpointArn: String
 
 
-snippet AWS::DynamoDB::Table
+snippet cfn_AWS::DynamoDB::Table
   Type: AWS::DynamoDB::Table
   Properties:
     AttributeDefinitions:
@@ -1170,7 +1178,7 @@ snippet AWS::DynamoDB::Table
       TimeToLiveSpecification
 
 
-snippet AWS::EC2::CustomerGateway
+snippet cfn_AWS::EC2::CustomerGateway
   Type: AWS::EC2::CustomerGateway
   Properties:
     BgpAsn: Number
@@ -1180,7 +1188,7 @@ snippet AWS::EC2::CustomerGateway
     Type: String
 
 
-snippet AWS::EC2::DHCPOptions
+snippet cfn_AWS::EC2::DHCPOptions
   Type: AWS::EC2::DHCPOptions
   Properties:
     DomainName: String
@@ -1195,7 +1203,7 @@ snippet AWS::EC2::DHCPOptions
       -Resource Tag
 
 
-snippet AWS::EC2::EC2Fleet
+snippet cfn_AWS::EC2::EC2Fleet
   Type: "AWS::EC2::EC2Fleet"
   Properties:
     ExcessCapacityTerminationPolicy: String
@@ -1213,13 +1221,13 @@ snippet AWS::EC2::EC2Fleet
     ValidUntil: String
 
 
-snippet AWS::EC2::EgressOnlyInternetGateway
+snippet cfn_AWS::EC2::EgressOnlyInternetGateway
   Type: AWS::EC2::EgressOnlyInternetGateway
   Properties: 
     VpcId: String
 
 
-snippet AWS::EC2::FlowLog
+snippet cfn_AWS::EC2::FlowLog
   Type: AWS::EC2::FlowLog
   Properties:
     DeliverLogsPermissionArn : String
@@ -1231,7 +1239,7 @@ snippet AWS::EC2::FlowLog
     TrafficType : String
 
 
-snippet AWS::EC2::Host
+snippet cfn_AWS::EC2::Host
   Type: AWS::EC2::Host
   Properties: 
     AutoPlacement: String
@@ -1239,21 +1247,21 @@ snippet AWS::EC2::Host
     InstanceType: String
 
 
-snippet AWS::EC2::InternetGateway
+snippet cfn_AWS::EC2::InternetGateway
   Type: AWS::EC2::InternetGateway
   Properties: 
     Tags:
       - Resource Tag
 
 
-snippet AWS::EC2::LaunchTemplate
+snippet cfn_AWS::EC2::LaunchTemplate
   Type: "AWS::EC2::LaunchTemplate"
   Properties:
     LaunchTemplateName: String
     LaunchTemplateData: *LaunchTemplateData*
 
 
-snippet AWS::EC2::NatGateway
+snippet cfn_AWS::EC2::NatGateway
   Type: AWS::EC2::NatGateway
   Properties: 
     AllocationId: String
@@ -1262,7 +1270,7 @@ snippet AWS::EC2::NatGateway
       - Resource Tag
 
 
-snippet AWS::EC2::NetworkAclEntry
+snippet cfn_AWS::EC2::NetworkAclEntry
   Type: AWS::EC2::NetworkAclEntry
   Properties: 
     CidrBlock: String
@@ -1278,7 +1286,7 @@ snippet AWS::EC2::NetworkAclEntry
     RuleNumber : Integer
 
 
-snippet AWS::EC2::NetworkAcl
+snippet cfn_AWS::EC2::NetworkAcl
   Type: AWS::EC2::NetworkAcl
   Properties:
     Tags:
@@ -1286,7 +1294,7 @@ snippet AWS::EC2::NetworkAcl
     VpcId: String
 
 
-snippet AWS::EC2::NetworkInterfaceAttachment
+snippet cfn_AWS::EC2::NetworkInterfaceAttachment
   Type: AWS::EC2::NetworkInterfaceAttachment
   Properties: 
     DeleteOnTermination: Boolean
@@ -1295,7 +1303,7 @@ snippet AWS::EC2::NetworkInterfaceAttachment
     NetworkInterfaceId: String
 
 
-snippet AWS::EC2::NetworkInterface
+snippet cfn_AWS::EC2::NetworkInterface
   Type: AWS::EC2::NetworkInterface
   Properties: 
     Description: String
@@ -1314,7 +1322,7 @@ snippet AWS::EC2::NetworkInterface
       - Resource Tag
 
 
-snippet AWS::EC2::NetworkInterfacePermission
+snippet cfn_AWS::EC2::NetworkInterfacePermission
   Type: AWS::EC2::NetworkInterfacePermission
   Properties:
     AwsAccountId: String
@@ -1322,13 +1330,13 @@ snippet AWS::EC2::NetworkInterfacePermission
     Permission: String
 
 
-snippet AWS::EC2::PlacementGroup
+snippet cfn_AWS::EC2::PlacementGroup
   Type: AWS::EC2::PlacementGroup
   Properties: 
     Strategy: String
 
 
-snippet AWS::EC2::RouteTable
+snippet cfn_AWS::EC2::RouteTable
   Type: AWS::EC2::RouteTable
   Properties: 
     VpcId: String
@@ -1336,7 +1344,7 @@ snippet AWS::EC2::RouteTable
       - Resource Tag
 
 
-snippet AWS::EC2::Route
+snippet cfn_AWS::EC2::Route
   Type: AWS::EC2::Route
   Properties: 
     DestinationCidrBlock: String
@@ -1350,7 +1358,7 @@ snippet AWS::EC2::Route
     VpcPeeringConnectionId: String
 
 
-snippet AWS::EC2::SecurityGroupEgress
+snippet cfn_AWS::EC2::SecurityGroupEgress
   Type: AWS::EC2::SecurityGroupEgress
   Properties:
     CidrIp: String
@@ -1364,28 +1372,28 @@ snippet AWS::EC2::SecurityGroupEgress
     ToPort: Integer
 
 
-snippet AWS::EC2::SpotFleet
+snippet cfn_AWS::EC2::SpotFleet
   Type: AWS::EC2::SpotFleet
   Properties: 
     SpotFleetRequestConfigData:
       SpotFleetRequestConfigData
 
 
-snippet AWS::EC2::SubnetNetworkAclAssociation
+snippet cfn_AWS::EC2::SubnetNetworkAclAssociation
   Type: AWS::EC2::SubnetNetworkAclAssociation
   Properties:
     SubnetId: String
     NetworkAclId: String
 
 
-snippet AWS::EC2::SubnetRouteTableAssociation
+snippet cfn_AWS::EC2::SubnetRouteTableAssociation
   Type: AWS::EC2::SubnetRouteTableAssociation
   Properties: 
     RouteTableId: String
     SubnetId: String
 
 
-snippet AWS::EC2::Subnet
+snippet cfn_AWS::EC2::Subnet
   Type: AWS::EC2::Subnet
   Properties:
     AssignIpv6AddressOnCreation: Boolean
@@ -1398,14 +1406,14 @@ snippet AWS::EC2::Subnet
     VpcId: String
 
 
-snippet AWS::EC2::SubnetCidrBlock
+snippet cfn_AWS::EC2::SubnetCidrBlock
   Type: AWS::EC2::SubnetCidrBlock
   Properties: 
     Ipv6CidrBlock: String
     SubnetId: String
 
 
-snippet AWS::EC2::TransitGateway
+snippet cfn_AWS::EC2::TransitGateway
   Type: "AWS::EC2::TransitGateway"
   Properties:
     AmazonSideAsn: Integer
@@ -1419,7 +1427,7 @@ snippet AWS::EC2::TransitGateway
     VpnEcmpSupport: String
 
 
-snippet AWS::EC2::TransitGatewayAttachment
+snippet cfn_AWS::EC2::TransitGatewayAttachment
   Type: "AWS::EC2::TransitGatewayAttachment"
   Properties:
     SubnetIds: 
@@ -1430,7 +1438,7 @@ snippet AWS::EC2::TransitGatewayAttachment
     VpcId: String
 
 
-snippet AWS::EC2::TransitGatewayRoute
+snippet cfn_AWS::EC2::TransitGatewayRoute
   Type: "AWS::EC2::TransitGatewayRoute"
   Properties:
     Blackhole: Boolean
@@ -1439,7 +1447,7 @@ snippet AWS::EC2::TransitGatewayRoute
     TransitGatewayRouteTableId: String
 
 
-snippet AWS::EC2::TransitGatewayRouteTable
+snippet cfn_AWS::EC2::TransitGatewayRouteTable
   Type: "AWS::EC2::TransitGatewayRouteTable"
   Properties:
     Tags: 
@@ -1447,28 +1455,28 @@ snippet AWS::EC2::TransitGatewayRouteTable
     TransitGatewayId: String
 
 
-snippet AWS::EC2::TransitGatewayRouteTableAssociation
+snippet cfn_AWS::EC2::TransitGatewayRouteTableAssociation
   Type: "AWS::EC2::TransitGatewayRouteTableAssociation"
   Properties:
     TransitGatewayAttachmentId: String
     TransitGatewayRouteTableId: String
 
 
-snippet AWS::EC2::TransitGatewayRouteTablePropagation
+snippet cfn_AWS::EC2::TransitGatewayRouteTablePropagation
   Type: "AWS::EC2::TransitGatewayRouteTablePropagation"
   Properties:
     TransitGatewayAttachmentId: String
     TransitGatewayRouteTableId: String
 
 
-snippet AWS::EC2::VPCDHCPOptionsAssociation
+snippet cfn_AWS::EC2::VPCDHCPOptionsAssociation
   Type: AWS::EC2::VPCDHCPOptionsAssociation
   Properties: 
     DhcpOptionsId: String
     VpcId: String
 
 
-snippet AWS::EC2::VPCGatewayAttachment
+snippet cfn_AWS::EC2::VPCGatewayAttachment
   Type: AWS::EC2::VPCGatewayAttachment
   Properties: 
     InternetGatewayId: String
@@ -1476,7 +1484,7 @@ snippet AWS::EC2::VPCGatewayAttachment
     VpnGatewayId: String
 
 
-snippet AWS::EC2::VPC
+snippet cfn_AWS::EC2::VPC
   Type: AWS::EC2::VPC
   Properties: 
     CidrBlock: String
@@ -1487,7 +1495,7 @@ snippet AWS::EC2::VPC
       - Resource Tag
 
 
-snippet AWS::EC2::VPCCidrBlock
+snippet cfn_AWS::EC2::VPCCidrBlock
   Type: AWS::EC2::VPCCidrBlock
   Properties: 
     AmazonProvidedIpv6CidrBlock: Boolean
@@ -1495,7 +1503,7 @@ snippet AWS::EC2::VPCCidrBlock
     VpcId: String
 
 
-snippet AWS::EC2::VPCEndpoint
+snippet cfn_AWS::EC2::VPCEndpoint
   Type: AWS::EC2::VPCEndpoint
   Properties: 
     VpcId: String
@@ -1511,7 +1519,7 @@ snippet AWS::EC2::VPCEndpoint
       - String
 
 
-snippet AWS::EC2::VPCEndpointConnectionNotification
+snippet cfn_AWS::EC2::VPCEndpointConnectionNotification
   Type: "AWS::EC2::VPCEndpointConnectionNotification"
   Properties:
     ConnectionEvents: 
@@ -1521,7 +1529,7 @@ snippet AWS::EC2::VPCEndpointConnectionNotification
     ConnectionNotificationArn: String
 
 
-snippet AWS::EC2::VPCEndpointService
+snippet cfn_AWS::EC2::VPCEndpointService
   Type: "AWS::EC2::VPCEndpointService"
   Properties:
     NetworkLoadBalancerArns: 
@@ -1529,7 +1537,7 @@ snippet AWS::EC2::VPCEndpointService
     AcceptanceRequired: Boolean
 
 
-snippet AWS::EC2::VPCEndpointServicePermissions
+snippet cfn_AWS::EC2::VPCEndpointServicePermissions
   Type: "AWS::EC2::VPCEndpointServicePermissions"
   Properties:
     AllowedPrincipals: 
@@ -1537,7 +1545,7 @@ snippet AWS::EC2::VPCEndpointServicePermissions
     ServiceId: String
 
 
-snippet AWS::EC2::VPCPeeringConnection
+snippet cfn_AWS::EC2::VPCPeeringConnection
   Type: AWS::EC2::VPCPeeringConnection
   Properties: 
     PeerVpcId: String
@@ -1549,14 +1557,14 @@ snippet AWS::EC2::VPCPeeringConnection
     PeerRoleArn:  String
 
 
-snippet AWS::EC2::VPNConnectionRoute
+snippet cfn_AWS::EC2::VPNConnectionRoute
   Type: AWS::EC2::VPNConnectionRoute
   Properties: 
     DestinationCidrBlock: String
     VpnConnectionId: String
 
 
-snippet AWS::EC2::VPNConnection
+snippet cfn_AWS::EC2::VPNConnection
   Type: AWS::EC2::VPNConnection
   Properties: 
     Type: String
@@ -1571,7 +1579,7 @@ snippet AWS::EC2::VPNConnection
       - *VpnTunnelOptionsSpecification*
 
 
-snippet AWS::EC2::VPNGateway
+snippet cfn_AWS::EC2::VPNGateway
   Type: AWS::EC2::VPNGateway
   Properties: 
     AmazonSideAsn: Long
@@ -1580,7 +1588,7 @@ snippet AWS::EC2::VPNGateway
       Resource Tag
 
 
-snippet AWS::EC2::VPNGatewayRoutePropagation
+snippet cfn_AWS::EC2::VPNGatewayRoutePropagation
   Type: AWS::EC2::VPNGatewayRoutePropagation
   Properties: 
     RouteTableIds:
@@ -1588,7 +1596,7 @@ snippet AWS::EC2::VPNGatewayRoutePropagation
     VpnGatewayId: String
 
 
-snippet AWS::ECR::Repository
+snippet cfn_AWS::ECR::Repository
   Type: AWS::ECR::Repository
   Properties: 
     LifecyclePolicy:
@@ -1597,13 +1605,13 @@ snippet AWS::ECR::Repository
     RepositoryPolicyText: JSON object
 
 
-snippet AWS::ECS::Cluster
+snippet cfn_AWS::ECS::Cluster
   Type: AWS::ECS::Cluster
   Properties:
     ClusterName: String
 
 
-snippet AWS::ECS::Service
+snippet cfn_AWS::ECS::Service
   Type: AWS::ECS::Service
   Properties: 
     Cluster: String
@@ -1629,7 +1637,7 @@ snippet AWS::ECS::Service
     TaskDefinition: String
 
 
-snippet AWS::ECS::TaskDefinition
+snippet cfn_AWS::ECS::TaskDefinition
   Type: AWS::ECS::TaskDefinition
   Properties: 
     Volumes:
@@ -1648,7 +1656,7 @@ snippet AWS::ECS::TaskDefinition
       - Container Definition
 
 
-snippet AWS::EFS::FileSystem
+snippet cfn_AWS::EFS::FileSystem
   Type: AWS::EFS::FileSystem
   Properties: 
     Encrypted: Boolean
@@ -1660,7 +1668,7 @@ snippet AWS::EFS::FileSystem
     ThroughputMode: String
 
 
-snippet AWS::EFS::MountTarget
+snippet cfn_AWS::EFS::MountTarget
   Type: AWS::EFS::MountTarget
   Properties:
     FileSystemId: String
@@ -1670,7 +1678,7 @@ snippet AWS::EFS::MountTarget
     SubnetId: String
 
 
-snippet AWS::EKS::Cluster
+snippet cfn_AWS::EKS::Cluster
   Type: "AWS::EKS::Cluster"
   Properties:
     Name: String
@@ -1679,7 +1687,7 @@ snippet AWS::EKS::Cluster
     Version: String
 
 
-snippet AWS::ElastiCache::ReplicationGroup
+snippet cfn_AWS::ElastiCache::ReplicationGroup
   Type: AWS::ElastiCache::ReplicationGroup
   Properties: 
     AtRestEncryptionEnabled: Boolean
@@ -1719,7 +1727,7 @@ snippet AWS::ElastiCache::ReplicationGroup
     TransitEncryptionEnabled: Boolean
 
 
-snippet AWS::ElasticLoadBalancingV2::Listener
+snippet cfn_AWS::ElasticLoadBalancingV2::Listener
   Type: AWS::ElasticLoadBalancingV2::Listener
   Properties: 
     Certificates:
@@ -1732,7 +1740,7 @@ snippet AWS::ElasticLoadBalancingV2::Listener
     SslPolicy: String
 
 
-snippet AWS::ElasticLoadBalancingV2::ListenerCertificate
+snippet cfn_AWS::ElasticLoadBalancingV2::ListenerCertificate
   Type: AWS::ElasticLoadBalancingV2::ListenerCertificate
   Properties:
     Certificates: 
@@ -1740,7 +1748,7 @@ snippet AWS::ElasticLoadBalancingV2::ListenerCertificate
     ListenerArn: String
 
 
-snippet AWS::ElasticLoadBalancingV2::ListenerRule
+snippet cfn_AWS::ElasticLoadBalancingV2::ListenerRule
   Type: AWS::ElasticLoadBalancingV2::ListenerRule
   Properties:
     Actions:
@@ -1751,7 +1759,7 @@ snippet AWS::ElasticLoadBalancingV2::ListenerRule
     Priority: Integer
 
 
-snippet AWS::ElasticLoadBalancingV2::LoadBalancer
+snippet cfn_AWS::ElasticLoadBalancingV2::LoadBalancer
   Type: AWS::ElasticLoadBalancingV2::LoadBalancer
   Properties:
     IpAddressType: String
@@ -1770,7 +1778,7 @@ snippet AWS::ElasticLoadBalancingV2::LoadBalancer
     Type: String
 
 
-snippet AWS::ElasticLoadBalancingV2::TargetGroup
+snippet cfn_AWS::ElasticLoadBalancingV2::TargetGroup
   Type: AWS::ElasticLoadBalancingV2::TargetGroup
   Properties:
     HealthCheckIntervalSeconds: Integer
@@ -1794,7 +1802,7 @@ snippet AWS::ElasticLoadBalancingV2::TargetGroup
     VpcId: String
 
 
-snippet AWS::EMR::InstanceFleetConfig
+snippet cfn_AWS::EMR::InstanceFleetConfig
   Type: AWS::EMR::InstanceFleetConfig
   Properties: 
     ClusterId: String
@@ -1808,7 +1816,7 @@ snippet AWS::EMR::InstanceFleetConfig
     TargetSpotCapacity: Integer
 
 
-snippet AWS::Elasticsearch::Domain
+snippet cfn_AWS::Elasticsearch::Domain
   Type: AWS::Elasticsearch::Domain
   Properties: 
     AccessPolicies: JSON object
@@ -1830,7 +1838,7 @@ snippet AWS::Elasticsearch::Domain
       *VPCOptions*
 
 
-snippet AWS::EMR::Cluster
+snippet cfn_AWS::EMR::Cluster
   Type: AWS::EMR::Cluster
   Properties: 
     AdditionalInfo: JSON object
@@ -1861,7 +1869,7 @@ snippet AWS::EMR::Cluster
     VisibleToAllUsers: Boolean
 
 
-snippet AWS::EMR::InstanceGroupConfig
+snippet cfn_AWS::EMR::InstanceGroupConfig
   Type: AWS::EMR::InstanceGroupConfig
   Properties: 
     AutoScalingPolicy:
@@ -1879,14 +1887,14 @@ snippet AWS::EMR::InstanceGroupConfig
     Name" : String
 
 
-snippet AWS::EMR::SecurityConfiguration
+snippet cfn_AWS::EMR::SecurityConfiguration
   Type: AWS::EMR::SecurityConfiguration
   Properties: 
     Name: String
     SecurityConfiguration: String
 
 
-snippet AWS::EMR::Step
+snippet cfn_AWS::EMR::Step
   Type: AWS::EMR::Step
   Properties: 
     ActionOnFailure: String
@@ -1896,7 +1904,7 @@ snippet AWS::EMR::Step
     Name: String
 
 
-snippet AWS::Events::EventBusPolicy
+snippet cfn_AWS::Events::EventBusPolicy
   Type: "AWS::Events::EventBusPolicy"
   Properties:
     Action: String
@@ -1905,7 +1913,7 @@ snippet AWS::Events::EventBusPolicy
     StatementId: String
 
 
-snippet AWS::Events::Rule
+snippet cfn_AWS::Events::Rule
   Type: AWS::Events::Rule
   Properties: 
     Description: String
@@ -1917,7 +1925,7 @@ snippet AWS::Events::Rule
       - Target
 
 
-snippet AWS::GameLift::Alias
+snippet cfn_AWS::GameLift::Alias
   Type: AWS::GameLift::Alias
   Properties: 
     Name: String
@@ -1926,7 +1934,7 @@ snippet AWS::GameLift::Alias
       RoutingStrategy
 
 
-snippet AWS::GameLift::Build
+snippet cfn_AWS::GameLift::Build
   Type: AWS::GameLift::Build
   Properties: 
     Name: String
@@ -1935,7 +1943,7 @@ snippet AWS::GameLift::Build
     Version: String
 
 
-snippet AWS::GameLift::Fleet
+snippet cfn_AWS::GameLift::Fleet
   Type: AWS::GameLift::Fleet
   Properties: 
     BuildId: String
@@ -1953,7 +1961,7 @@ snippet AWS::GameLift::Fleet
     ServerLaunchPath: String
 
 
-snippet AWS::Glue::Classifier
+snippet cfn_AWS::Glue::Classifier
   Type: AWS::Glue::Classifier
   Properties:
     GrokClassifier: 
@@ -1964,7 +1972,7 @@ snippet AWS::Glue::Classifier
       *XMLClassifier*
 
 
-snippet AWS::Glue::Connection
+snippet cfn_AWS::Glue::Connection
   Type: AWS::Glue::Connection
   Properties:
     ConnectionInput: 
@@ -1972,7 +1980,7 @@ snippet AWS::Glue::Connection
     CatalogId: String
 
 
-snippet AWS::Glue::Crawler
+snippet cfn_AWS::Glue::Crawler
   Type: AWS::Glue::Crawler
   Properties:
     Role: String
@@ -1991,7 +1999,7 @@ snippet AWS::Glue::Crawler
     Name: String
 
 
-snippet AWS::Glue::Database
+snippet cfn_AWS::Glue::Database
   Type: AWS::Glue::Database
   Properties:
     DatabaseInput: 
@@ -1999,7 +2007,7 @@ snippet AWS::Glue::Database
     CatalogId: String
 
 
-snippet AWS::Glue::DevEndpoint
+snippet cfn_AWS::Glue::DevEndpoint
   Type: AWS::Glue::DevEndpoint
   Properties:
     EndpointName: String
@@ -2013,7 +2021,7 @@ snippet AWS::Glue::DevEndpoint
     SubnetId: String
 
 
-snippet AWS::Glue::Job
+snippet cfn_AWS::Glue::Job
   Type: AWS::Glue::Job
   Properties:
     Role: String
@@ -2031,7 +2039,7 @@ snippet AWS::Glue::Job
     Name: String
 
 
-snippet AWS::Glue::Partition
+snippet cfn_AWS::Glue::Partition
   Type: AWS::Glue::Partition
   Properties:
     TableName: String
@@ -2041,7 +2049,7 @@ snippet AWS::Glue::Partition
       *PartitionInput*
 
 
-snippet AWS::Glue::Table
+snippet cfn_AWS::Glue::Table
   Type: AWS::Glue::Table
   Properties:
     TableInput: 
@@ -2050,7 +2058,7 @@ snippet AWS::Glue::Table
     CatalogId: String
 
 
-snippet AWS::Glue::Trigger
+snippet cfn_AWS::Glue::Trigger
   Type: AWS::Glue::Trigger
   Properties:
     Type: String
@@ -2063,14 +2071,14 @@ snippet AWS::Glue::Trigger
       *Predicate*
 
 
-snippet AWS::GuardDuty::Detector
+snippet cfn_AWS::GuardDuty::Detector
   Type: AWS::GuardDuty::Detector
   Properties:
     Enable: Boolean
     FindingPublishingFrequency: String
 
 
-snippet AWS::GuardDuty::Filter
+snippet cfn_AWS::GuardDuty::Filter
   Type: "AWS::GuardDuty::Filter"
   Properties:
     Action: String
@@ -2081,7 +2089,7 @@ snippet AWS::GuardDuty::Filter
     Name: String
 
 
-snippet AWS::GuardDuty::IPSet
+snippet cfn_AWS::GuardDuty::IPSet
   Type: AWS::GuardDuty::IPSet
   Properties:
     Activate: Boolean
@@ -2091,7 +2099,7 @@ snippet AWS::GuardDuty::IPSet
     Name: String
 
 
-snippet AWS::GuardDuty::Master
+snippet cfn_AWS::GuardDuty::Master
   Type: AWS::GuardDuty::Master
   Properties:
     DetectorId: String
@@ -2099,7 +2107,7 @@ snippet AWS::GuardDuty::Master
     InvitationId: String
 
 
-snippet AWS::GuardDuty::Member
+snippet cfn_AWS::GuardDuty::Member
   Type: AWS::GuardDuty::Member
   Properties:
     Status: String
@@ -2110,7 +2118,7 @@ snippet AWS::GuardDuty::Member
     DisableEmailNotification: Boolean
 
 
-snippet AWS::GuardDuty::ThreatIntelSet
+snippet cfn_AWS::GuardDuty::ThreatIntelSet
   Type: AWS::GuardDuty::ThreatIntelSet
   Properties:
     Activate: Boolean
@@ -2120,7 +2128,7 @@ snippet AWS::GuardDuty::ThreatIntelSet
     Name: String
 
 
-snippet AWS::IAM::InstanceProfile
+snippet cfn_AWS::IAM::InstanceProfile
   Type: AWS::IAM::InstanceProfile
   Properties: 
     Path: String
@@ -2129,7 +2137,7 @@ snippet AWS::IAM::InstanceProfile
     InstanceProfileName: String
 
 
-snippet AWS::IAM::ManagedPolicy
+snippet cfn_AWS::IAM::ManagedPolicy
   Type: AWS::IAM::ManagedPolicy
   Properties: 
     Description: String
@@ -2144,7 +2152,7 @@ snippet AWS::IAM::ManagedPolicy
     ManagedPolicyName: String
 
 
-snippet AWS::IAM::Policy
+snippet cfn_AWS::IAM::Policy
   Type: AWS::IAM::Policy
   Properties: 
     Groups:
@@ -2157,7 +2165,7 @@ snippet AWS::IAM::Policy
       - String
 
 
-snippet AWS::IAM::Role
+snippet cfn_AWS::IAM::Role
   Type: AWS::IAM::Role
   Properties: 
     AssumeRolePolicyDocument:
@@ -2172,7 +2180,7 @@ snippet AWS::IAM::Role
     RoleName: String
 
 
-snippet AWS::IAM::ServiceLinkedRole
+snippet cfn_AWS::IAM::ServiceLinkedRole
   Type: "AWS::IAM::ServiceLinkedRole"
   Properties:
     AWSServiceName: String
@@ -2180,7 +2188,7 @@ snippet AWS::IAM::ServiceLinkedRole
     Description: String
 
 
-snippet AWS::CloudFormation::Init
+snippet cfn_AWS::CloudFormation::Init
   Resources: 
     MyInstance: 
       Type: AWS::EC2::Instance
@@ -2205,14 +2213,14 @@ snippet AWS::CloudFormation::Init
         :
 
 
-snippet AWS::Inspector::AssessmentTarget
+snippet cfn_AWS::Inspector::AssessmentTarget
   Type: AWS::Inspector::AssessmentTarget
   Properties:
     AssessmentTargetName: String
     ResourceGroupArn: String
 
 
-snippet AWS::Inspector::AssessmentTemplate
+snippet cfn_AWS::Inspector::AssessmentTemplate
   Type: AWS::Inspector::AssessmentTemplate
   Properties:
     AssessmentTargetArn: String
@@ -2224,35 +2232,35 @@ snippet AWS::Inspector::AssessmentTemplate
       - Resource Tag
 
 
-snippet AWS::Inspector::ResourceGroup
+snippet cfn_AWS::Inspector::ResourceGroup
   Type: AWS::Inspector::ResourceGroup
   Properties:
     ResourceGroupTags: 
       - Resource Tag
 
 
-snippet AWS::IoT::Certificate
+snippet cfn_AWS::IoT::Certificate
   Type: AWS::IoT::Certificate
     Properties:
       CertificateSigningRequest: String
       Status: String
 
 
-snippet AWS::IoT::Policy
+snippet cfn_AWS::IoT::Policy
   Type: AWS::IoT::Policy
   Properties:
     PolicyDocument: JSON object
     PolicyName: String
 
 
-snippet AWS::IoT::PolicyPrincipalAttachment
+snippet cfn_AWS::IoT::PolicyPrincipalAttachment
   Type: AWS::IoT::PolicyPrincipalAttachment
     Properties:
       PolicyName: String
       Principal: String
 
 
-snippet AWS::IoT::Thing
+snippet cfn_AWS::IoT::Thing
   Type: AWS::IoT::Thing
   Properties:
     AttributePayload:
@@ -2260,28 +2268,28 @@ snippet AWS::IoT::Thing
     ThingName: String
 
 
-snippet AWS::IoT::ThingPrincipalAttachment
+snippet cfn_AWS::IoT::ThingPrincipalAttachment
   Type: AWS::IoT::ThingPrincipalAttachment
   Properties:
     Principal: String
     ThingName: String
 
 
-snippet AWS::IoT::TopicRule
+snippet cfn_AWS::IoT::TopicRule
   Type: AWS::IoT::TopicRule
   Properties:
     RuleName: String
     TopicRulePayload: TopicRulePayLoad
 
 
-snippet AWS::IoT1Click::Device
+snippet cfn_AWS::IoT1Click::Device
   Type: "AWS::IoT1Click::Device"
   Properties:
     DeviceId: String
     Enabled: String
 
 
-snippet AWS::IoT1Click::Placement
+snippet cfn_AWS::IoT1Click::Placement
   Type: "AWS::IoT1Click::Placement"
   Properties:
     AssociatedDevices: Json
@@ -2290,7 +2298,7 @@ snippet AWS::IoT1Click::Placement
     ProjectName: String
 
 
-snippet AWS::IoT1Click::Project
+snippet cfn_AWS::IoT1Click::Project
   Type: "AWS::IoT1Click::Project"
   Properties:
     Description: String
@@ -2299,7 +2307,7 @@ snippet AWS::IoT1Click::Project
     ProjectName: String
 
 
-snippet AWS::Kinesis::Stream
+snippet cfn_AWS::Kinesis::Stream
   Type: AWS::Kinesis::Stream
   Properties: 
     Name: String
@@ -2310,14 +2318,14 @@ snippet AWS::Kinesis::Stream
       - Resource Tag
 
 
-snippet AWS::Kinesis::StreamConsumer
+snippet cfn_AWS::Kinesis::StreamConsumer
   Type: "AWS::Kinesis::StreamConsumer"
   Properties:
     ConsumerName: String
     StreamARN: String
 
 
-snippet AWS::KinesisAnalytics::Application
+snippet cfn_AWS::KinesisAnalytics::Application
   Type: AWS::KinesisAnalytics::Application
   Properties:
     ApplicationName: String
@@ -2327,7 +2335,7 @@ snippet AWS::KinesisAnalytics::Application
       - *Input*
 
 
-snippet AWS::KinesisAnalytics::ApplicationOutput
+snippet cfn_AWS::KinesisAnalytics::ApplicationOutput
   Type: AWS::KinesisAnalytics::ApplicationOutput
   Properties:
     ApplicationName: String
@@ -2335,7 +2343,7 @@ snippet AWS::KinesisAnalytics::ApplicationOutput
       *Output*
 
 
-snippet AWS::KinesisAnalytics::ApplicationReferenceDataSource
+snippet cfn_AWS::KinesisAnalytics::ApplicationReferenceDataSource
   Type: AWS::KinesisAnalytics::ApplicationReferenceDataSource
   Properties:
     ApplicationName: String
@@ -2343,7 +2351,7 @@ snippet AWS::KinesisAnalytics::ApplicationReferenceDataSource
       *ReferenceDataSource*
 
 
-snippet AWS::KinesisFirehose::DeliveryStream
+snippet cfn_AWS::KinesisFirehose::DeliveryStream
   Type: AWS::KinesisFirehose::DeliveryStream
   Properties: 
     DeliveryStreamName: String
@@ -2362,14 +2370,14 @@ snippet AWS::KinesisFirehose::DeliveryStream
       *SplunkDestinationConfiguration*
 
 
-snippet AWS::KMS::Alias
+snippet cfn_AWS::KMS::Alias
   Type: AWS::KMS::Alias
   Properties:
     AliasName: String
     TargetKeyId: String
 
 
-snippet AWS::KMS::Key
+snippet cfn_AWS::KMS::Key
   Type: AWS::KMS::Key
   Properties: 
     Description: String
@@ -2382,7 +2390,7 @@ snippet AWS::KMS::Key
       - Resource Tag
 
 
-snippet AWS::Lambda::Alias
+snippet cfn_AWS::Lambda::Alias
   Type: AWS::Lambda::Alias
   Properties:     
     Description: String         
@@ -2393,7 +2401,7 @@ snippet AWS::Lambda::Alias
       AliasRoutingConfiguration
 
 
-snippet AWS::Lambda::EventSourceMapping
+snippet cfn_AWS::Lambda::EventSourceMapping
   Type: AWS::Lambda::EventSourceMapping
   Properties: 
     BatchSize: Integer
@@ -2403,7 +2411,7 @@ snippet AWS::Lambda::EventSourceMapping
     StartingPosition: String
 
 
-snippet AWS::Lambda::Function
+snippet cfn_AWS::Lambda::Function
   Type: "AWS::Lambda::Function"
   Properties: 
     Code:
@@ -2431,7 +2439,7 @@ snippet AWS::Lambda::Function
       Resource Tag
 
 
-snippet AWS::Lambda::LayerVersion
+snippet cfn_AWS::Lambda::LayerVersion
   Type: "AWS::Lambda::LayerVersion"
   Properties:
     CompatibleRuntimes: 
@@ -2444,7 +2452,7 @@ snippet AWS::Lambda::LayerVersion
     LicenseInfo: String
 
 
-snippet AWS::Lambda::LayerVersionPermission
+snippet cfn_AWS::Lambda::LayerVersionPermission
   Type: "AWS::Lambda::LayerVersionPermission"
   Properties:
     Action: String
@@ -2453,7 +2461,7 @@ snippet AWS::Lambda::LayerVersionPermission
     Principal: String
 
 
-snippet AWS::Lambda::Permission
+snippet cfn_AWS::Lambda::Permission
   Type: AWS::Lambda::Permission
   Properties: 
     Action: String
@@ -2464,7 +2472,7 @@ snippet AWS::Lambda::Permission
     SourceArn: String
 
 
-snippet AWS::Lambda::Version
+snippet cfn_AWS::Lambda::Version
   Type: AWS::Lambda::Version
   Properties:     
     CodeSha256 : String
@@ -2472,7 +2480,7 @@ snippet AWS::Lambda::Version
     FunctionName : String
 
 
-snippet AWS::Logs::Destination
+snippet cfn_AWS::Logs::Destination
   Type: AWS::Logs::Destination
   Properties: 
     DestinationName: String
@@ -2481,21 +2489,21 @@ snippet AWS::Logs::Destination
     TargetArn: String
 
 
-snippet AWS::Logs::LogGroup
+snippet cfn_AWS::Logs::LogGroup
   Type: AWS::Logs::LogGroup
   Properties: 
     LogGroupName: String
     RetentionInDays: Integer
 
 
-snippet AWS::Logs::LogStream
+snippet cfn_AWS::Logs::LogStream
   Type: AWS::Logs::LogStream
   Properties: 
     LogGroupName: String
     LogStreamName: String
 
 
-snippet AWS::Logs::MetricFilter
+snippet cfn_AWS::Logs::MetricFilter
   Type: AWS::Logs::MetricFilter
   Properties: 
     FilterPattern: String
@@ -2504,7 +2512,7 @@ snippet AWS::Logs::MetricFilter
       MetricTransformations
 
 
-snippet AWS::Logs::SubscriptionFilter
+snippet cfn_AWS::Logs::SubscriptionFilter
   Type: AWS::Logs::SubscriptionFilter
   Properties: 
     DestinationArn: String
@@ -2513,7 +2521,7 @@ snippet AWS::Logs::SubscriptionFilter
     RoleArn: String
 
 
-snippet AWS::Neptune::DBCluster
+snippet cfn_AWS::Neptune::DBCluster
   Type: "AWS::Neptune::DBCluster"
   Properties:
     AvailabilityZones:
@@ -2535,7 +2543,7 @@ snippet AWS::Neptune::DBCluster
       - String
 
 
-snippet AWS::Neptune::DBClusterParameterGroup
+snippet cfn_AWS::Neptune::DBClusterParameterGroup
   Type: "AWS::Neptune::DBClusterParameterGroup"
   Properties: 
     Description: String
@@ -2546,7 +2554,7 @@ snippet AWS::Neptune::DBClusterParameterGroup
     Name : String
 
 
-snippet AWS::Neptune::DBInstance
+snippet cfn_AWS::Neptune::DBInstance
   Type: "AWS::Neptune::DBInstance"
   Properties:
     AllowMajorVersionUpgrade: Boolean
@@ -2563,7 +2571,7 @@ snippet AWS::Neptune::DBInstance
       Resource Tag
 
 
-snippet AWS::Neptune::DBParameterGroup
+snippet cfn_AWS::Neptune::DBParameterGroup
   Type: "AWS::Neptune::DBParameterGroup"
   Properties: 
     Description: String
@@ -2575,7 +2583,7 @@ snippet AWS::Neptune::DBParameterGroup
     Name : String
 
 
-snippet AWS::Neptune::DBSubnetGroup
+snippet cfn_AWS::Neptune::DBSubnetGroup
   Type: "AWS::Neptune::DBSubnetGroup"
   Properties: 
     DBSubnetGroupDescription: String
@@ -2586,7 +2594,7 @@ snippet AWS::Neptune::DBSubnetGroup
       - Resource Tag
 
 
-snippet AWS::OpsWorks::App
+snippet cfn_AWS::OpsWorks::App
   Type: "AWS::OpsWorks::App"
   Properties: 
     AppSource:
@@ -2609,14 +2617,14 @@ snippet AWS::OpsWorks::App
     Type: String
 
 
-snippet AWS::OpsWorks::ElasticLoadBalancerAttachment
+snippet cfn_AWS::OpsWorks::ElasticLoadBalancerAttachment
   Type: "AWS::OpsWorks::ElasticLoadBalancerAttachment"
   Properties: 
     ElasticLoadBalancerName: String
     LayerId: String
 
 
-snippet AWS::OpsWorks::Instance
+snippet cfn_AWS::OpsWorks::Instance
   Type: "AWS::OpsWorks::Instance"
   Properties:
     AgentVersion: String
@@ -2647,7 +2655,7 @@ snippet AWS::OpsWorks::Instance
     - String
 
 
-snippet AWS::OpsWorks::Layer
+snippet cfn_AWS::OpsWorks::Layer
   Type: "AWS::OpsWorks::Layer"
   Properties:
     Attributes:
@@ -2679,7 +2687,7 @@ snippet AWS::OpsWorks::Layer
       - VolumeConfiguration
 
 
-snippet AWS::OpsWorks::Stack
+snippet cfn_AWS::OpsWorks::Stack
   Type: "AWS::OpsWorks::Stack"
   Properties: 
     AgentVersion: String
@@ -2717,7 +2725,7 @@ snippet AWS::OpsWorks::Stack
     VpcId: String
 
 
-snippet AWS::OpsWorks::UserProfile
+snippet cfn_AWS::OpsWorks::UserProfile
   Type: "AWS::OpsWorks::UserProfile"
   Properties:
     AllowSelfManagement: Boolean
@@ -2726,7 +2734,7 @@ snippet AWS::OpsWorks::UserProfile
     SshUsername: String
 
 
-snippet AWS::OpsWorks::Volume
+snippet cfn_AWS::OpsWorks::Volume
   Type: "AWS::OpsWorks::Volume"
   Properties:
     Ec2VolumeId: String
@@ -2735,7 +2743,7 @@ snippet AWS::OpsWorks::Volume
     StackId: String
 
 
-snippet AWS::RDS::DBCluster
+snippet cfn_AWS::RDS::DBCluster
   Type: "AWS::RDS::DBCluster"
   Properties:
     AvailabilityZones:
@@ -2770,7 +2778,7 @@ snippet AWS::RDS::DBCluster
       - String
 
 
-snippet AWS::RDS::DBClusterParameterGroup
+snippet cfn_AWS::RDS::DBClusterParameterGroup
   Type: "AWS::RDS::DBClusterParameterGroup"
   Properties: 
     Description: String
@@ -2780,7 +2788,7 @@ snippet AWS::RDS::DBClusterParameterGroup
       Resource Tag
 
 
-snippet AWS::RDS::DBSubnetGroup
+snippet cfn_AWS::RDS::DBSubnetGroup
   Type: "AWS::RDS::DBSubnetGroup"
   Properties: 
     DBSubnetGroupDescription: String
@@ -2791,7 +2799,7 @@ snippet AWS::RDS::DBSubnetGroup
       - Resource Tag
 
 
-snippet AWS::RDS::EventSubscription
+snippet cfn_AWS::RDS::EventSubscription
   Type: "AWS::RDS::EventSubscription"
   Properties: 
     Enabled: Boolean
@@ -2803,7 +2811,7 @@ snippet AWS::RDS::EventSubscription
     SourceType: String
 
 
-snippet AWS::RDS::OptionGroup
+snippet cfn_AWS::RDS::OptionGroup
   Type: "AWS::RDS::OptionGroup"
   Properties: 
     EngineName: String
@@ -2815,7 +2823,7 @@ snippet AWS::RDS::OptionGroup
       - Resource Tag
 
 
-snippet AWS::RDS::DBSecurityGroupIngress
+snippet cfn_AWS::RDS::DBSecurityGroupIngress
   Type: "AWS::RDS::DBSecurityGroupIngress"
   Properties:  
     CIDRIP: String
@@ -2825,7 +2833,7 @@ snippet AWS::RDS::DBSecurityGroupIngress
     EC2SecurityGroupOwnerId: String
 
 
-snippet AWS::Redshift::Cluster
+snippet cfn_AWS::Redshift::Cluster
   Type: "AWS::Redshift::Cluster"
   Properties: 
     AllowVersionUpgrade: Boolean
@@ -2864,7 +2872,7 @@ snippet AWS::Redshift::Cluster
       - String
 
 
-snippet AWS::Redshift::ClusterParameterGroup
+snippet cfn_AWS::Redshift::ClusterParameterGroup
   Type: "AWS::Redshift::ClusterParameterGroup"
   Properties: 
     Description: String
@@ -2875,7 +2883,7 @@ snippet AWS::Redshift::ClusterParameterGroup
       - Resource Tag
 
 
-snippet AWS::Redshift::ClusterSecurityGroup
+snippet cfn_AWS::Redshift::ClusterSecurityGroup
   Type: "AWS::Redshift::ClusterSecurityGroup"
   Properties: 
     Description: String
@@ -2883,7 +2891,7 @@ snippet AWS::Redshift::ClusterSecurityGroup
       - Resource Tag
 
 
-snippet AWS::Redshift::ClusterSecurityGroupIngress
+snippet cfn_AWS::Redshift::ClusterSecurityGroupIngress
   Type: "AWS::Redshift::ClusterSecurityGroupIngress"
   Properties: 
     ClusterSecurityGroupName: String
@@ -2892,7 +2900,7 @@ snippet AWS::Redshift::ClusterSecurityGroupIngress
     EC2SecurityGroupOwnerId: String
 
 
-snippet AWS::Redshift::ClusterSubnetGroup
+snippet cfn_AWS::Redshift::ClusterSubnetGroup
   Type: "AWS::Redshift::ClusterSubnetGroup"
   Properties: 
     Description: String
@@ -2902,7 +2910,7 @@ snippet AWS::Redshift::ClusterSubnetGroup
       - Resource Tag
 
 
-snippet AWS::Route53::HealthCheck
+snippet cfn_AWS::Route53::HealthCheck
   Type: "AWS::Route53::HealthCheck"
   Properties: 
     HealthCheckConfig:
@@ -2916,7 +2924,7 @@ snippet Route 53::HostedZoneVPCs
   VPCRegion: String
 
 
-snippet AWS::Route53::HostedZone
+snippet cfn_AWS::Route53::HostedZone
   Type: "AWS::Route53::HostedZone"
   Properties: 
     HostedZoneConfig:
@@ -2930,7 +2938,7 @@ snippet AWS::Route53::HostedZone
       - *HostedZoneVPCs*
 
 
-snippet AWS::Route53Resolver::ResolverEndpoint
+snippet cfn_AWS::Route53Resolver::ResolverEndpoint
   Type: "AWS::Route53Resolver::ResolverEndpoint"
   Properties:
     Direction: String
@@ -2943,7 +2951,7 @@ snippet AWS::Route53Resolver::ResolverEndpoint
       - *Resource Tag*
 
 
-snippet AWS::Route53Resolver::ResolverRule
+snippet cfn_AWS::Route53Resolver::ResolverRule
   Type: "AWS::Route53Resolver::ResolverRule"
   Properties:
     DomainName: String
@@ -2956,7 +2964,7 @@ snippet AWS::Route53Resolver::ResolverRule
       - *TargetAddress*
 
 
-snippet AWS::SageMaker::Endpoint
+snippet cfn_AWS::SageMaker::Endpoint
   Type: "AWS::SageMaker::Endpoint"
   Properties:
     EndpointName: String
@@ -2965,7 +2973,7 @@ snippet AWS::SageMaker::Endpoint
       - *Tag*
 
 
-snippet AWS::SageMaker::EndpointConfig
+snippet cfn_AWS::SageMaker::EndpointConfig
   Type: "AWS::SageMaker::EndpointConfig"
   Properties:
     ProductionVariants: 
@@ -2976,7 +2984,7 @@ snippet AWS::SageMaker::EndpointConfig
       - *Tag*
 
 
-snippet AWS::SageMaker::Model
+snippet cfn_AWS::SageMaker::Model
   Type: "AWS::SageMaker::Model"
   Properties:
     ExecutionRoleArn: String
@@ -2987,7 +2995,7 @@ snippet AWS::SageMaker::Model
       - *Tag*
 
 
-snippet AWS::SageMaker::NotebookInstance
+snippet cfn_AWS::SageMaker::NotebookInstance
   Type: "AWS::SageMaker::NotebookInstance"
   Properties:
     KmsKeyId: String
@@ -3003,7 +3011,7 @@ snippet AWS::SageMaker::NotebookInstance
       - *Tag*
 
 
-snippet AWS::SageMaker::NotebookInstanceLifecycleConfig
+snippet cfn_AWS::SageMaker::NotebookInstanceLifecycleConfig
   Type: "AWS::SageMaker::NotebookInstanceLifecycleConfig"
   Properties:
     OnStart: 
@@ -3013,14 +3021,14 @@ snippet AWS::SageMaker::NotebookInstanceLifecycleConfig
       - *NotebookInstanceLifecycleHook*
 
 
-snippet AWS::SecretsManager::ResourcePolicy
+snippet cfn_AWS::SecretsManager::ResourcePolicy
   Type: "AWS::SecretsManager::ResourcePolicy"
   Properties:
     SecretId: String
     ResourcePolicy: JSON object
 
 
-snippet AWS::SecretsManager::RotationSchedule
+snippet cfn_AWS::SecretsManager::RotationSchedule
   Type: "AWS::SecretsManager::RotationSchedule"
   Properties:
     SecretId: String
@@ -3028,7 +3036,7 @@ snippet AWS::SecretsManager::RotationSchedule
     RotationRules: *RotationRules*
 
 
-snippet AWS::SecretsManager::Secret
+snippet cfn_AWS::SecretsManager::Secret
   Type: "AWS::SecretsManager::Secret"
   Properties:
     Description: String
@@ -3041,7 +3049,7 @@ snippet AWS::SecretsManager::Secret
     Name: String
 
 
-snippet AWS::SecretsManager::SecretTargetAttachment
+snippet cfn_AWS::SecretsManager::SecretTargetAttachment
   Type: "AWS::SecretsManager::SecretTargetAttachment"
   Properties:
     SecretId: String
@@ -3049,14 +3057,14 @@ snippet AWS::SecretsManager::SecretTargetAttachment
     TargetId: String
 
 
-snippet AWS::ServiceCatalog::AcceptedPortfolioShare
+snippet cfn_AWS::ServiceCatalog::AcceptedPortfolioShare
   Type: "AWS::ServiceCatalog::AcceptedPortfolioShare"
   Properties:
     AcceptLanguage: String
     PortfolioId: String
 
 
-snippet AWS::ServiceCatalog::CloudFormationProduct
+snippet cfn_AWS::ServiceCatalog::CloudFormationProduct
   Type: "AWS::ServiceCatalog::CloudFormationProduct"
   Properties:
     Owner: String
@@ -3073,7 +3081,7 @@ snippet AWS::ServiceCatalog::CloudFormationProduct
       - *ProvisioningArtifactProperties*
 
 
-snippet AWS::ServiceCatalog::CloudFormationProvisionedProduct
+snippet cfn_AWS::ServiceCatalog::CloudFormationProvisionedProduct
   Type: "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
   Properties:
     PathId: String
@@ -3091,7 +3099,7 @@ snippet AWS::ServiceCatalog::CloudFormationProvisionedProduct
     ProvisioningArtifactId: String
 
 
-snippet AWS::ServiceCatalog::LaunchNotificationConstraint
+snippet cfn_AWS::ServiceCatalog::LaunchNotificationConstraint
   Type: "AWS::ServiceCatalog::LaunchNotificationConstraint"
   Properties:
     Description: String
@@ -3102,7 +3110,7 @@ snippet AWS::ServiceCatalog::LaunchNotificationConstraint
     ProductId: String
 
 
-snippet AWS::ServiceCatalog::LaunchRoleConstraint
+snippet cfn_AWS::ServiceCatalog::LaunchRoleConstraint
   Type: "AWS::ServiceCatalog::LaunchRoleConstraint"
   Properties:
     Description: String
@@ -3112,7 +3120,7 @@ snippet AWS::ServiceCatalog::LaunchRoleConstraint
     RoleArn: String
 
 
-snippet AWS::ServiceCatalog::LaunchTemplateConstraint
+snippet cfn_AWS::ServiceCatalog::LaunchTemplateConstraint
   Type: "AWS::ServiceCatalog::LaunchTemplateConstraint"
   Properties:
     Description: String
@@ -3122,7 +3130,7 @@ snippet AWS::ServiceCatalog::LaunchTemplateConstraint
     Rules: String
 
 
-snippet AWS::ServiceCatalog::Portfolio
+snippet cfn_AWS::ServiceCatalog::Portfolio
   Type: "AWS::ServiceCatalog::Portfolio"
   Properties:
     ProviderName: String
@@ -3133,7 +3141,7 @@ snippet AWS::ServiceCatalog::Portfolio
       - *Resource Tag*
 
 
-snippet AWS::ServiceCatalog::PortfolioPrincipalAssociation
+snippet cfn_AWS::ServiceCatalog::PortfolioPrincipalAssociation
   Type: "AWS::ServiceCatalog::PortfolioPrincipalAssociation"
   Properties:
     PrincipalARN: String
@@ -3142,7 +3150,7 @@ snippet AWS::ServiceCatalog::PortfolioPrincipalAssociation
     PrincipalType: String
 
 
-snippet AWS::ServiceCatalog::PortfolioProductAssociation
+snippet cfn_AWS::ServiceCatalog::PortfolioProductAssociation
   Type: "AWS::ServiceCatalog::PortfolioProductAssociation"
   Properties:
     SourcePortfolioId: String
@@ -3151,7 +3159,7 @@ snippet AWS::ServiceCatalog::PortfolioProductAssociation
     ProductId: String
 
 
-snippet AWS::ServiceCatalog::PortfolioShare
+snippet cfn_AWS::ServiceCatalog::PortfolioShare
   Type: "AWS::ServiceCatalog::PortfolioShare"
   Properties:
     AccountId: String
@@ -3159,7 +3167,7 @@ snippet AWS::ServiceCatalog::PortfolioShare
     PortfolioId: String
 
 
-snippet AWS::ServiceCatalog::TagOption
+snippet cfn_AWS::ServiceCatalog::TagOption
   Type: "AWS::ServiceCatalog::TagOption"
   Properties:
     Active: Boolean
@@ -3167,21 +3175,21 @@ snippet AWS::ServiceCatalog::TagOption
     Key: String
 
 
-snippet AWS::ServiceCatalog::TagOptionAssociation
+snippet cfn_AWS::ServiceCatalog::TagOptionAssociation
   Type: "AWS::ServiceCatalog::TagOptionAssociation"
   Properties:
     TagOptionId: String
     ResourceId: String
 
 
-snippet AWS::ServiceDiscovery::HttpNamespace
+snippet cfn_AWS::ServiceDiscovery::HttpNamespace
   Type: "AWS::ServiceDiscovery::HttpNamespace"
   Properties:
     Description: String
     Name: String
 
 
-snippet AWS::ServiceDiscovery::Instance
+snippet cfn_AWS::ServiceDiscovery::Instance
   Type: "AWS::ServiceDiscovery::Instance"
   Properties:
     InstanceAttributes: JSON object
@@ -3189,7 +3197,7 @@ snippet AWS::ServiceDiscovery::Instance
     ServiceId: String
 
 
-snippet AWS::ServiceDiscovery::PrivateDnsNamespace
+snippet cfn_AWS::ServiceDiscovery::PrivateDnsNamespace
   Type: "AWS::ServiceDiscovery::PrivateDnsNamespace"
   Properties:
     Description: String
@@ -3197,14 +3205,14 @@ snippet AWS::ServiceDiscovery::PrivateDnsNamespace
     Name: String
 
 
-snippet AWS::ServiceDiscovery::PublicDnsNamespace
+snippet cfn_AWS::ServiceDiscovery::PublicDnsNamespace
   Type: "AWS::ServiceDiscovery::PublicDnsNamespace"
   Properties:
     Description: String
     Name: String
 
 
-snippet AWS::ServiceDiscovery::Service
+snippet cfn_AWS::ServiceDiscovery::Service
   Type: "AWS::ServiceDiscovery::Service"
   Properties:
     Description: String
@@ -3218,26 +3226,26 @@ snippet AWS::ServiceDiscovery::Service
     NamespaceId: String
 
 
-snippet AWS::SES::ConfigurationSet
+snippet cfn_AWS::SES::ConfigurationSet
   Type: "AWS::SES::ConfigurationSet"
   Properties:
     Name: String
 
 
-snippet AWS::SES::ConfigurationSetEventDestination
+snippet cfn_AWS::SES::ConfigurationSetEventDestination
   Type: "AWS::SES::ConfigurationSetEventDestination"
   Properties:
     ConfigurationSetName: String
     EventDestination: *EventDestination*
 
 
-snippet AWS::SES::ReceiptFilter
+snippet cfn_AWS::SES::ReceiptFilter
   Type: "AWS::SES::ReceiptFilter"
   Properties:
     Filter: *Filter*
 
 
-snippet AWS::SES::ReceiptRule
+snippet cfn_AWS::SES::ReceiptRule
   Type: "AWS::SES::ReceiptRule"
   Properties:
     After: String
@@ -3245,19 +3253,19 @@ snippet AWS::SES::ReceiptRule
     RuleSetName: String
 
 
-snippet AWS::SES::ReceiptRuleSet
+snippet cfn_AWS::SES::ReceiptRuleSet
   Type: "AWS::SES::ReceiptRuleSet"
   Properties:
     RuleSetName: String
 
 
-snippet AWS::SES::Template
+snippet cfn_AWS::SES::Template
   Type: "AWS::SES::Template"
   Properties:
     Template: *Template*
 
 
-snippet AWS::SNS::Subscription
+snippet cfn_AWS::SNS::Subscription
   Type: "AWS::SNS::Subscription"
   Properties:
     DeliveryPolicy: JSON object
@@ -3269,7 +3277,7 @@ snippet AWS::SNS::Subscription
     TopicArn: String
 
 
-snippet AWS::SSM::Association
+snippet cfn_AWS::SSM::Association
   Type: "AWS::SSM::Association"
   Properties: 
     AssociationName: String
@@ -3285,7 +3293,7 @@ snippet AWS::SSM::Association
       - *Targets*
 
 
-snippet AWS::SSM::Document
+snippet cfn_AWS::SSM::Document
   Type: "AWS::SSM::Document"
   Properties: 
     Content: JSON object
@@ -3294,7 +3302,7 @@ snippet AWS::SSM::Document
       - Resource Tag
 
 
-snippet AWS::SSM::MaintenanceWindow
+snippet cfn_AWS::SSM::MaintenanceWindow
   Type: "AWS::SSM::MaintenanceWindow"
   Properties:
     Name: String
@@ -3308,7 +3316,7 @@ snippet AWS::SSM::MaintenanceWindow
     ScheduleTimezone: String
 
 
-snippet AWS::SSM::MaintenanceWindowTarget
+snippet cfn_AWS::SSM::MaintenanceWindowTarget
   Type: "AWS::SSM::MaintenanceWindowTarget"
   Properties:
     OwnerInformation: String
@@ -3320,7 +3328,7 @@ snippet AWS::SSM::MaintenanceWindowTarget
     Name: String
 
 
-snippet AWS::SSM::MaintenanceWindowTask
+snippet cfn_AWS::SSM::MaintenanceWindowTask
   Type: "AWS::SSM::MaintenanceWindowTask"
   Properties:
     MaxErrors: String
@@ -3342,7 +3350,7 @@ snippet AWS::SSM::MaintenanceWindowTask
       *LoggingInfo*
 
 
-snippet AWS::SSM::Parameter
+snippet cfn_AWS::SSM::Parameter
   Type: "AWS::SSM::Parameter"
   Properties: 
     AllowedPattern: String
@@ -3352,7 +3360,7 @@ snippet AWS::SSM::Parameter
     Value: String
 
 
-snippet AWS::SSM::PatchBaseline
+snippet cfn_AWS::SSM::PatchBaseline
   Type: "AWS::SSM::PatchBaseline"
   Properties:
     Name: String
@@ -3375,7 +3383,7 @@ snippet AWS::SSM::PatchBaseline
     Sources : *PatchSource*
 
 
-snippet AWS::SSM::ResourceDataSync
+snippet cfn_AWS::SSM::ResourceDataSync
   Type: "AWS::SSM::ResourceDataSync"
   Properties:
     KMSKeyArn: String
@@ -3386,13 +3394,13 @@ snippet AWS::SSM::ResourceDataSync
     BucketPrefix: String
 
 
-snippet AWS::StepFunctions::Activity
+snippet cfn_AWS::StepFunctions::Activity
   Type: "AWS::StepFunctions::Activity"
   Properties:
     Name: String
 
 
-snippet AWS::StepFunctions::StateMachine
+snippet cfn_AWS::StepFunctions::StateMachine
   Type: "AWS::StepFunctions::StateMachine"
   Properties:
     StateMachineName: String
@@ -3400,7 +3408,7 @@ snippet AWS::StepFunctions::StateMachine
     RoleArn: String
 
 
-snippet AWS::WAF::ByteMatchSet
+snippet cfn_AWS::WAF::ByteMatchSet
   Type: "AWS::WAF::ByteMatchSet"
   Properties: 
     ByteMatchTuples:
@@ -3408,7 +3416,7 @@ snippet AWS::WAF::ByteMatchSet
     Name: String
 
 
-snippet AWS::WAF::IPSet
+snippet cfn_AWS::WAF::IPSet
   Type: "AWS::WAF::IPSet"
   Properties: 
     IPSetDescriptors:
@@ -3416,7 +3424,7 @@ snippet AWS::WAF::IPSet
     Name: String
 
 
-snippet AWS::WAF::Rule
+snippet cfn_AWS::WAF::Rule
   Type: "AWS::WAF::Rule"
   Properties: 
     MetricName: String
@@ -3425,7 +3433,7 @@ snippet AWS::WAF::Rule
       - Predicate
 
 
-snippet AWS::WAF::SizeConstraintSet
+snippet cfn_AWS::WAF::SizeConstraintSet
   Type: "AWS::WAF::SizeConstraintSet"
   Properties: 
     Name: String
@@ -3433,7 +3441,7 @@ snippet AWS::WAF::SizeConstraintSet
       - SizeConstraint
 
 
-snippet AWS::WAF::SqlInjectionMatchSet
+snippet cfn_AWS::WAF::SqlInjectionMatchSet
   Type: "AWS::WAF::SqlInjectionMatchSet"
   Properties: 
     Name: String
@@ -3441,7 +3449,7 @@ snippet AWS::WAF::SqlInjectionMatchSet
       - SqlInjectionMatchTuple
 
 
-snippet AWS::WAF::WebACL
+snippet cfn_AWS::WAF::WebACL
   Type: "AWS::WAF::WebACL"
   Properties: 
     DefaultAction:
@@ -3452,7 +3460,7 @@ snippet AWS::WAF::WebACL
       - Rule
 
 
-snippet AWS::WAF::XssMatchSet
+snippet cfn_AWS::WAF::XssMatchSet
   Type: "AWS::WAF::XssMatchSet"
   Properties: 
     Name: String
@@ -3460,7 +3468,7 @@ snippet AWS::WAF::XssMatchSet
       - XssMatchTuple
 
 
-snippet AWS::WAFRegional::ByteMatchSet
+snippet cfn_AWS::WAFRegional::ByteMatchSet
   Type: "AWS::WAFRegional::ByteMatchSet"
   Properties: 
     ByteMatchTuples:
@@ -3468,7 +3476,7 @@ snippet AWS::WAFRegional::ByteMatchSet
     Name: String
 
 
-snippet AWS::WAFRegional::IPSet
+snippet cfn_AWS::WAFRegional::IPSet
   Type: "AWS::WAFRegional::IPSet"
   Properties: 
     IPSetDescriptors:
@@ -3476,7 +3484,7 @@ snippet AWS::WAFRegional::IPSet
     Name: String
 
 
-snippet AWS::WAFRegional::Rule
+snippet cfn_AWS::WAFRegional::Rule
   Type: "AWS::WAFRegional::Rule"
   Properties: 
     MetricName: String
@@ -3485,7 +3493,7 @@ snippet AWS::WAFRegional::Rule
       - Predicate
 
 
-snippet AWS::WAFRegional::SizeConstraintSet
+snippet cfn_AWS::WAFRegional::SizeConstraintSet
   Type: "AWS::WAFRegional::SizeConstraintSet"
   Properties: 
     Name: String
@@ -3493,7 +3501,7 @@ snippet AWS::WAFRegional::SizeConstraintSet
       - SizeConstraint
 
 
-snippet AWS::WAFRegional::SqlInjectionMatchSet
+snippet cfn_AWS::WAFRegional::SqlInjectionMatchSet
   Type: "AWS::WAFRegional::SqlInjectionMatchSet"
   Properties: 
     Name: String
@@ -3501,7 +3509,7 @@ snippet AWS::WAFRegional::SqlInjectionMatchSet
       - SqlInjectionMatchTuple
 
 
-snippet AWS::WAFRegional::WebACL
+snippet cfn_AWS::WAFRegional::WebACL
   Type: "AWS::WAFRegional::WebACL"
   Properties: 
     DefaultAction:
@@ -3512,14 +3520,14 @@ snippet AWS::WAFRegional::WebACL
       - Rule
 
 
-snippet AWS::WAFRegional::WebACLAssociation
+snippet cfn_AWS::WAFRegional::WebACLAssociation
   Type: "AWS::WAFRegional::WebACLAssociation"
   Properties: 
     ResourceArn: String
     WebACLId: String
 
 
-snippet AWS::WAFRegional::XssMatchSet
+snippet cfn_AWS::WAFRegional::XssMatchSet
   Type: "AWS::WAFRegional::XssMatchSet"
   Properties: 
     Name: String
@@ -3527,7 +3535,7 @@ snippet AWS::WAFRegional::XssMatchSet
       - XssMatchTuple
 
 
-snippet AWS::WorkSpaces::Workspace
+snippet cfn_AWS::WorkSpaces::Workspace
   Type: "AWS::WorkSpaces::Workspace"
   Properties: 
     BundleId: String
@@ -3910,7 +3918,7 @@ snippet PipelineConfig-appsync-resolver-pipelineconfig
     - String
 
 
-snippet AWS::AutoScaling::AutoScalingGroup-as-group
+snippet cfn_AWS::AutoScaling::AutoScalingGroup-as-group
   Type: AWS::AutoScaling::AutoScalingGroup
   Properties:
     AutoScalingGroupName: String
@@ -3964,7 +3972,7 @@ snippet BlockDevice-as-launchconfig-blockdev-template
   VolumeType: String
 
 
-snippet AWS::AutoScaling::LaunchConfiguration-as-launchconfig
+snippet cfn_AWS::AutoScaling::LaunchConfiguration-as-launchconfig
   Type: AWS::AutoScaling::LaunchConfiguration
   Properties:
     AssociatePublicIpAddress: Boolean
@@ -4002,7 +4010,7 @@ snippet NotificationConfiguration-as-notificationconfigurations
   TopicARN: String
 
 
-snippet AWS::AutoScaling::ScalingPolicy-as-policy
+snippet cfn_AWS::AutoScaling::ScalingPolicy-as-policy
   Type: AWS::AutoScaling::ScalingPolicy
   Properties:
     AdjustmentType: String
@@ -4308,7 +4316,7 @@ snippet EnvironmentTier-beanstalk-environment-tier
   Version: String
 
 
-snippet AWS::ElasticBeanstalk::Environment-beanstalk-environment
+snippet cfn_AWS::ElasticBeanstalk::Environment-beanstalk-environment
   Type: AWS::ElasticBeanstalk::Environment
   Properties:
     ApplicationName: String
@@ -4339,7 +4347,7 @@ snippet SourceBundle-beanstalk-sourcebundle
   S3Key: String
 
 
-snippet AWS::ElasticBeanstalk::ApplicationVersion-beanstalk-version
+snippet cfn_AWS::ElasticBeanstalk::ApplicationVersion-beanstalk-version
   Type: AWS::ElasticBeanstalk::ApplicationVersion
   Properties:
     ApplicationName: String
@@ -4348,7 +4356,7 @@ snippet AWS::ElasticBeanstalk::ApplicationVersion-beanstalk-version
       SourceBundle
 
 
-snippet AWS::ElasticBeanstalk::Application-beanstalk
+snippet cfn_AWS::ElasticBeanstalk::Application-beanstalk
   Type: AWS::ElasticBeanstalk::Application
   Properties:
     ApplicationName: String
@@ -5089,7 +5097,7 @@ snippet ConfigSnapshotDeliveryProperties-config-deliverychannel-configsnapshotde
   DeliveryFrequency: String
 
 
-snippet AWS::CloudWatch::Alarm-cw-alarm
+snippet cfn_AWS::CloudWatch::Alarm-cw-alarm
   Type: AWS::CloudWatch::Alarm
   Properties:
     ActionsEnabled: Boolean
@@ -5119,7 +5127,7 @@ snippet AWS::CloudWatch::Alarm-cw-alarm
     Unit: String
 
 
-snippet AWS::CloudWatch::Dashboard-cw-dashboard
+snippet cfn_AWS::CloudWatch::Dashboard-cw-dashboard
   Type: AWS::CloudWatch::Dashboard
   Properties:
         DashboardName: String
@@ -5312,7 +5320,7 @@ snippet Device-ec2-blockdev-template
   VolumeType: String
 
 
-snippet AWS::EC2::Volume-ec2-ebs-volume
+snippet cfn_AWS::EC2::Volume-ec2-ebs-volume
   Type: AWS::EC2::Volume
   Properties:
     AutoEnableIO: Boolean
@@ -5327,7 +5335,7 @@ snippet AWS::EC2::Volume-ec2-ebs-volume
     VolumeType: String
 
 
-snippet AWS::EC2::VolumeAttachment-ec2-ebs-volumeattachment
+snippet cfn_AWS::EC2::VolumeAttachment-ec2-ebs-volumeattachment
   Type: AWS::EC2::VolumeAttachment
   Properties:
     Device: String
@@ -5380,7 +5388,7 @@ snippet TargetCapacitySpecificationRequest-ec2-ec2fleet-targetcapacityspecificat
   TotalTargetCapacity: Integer
 
 
-snippet AWS::EC2::EIPAssociation-ec2-eip-association
+snippet cfn_AWS::EC2::EIPAssociation-ec2-eip-association
   Type: AWS::EC2::EIPAssociation
   Properties:
     AllocationId: String
@@ -5390,7 +5398,7 @@ snippet AWS::EC2::EIPAssociation-ec2-eip-association
     PrivateIpAddress: String
 
 
-snippet AWS::EC2::EIP-ec2-eip
+snippet cfn_AWS::EC2::EIP-ec2-eip
   Type: AWS::EC2::EIP
   Properties:
     Domain: String
@@ -5455,7 +5463,7 @@ snippet Policy-ec2-elb-policy
   PolicyType: String
 
 
-snippet AWS::ElasticLoadBalancing::LoadBalancer-ec2-elb
+snippet cfn_AWS::ElasticLoadBalancing::LoadBalancer-ec2-elb
   Type: AWS::ElasticLoadBalancing::LoadBalancer
   Properties:
     AccessLoggingPolicy:
@@ -5523,7 +5531,7 @@ snippet SsmAssociations-ec2-instance-ssmassociations
   DocumentName: String
 
 
-snippet AWS::EC2::Instance-ec2-instance
+snippet cfn_AWS::EC2::Instance-ec2-instance
   Type: AWS::EC2::Instance
   Properties: 
     Affinity: String
@@ -5729,7 +5737,7 @@ snippet Ipv6Addresses-ec2-networkinterface-ipv6addresses
   Ipv6Address: String
 
 
-snippet AWS::EC2::SecurityGroupIngress-ec2-security-group-ingress
+snippet cfn_AWS::EC2::SecurityGroupIngress-ec2-security-group-ingress
   Type: AWS::EC2::SecurityGroupIngress
   Properties: 
     CidrIp: String
@@ -5758,7 +5766,7 @@ snippet Type-ec2-security-group-rule
   ToPort: Integer
 
 
-snippet AWS::EC2::SecurityGroup-ec2-security-group
+snippet cfn_AWS::EC2::SecurityGroup-ec2-security-group
   Type: AWS::EC2::SecurityGroup
   Properties: 
     GroupName: String
@@ -6149,7 +6157,7 @@ snippet ResourcesVpcConfig-eks-cluster-resourcesvpcconfig
     - String
 
 
-snippet AWS::ElastiCache::CacheCluster-elasticache-cache-cluster
+snippet cfn_AWS::ElastiCache::CacheCluster-elasticache-cache-cluster
   Type: AWS::ElastiCache::CacheCluster
   Properties:
     AutoMinorVersionUpgrade: Boolean
@@ -6180,7 +6188,7 @@ snippet AWS::ElastiCache::CacheCluster-elasticache-cache-cluster
       - String
 
 
-snippet AWS::ElastiCache::ParameterGroup-elasticache-parameter-group
+snippet cfn_AWS::ElastiCache::ParameterGroup-elasticache-parameter-group
   Type: AWS::ElastiCache::ParameterGroup
   Properties: 
     CacheParameterGroupFamily: String
@@ -6198,7 +6206,7 @@ snippet NodeGroupConfiguration-elasticache-replicationgroup-nodegroupconfigurati
   Slots: String
 
 
-snippet AWS::ElastiCache::SecurityGroupIngress-elasticache-security-group-ingress
+snippet cfn_AWS::ElastiCache::SecurityGroupIngress-elasticache-security-group-ingress
   Type: AWS::ElastiCache::SecurityGroupIngress
   Properties:
     CacheSecurityGroupName: String
@@ -6206,13 +6214,13 @@ snippet AWS::ElastiCache::SecurityGroupIngress-elasticache-security-group-ingres
     EC2SecurityGroupOwnerId: String
 
 
-snippet AWS::ElastiCache::SecurityGroup-elasticache-security-group
+snippet cfn_AWS::ElastiCache::SecurityGroup-elasticache-security-group
   Type: AWS::ElastiCache::SecurityGroup
   Properties:
     Description: String
 
 
-snippet AWS::ElastiCache::SubnetGroup-elasticache-subnetgroup
+snippet cfn_AWS::ElastiCache::SubnetGroup-elasticache-subnetgroup
   Type: AWS::ElastiCache::SubnetGroup
   Properties:
     CacheSubnetGroupName: String
@@ -7039,7 +7047,7 @@ snippet FindingCriteria-guardduty-filter-findingcriteria
   ItemType: *Condition*
 
 
-snippet AWS::IAM::AccessKey-iam-accesskey
+snippet cfn_AWS::IAM::AccessKey-iam-accesskey
   Type: AWS::IAM::AccessKey
   Properties: 
     Serial: Integer
@@ -7047,7 +7055,7 @@ snippet AWS::IAM::AccessKey-iam-accesskey
     UserName: String
 
 
-snippet AWS::IAM::UserToGroupAddition-iam-addusertogroup
+snippet cfn_AWS::IAM::UserToGroupAddition-iam-addusertogroup
   Type: AWS::IAM::UserToGroupAddition
   Properties: 
     GroupName: String
@@ -7055,7 +7063,7 @@ snippet AWS::IAM::UserToGroupAddition-iam-addusertogroup
       - User1
 
 
-snippet AWS::IAM::Group-iam-group
+snippet cfn_AWS::IAM::Group-iam-group
   Type: AWS::IAM::Group
   Properties:
     GroupName: String
@@ -7075,7 +7083,7 @@ snippet LoginProfile-iam-user-loginprofile
   PasswordResetRequired: Boolean
 
 
-snippet AWS::IAM::User-iam-user
+snippet cfn_AWS::IAM::User-iam-user
   Type: AWS::IAM::User
   Properties: 
     Groups:
@@ -7741,7 +7749,7 @@ snippet Type-opsworks-stack-stackconfigmanager
   Version: String
 
 
-snippet AWS::RDS::DBInstance-rds-database-instance
+snippet cfn_AWS::RDS::DBInstance-rds-database-instance
   Type: AWS::RDS::DBInstance
   Properties:
     AllocatedStorage: String
@@ -7811,7 +7819,7 @@ snippet ProcessorFeature-rds-dbinstance-processorfeature
   Value: String
 
 
-snippet AWS::RDS::DBParameterGroup-rds-dbparametergroup
+snippet cfn_AWS::RDS::DBParameterGroup-rds-dbparametergroup
   Type: AWS::RDS::DBParameterGroup
   Properties: 
     Description: String
@@ -7846,7 +7854,7 @@ snippet Rule-rds-security-group-rule
   EC2SecurityGroupOwnerId: String
 
 
-snippet AWS::RDS::DBSecurityGroup-rds-security-group
+snippet cfn_AWS::RDS::DBSecurityGroup-rds-security-group
   Type: AWS::RDS::DBSecurityGroup
   Properties:
     EC2VpcId: String
@@ -7923,7 +7931,7 @@ snippet Property-route53-recordset-geolocation
   SubdivisionCode: String
 
 
-snippet AWS::Route53::RecordSet-route53-recordset
+snippet cfn_AWS::Route53::RecordSet-route53-recordset
   Type: AWS::Route53::RecordSet
   Properties: 
     AliasTarget: 
@@ -7946,7 +7954,7 @@ snippet AWS::Route53::RecordSet-route53-recordset
     Weight: Integer
 
 
-snippet AWS::Route53::RecordSetGroup-route53-recordsetgroup
+snippet cfn_AWS::Route53::RecordSetGroup-route53-recordsetgroup
   Type: AWS::Route53::RecordSetGroup
   Properties: 
     Comment: String
@@ -8191,7 +8199,7 @@ snippet VersioningConfiguration-s3-bucket-versioningconfig
   Status: String
 
 
-snippet AWS::S3::Bucket-s3-bucket
+snippet cfn_AWS::S3::Bucket-s3-bucket
   Type: AWS::S3::Bucket
   Properties: 
     AccessControl: String
@@ -8226,7 +8234,7 @@ snippet AWS::S3::Bucket-s3-bucket
       WebsiteConfiguration
 
 
-snippet AWS::S3::BucketPolicy-s3-policy
+snippet cfn_AWS::S3::BucketPolicy-s3-policy
   Type: AWS::S3::BucketPolicy
   Properties: 
     Bucket: String
@@ -8447,13 +8455,13 @@ snippet Template-ses-template-template
   SubjectPart: String
 
 
-snippet AWS::SDB::Domain-simpledb
+snippet cfn_AWS::SDB::Domain-simpledb
   Type: AWS::SDB::Domain
   Properties: 
     Description: String
 
 
-snippet AWS::SNS::TopicPolicy-sns-policy
+snippet cfn_AWS::SNS::TopicPolicy-sns-policy
   Type: AWS::SNS::TopicPolicy
   Properties:
     PolicyDocument: PolicyDocument
@@ -8466,7 +8474,7 @@ snippet Type-sns-subscription
   Protocol: String
 
 
-snippet AWS::SNS::Topic-sns-topic
+snippet cfn_AWS::SNS::Topic-sns-topic
   Type: AWS::SNS::Topic
   Properties: 
     DisplayName: String
@@ -8476,7 +8484,7 @@ snippet AWS::SNS::Topic-sns-topic
     TopicName: String
 
 
-snippet AWS::SQS::QueuePolicy-sqs-policy
+snippet cfn_AWS::SQS::QueuePolicy-sqs-policy
   Type: AWS::SQS::QueuePolicy
   Properties: 
     PolicyDocument: JSON
@@ -8489,7 +8497,7 @@ snippet RedrivePolicy-sqs-queues-redrivepolicy
   maxReceiveCount: Integer
 
 
-snippet AWS::SQS::Queue-sqs-queues
+snippet cfn_AWS::SQS::Queue-sqs-queues
   Type: AWS::SQS::Queue
   Properties:
     ContentBasedDeduplication: Boolean
@@ -8632,7 +8640,7 @@ snippet Parameters-stack-parameters
   9.         KeyName: "mykey"
 
 
-snippet AWS::CloudFormation::Stack-stack
+snippet cfn_AWS::CloudFormation::Stack-stack
   Type: AWS::CloudFormation::Stack
   Properties:
     NotificationARNs:
@@ -8785,7 +8793,7 @@ snippet XssMatchTuple-wafregional-xssmatchset-xssmatchtuple
   TextTransformation: String
 
 
-snippet AWS::CloudFormation::WaitCondition-waitcondition
+snippet cfn_AWS::CloudFormation::WaitCondition-waitcondition
   Type: AWS::CloudFormation::WaitCondition
   Properties: 
     Count: Integer
@@ -8793,7 +8801,7 @@ snippet AWS::CloudFormation::WaitCondition-waitcondition
     Timeout: String
 
 
-snippet AWS::CloudFormation::WaitConditionHandle-waitconditionhandle
+snippet cfn_AWS::CloudFormation::WaitConditionHandle-waitconditionhandle
   Type: AWS::CloudFormation::WaitConditionHandle
   Properties:
 
@@ -8806,7 +8814,7 @@ snippet WorkspaceProperties-workspaces-workspace-workspaceproperties
   UserVolumeSizeGib: Integer
 
 
-snippet AWSTemplateFormatVersion
+snippet cfn_AWSTemplateFormatVersion
   AWSTemplateFormatVersion: "2010-09-09"
   Description: A sample template
   Resources:
