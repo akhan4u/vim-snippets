@@ -2,10 +2,12 @@ snippet terraform
 	provider "terraform" {
 		
 	}
+endsnippet
 snippet r_terraform_remote_state
 	resource "terraform_remote_state" "${1}" {
 		backend = "${2}"
 	}
+endsnippet
 snippet d_terraform_remote_state
 	data "terraform_remote_state" "${1}" {
 		backend = "${2}"
