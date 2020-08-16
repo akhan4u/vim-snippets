@@ -1,14 +1,5 @@
-snippet cfninit
-AWSTemplateFormatVersion: "2010-09-09"
-Description: ${1: Welcome to CFn template!!}
-Parameters:
-Mappings:
-Resources:
-Outputs:
-endsnippet
-
 # Cfn Resources {{{
-snippet AWS::ElasticBeanstalk::ConfigurationTemplate
+snippet aws_elasticbeanstalk_configurationtemplate "" !b
 Type AWS::ElasticBeanstalk::ConfigurationTemplate
 Properties:
 	ApplicationName : ${1:String(R)}
@@ -20,7 +11,7 @@ Properties:
 	SourceConfiguration: ${7:AWS::ElasticBeanstalk::ConfigurationTemplate.SourceConfiguration(O)}
 endsnippet
 
-snippet AWS::AmazonMQ::Broker "" !b
+snippet AWS::AmazonMQ::Broker
 Type AWS::AmazonMQ::Broker
 Properties:
 	SecurityGroups : [ ${1:String(O)} ]
