@@ -56,7 +56,11 @@ variable "${1}" {
   default     = ["string1", "string2", "string3"]
 }
 
-# Usage
-  # count = length(var.$1)
-  # name  = var.$1[count.index]
+# Loop Over a List of string with for_each
+	# for_each = toset(var.$1)		# toset() converts a list to a set
+	# name     = each.value
+
+# Loop Over a List of string with count
+	# count = length(var.$1)
+	# name  = var.$1[count.index]
 endsnippet
