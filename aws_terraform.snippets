@@ -1,6 +1,6 @@
 snippet aws
 	provider "aws" {
-		region = "${1:us-east-1}"
+		region = ${1:us-east-1}
 	}
 snippet r_aws_acm_certificate
 	resource "aws_acm_certificate" "${1}" {
@@ -486,7 +486,7 @@ snippet r_aws_codebuild_project
 			type = ""
 		}
 		name = "${4}"
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 		service_role = "${5}"
 		source {
 			type = ""
@@ -530,7 +530,7 @@ snippet r_aws_codepipeline
 			type = ""
 		}
 		name = "${3}"
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 		role_arn = "${4}"
 		stage {
 			action {
@@ -696,7 +696,7 @@ snippet r_aws_db_event_subscription
 snippet r_aws_db_instance
 	resource "aws_db_instance" "${1}" {
 		instance_class = "${2}"
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 	}
 snippet r_aws_db_option_group
 	resource "aws_db_option_group" "${1}" {
@@ -1388,11 +1388,11 @@ snippet r_aws_instance
 	resource "aws_instance" "${1}" {
 		ami = "${2}"
 		instance_type = "${3}"
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 	}
 snippet r_aws_internet_gateway
 	resource "aws_internet_gateway" "${1}" {
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 		
 	}
 snippet r_aws_iot_certificate
@@ -1965,7 +1965,7 @@ snippet r_aws_route53_zone_association
 snippet r_aws_route_table
 	resource "aws_route_table" "${1}" {
 		vpc_id = "${2}"
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 	}
 snippet r_aws_route_table_association
 	resource "aws_route_table_association" "${1}" {
@@ -2170,7 +2170,7 @@ snippet r_aws_sns_sms_preferences
 	}
 snippet r_aws_sns_topic
 	resource "aws_sns_topic" "${1}" {
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 		
 	}
 snippet r_aws_sns_topic_policy
@@ -2321,7 +2321,7 @@ snippet r_aws_subnet
 	resource "aws_subnet" "${1}" {
 		cidr_block = "${2}"
 		vpc_id = "${3}"
-		tags = local.common_tags
+		tags = ${7:local.common_tags}
 	}
 snippet r_aws_swf_domain
 	resource "aws_swf_domain" "${1}" {
