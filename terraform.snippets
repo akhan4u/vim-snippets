@@ -1,3 +1,9 @@
+snippet aws
+	provider "aws" {
+		region = "${1:us-east-1}"
+	}
+endsnippet
+
 snippet common_tags
 locals {
   common_tags = {
