@@ -622,3 +622,20 @@ Resources:
 Outputs:
 endsnippet
 
+snippet cfparam
+Param1:
+  Type: String
+  Description: Enter Your Description
+  Default: "${1}"
+  AllowedValues:
+	- $1
+endsnippet
+
+snippet cfoutput
+Output1:
+  Description: "${2:Enter Your Description}"
+  Value: "${1:Enter value to export}"
+  Export:
+	Name: "${3:Enter your export name}"
+endsnippet
+
