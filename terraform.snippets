@@ -23,6 +23,15 @@ snippet r_terraform_remote_state
 		backend = "${2}"
 	}
 endsnippet
+snippet r_terraform_remote_state_s3
+terraform {
+  backend "s3" {
+    bucket = "${1:bucketName}"
+    key    = "path/to/my/key"
+    region = "us-east-1"
+  }
+}
+endsnippet
 snippet d_terraform_remote_state
 	data "terraform_remote_state" "${1}" {
 		backend = "${2}"
