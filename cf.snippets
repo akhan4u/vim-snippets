@@ -1,0 +1,17 @@
+snippet cf_param
+  Param1:
+    Type: String
+    Description: "${2:Enter Your Description}"
+    Default: "${1:default-value}"
+	AllowedValues:
+	  - $1
+endsnippet
+
+snippet cf_output
+  Output1:
+    Description: "${2:Enter Your Description}"
+    Value: "${1:Enter value to export}"
+    Export:
+      Name: "${3:Enter your export name}"
+
+endsnippet
