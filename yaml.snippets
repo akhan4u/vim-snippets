@@ -617,13 +617,23 @@ snippet cf_init "" !b
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ${1: Welcome to CFn template!!}
 Parameters:
-Mappings:
+  Parameter1:
+    Type: String
+    Description: Enter Your Description
+    Default: ${2}
+    AllowedValues:
+      - $2
 Resources:
 Outputs:
+  Output1:
+    Description: "Enter Your Description"
+    Value: "${1:Enter value to export}"
+    Export:
+      Name: "${2:Enter your export name}"
 endsnippet
 
 snippet cf_param
-Param1:
+Parameter1:
   Type: String
   Description: Enter Your Description
   Default: ${1}
