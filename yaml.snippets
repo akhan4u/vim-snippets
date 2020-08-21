@@ -613,7 +613,7 @@ spec:
       targetAverageValue: 1000Mi
 endsnippet
 
-snippet cfninit "" !b
+snippet cf_init "" !b
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ${1: Welcome to CFn template!!}
 Parameters:
@@ -622,20 +622,20 @@ Resources:
 Outputs:
 endsnippet
 
-snippet cfparam
+snippet cf_param
 Param1:
   Type: String
   Description: Enter Your Description
   Default: "${1}"
   AllowedValues:
-	- $1
+	- "$1"
 endsnippet
 
-snippet cfoutput
+snippet cf_output
 Output1:
-  Description: "${2:Enter Your Description}"
+  Description: "Enter Your Description"
   Value: "${1:Enter value to export}"
   Export:
-	Name: "${3:Enter your export name}"
+	Name: "${2:Enter your export name}"
 endsnippet
 
