@@ -48,3 +48,15 @@ output "${1}" {
   value = "${2}"
 }
 endsnippet
+
+snippet var_list
+variable "${1}" {
+  description = "${2}"
+  type        = list(string)
+  default     = ["string1", "string2", "string3"]
+}
+
+# Usage
+  # count = length(var.$1)
+  # name  = var.$1[count.index]
+endsnippet
