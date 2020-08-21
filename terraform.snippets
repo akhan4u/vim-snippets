@@ -1,11 +1,12 @@
 snippet common_tags
 	locals {
-	common_tags = {
-	terraform_managed    = true
-	environment = "dev"
-	cost_account = "dev"
+		common_tags = {
+			terraform_managed = true
+			environment       = "${1:dev}"
+			cost_account      = "$1"
+		}
 	}
-}
+
 endsnippet
 
 snippet terraform
