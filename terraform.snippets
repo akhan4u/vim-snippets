@@ -58,6 +58,14 @@ output "${1}" {
 }
 endsnippet
 
+snippet var
+variable "${1}" {
+  type = string
+  default = "value"
+}
+
+endsnippet
+
 snippet var_list
 variable "${1}" {
   description = "${2}"
