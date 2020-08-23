@@ -74,3 +74,18 @@ variable "${1}" {
 # name  = var.$1[count.index]
 
 endsnippet
+
+snippet var_map
+variable "${1}" {
+  type = map
+  default = {
+    key1 = "value1"
+    key2 = "value2"
+    key3 = "value3"
+  }
+}
+
+# Getting Key value from variable of Map type with lookup() function : lookup(var.$1, var.key, error)
+# Example Lookup of AMI, with Region as Key and AMI Id as value		 : ami = "lookup(var.images, var.region, error)"
+
+endsnippet
