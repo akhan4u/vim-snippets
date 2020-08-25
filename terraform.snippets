@@ -29,6 +29,10 @@ snippet tags
 tags = local.common_tags
 endsnippet
 
+snippet tags_name
+tags = merge(local.common_tags, { Name = "${1}-${var.environment}" })
+endsnippet
+
 snippet terraform
 	provider "terraform" {
 		
