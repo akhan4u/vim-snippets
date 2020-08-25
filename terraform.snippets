@@ -118,3 +118,25 @@ provisioner "local-exec" {
   command = "echo ${aws_instance.web.private_ip} >> private_ips.txt"
 }
 endsnippet
+
+snippet ingress
+ingress {
+  description = "Your description"
+  from_port   = ${1}
+  to_port     = $1
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
+endsnippet
+
+snippet egress
+egress {
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
+endsnippet
+
