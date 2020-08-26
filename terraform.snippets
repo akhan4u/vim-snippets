@@ -38,12 +38,14 @@ provider "terraform" {
 		
 }
 endsnippet
+
 snippet r_terraform_remote_state
 resource "terraform_remote_state" "${1}" {
   backend = "${2}"
 }
 endsnippet
-snippet r_terraform_backend_s3
+
+snippet remote_s3 
 terraform {
   backend "s3" {
     bucket = "${1}"
@@ -54,9 +56,10 @@ terraform {
     #dynamodb_table = "terraform-state-lock-dynamo"
   }
 }
+
 endsnippet
 
-snippet r_terraform_backend_dynamo
+snippet remote_dynamo
 resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
   name = "${1:terraform-state-lock-dynamo}"
   hash_key = "LockID"
@@ -67,12 +70,15 @@ resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
     type = "S"
   }
 }
+
 endsnippet
+
 snippet d_terraform_remote_state
 data "terraform_remote_state" "${1}" {
   backend = "${2}"
 }
 endsnippet
+
 snippet output
 output "${1}" {
   value = "${2}"
