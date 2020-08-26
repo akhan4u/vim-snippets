@@ -46,6 +46,7 @@ resource "terraform_remote_state" "${1}" {
 endsnippet
 
 snippet remote_s3 
+# Terraform Remote State Backend S3
 terraform {
   backend "s3" {
     bucket = "${1}"
