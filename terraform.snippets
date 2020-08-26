@@ -1,11 +1,11 @@
-snippet aws
+snippet aws "AWS Provider for terraform" !b
 provider "aws" {
   region  = "${1:us-east-1}"
   profile = "default"
 }
 endsnippet
 
-snippet azure
+snippet azure "Azure Provider for terraform" !b
 provider "azurerm" {
   subscription_id = "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   client_id       = "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
@@ -14,7 +14,7 @@ provider "azurerm" {
 }
 endsnippet
 
-snippet common_tags
+snippet common_tags "Common Tags for terraform resources" !b
 locals {
   common_tags = {
 	terraform_managed = true
@@ -25,11 +25,11 @@ locals {
 
 endsnippet
 
-snippet tags
+snippet tags "Resource Tags" !b
 tags = local.common_tags
 endsnippet
 
-snippet tags_name
+snippet tags_name "Resource tags with Name tag" !b
 tags = merge(local.common_tags, { Name = "${1}-${var.environment}" })
 endsnippet
 
@@ -45,7 +45,7 @@ resource "terraform_remote_state" "${1}" {
 }
 endsnippet
 
-snippet remote_s3 
+snippet remote_s3  "Terraform Remote State S3 Backend" !b
 # Terraform Standard Backend S3 (with locking via DynamoDB)
 terraform {
   backend "s3" {
@@ -60,7 +60,7 @@ terraform {
 
 endsnippet
 
-snippet remote_dynamo
+snippet remote_dynamo "Terraform Remote State DynamoDB Table Locking" !b
 # Enable S3 Bucket Terraform State file locking via DynamoDB
 resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
   name = "${1:terraform-state-lock-dynamo}"
@@ -81,13 +81,13 @@ data "terraform_remote_state" "${1}" {
 }
 endsnippet
 
-snippet output
+snippet output "Define Terraform Output" !b
 output "${1}" {
   value = "${2}"
 }
 endsnippet
 
-snippet var
+snippet var "Define Terraform Variable" !b
 variable "${1}" {
   type = string
   default = "value"
@@ -95,7 +95,7 @@ variable "${1}" {
 
 endsnippet
 
-snippet var_list
+snippet var_list "Define Variable of Type List" !b
 variable "${1}" {
   description = "${2}"
   type        = list(string)
@@ -112,7 +112,7 @@ variable "${1}" {
 
 endsnippet
 
-snippet var_map
+snippet var_map "Define Variable of Type Map" !b
 variable "${1}" {
   type = map
   default = {
@@ -127,7 +127,7 @@ variable "${1}" {
 
 endsnippet
 
-snippet prov_remote
+snippet prov_remote "Add a Remote Provisoner in AWS EC2 Instance" !b
 provisioner "file" {
   source      = "script.sh"
   destination = "/tmp/script.sh"
@@ -141,13 +141,13 @@ provisioner "remote-exec" {
 }
 endsnippet
 
-snippet prov_local
+snippet prov_local "Add a Local Provisoner in AWS EC2 Instance" !b
 provisioner "local-exec" {
   command = "echo ${aws_instance.web.private_ip} >> private_ips.txt"
 }
 endsnippet
 
-snippet ingress
+snippet ingress "Define an Ingress rule for a security group" !b
 ingress {
   description = "Ingress for ${2} ($1)"
   from_port   = ${1}
@@ -157,7 +157,7 @@ ingress {
 }
 endsnippet
 
-snippet egress
+snippet egress "Define an Egress rule for a security group" !b
 egress {
   from_port   = 0
   to_port     = 0
@@ -166,7 +166,7 @@ egress {
 }
 endsnippet
 
-snippet r_aws_s3_bucket_website
+snippet r_aws_s3_bucket_website "Terraform S3 Bucket hosted Website Configuration" !b
 resource "aws_s3_bucket" "${1}" {
   bucket = var.website_bucket_name
   acl    = "public-read"

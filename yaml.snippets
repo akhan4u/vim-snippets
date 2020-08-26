@@ -613,7 +613,7 @@ spec:
       targetAverageValue: 1000Mi
 endsnippet
 
-snippet cf_init "" !b
+snippet cf_init "Blank CloudFormation Template" !b
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ${1: Welcome to CFn template!!}
 Parameters:
@@ -632,7 +632,7 @@ Outputs:
       Name: "${4:Enter your export name}"
 endsnippet
 
-snippet cf_param
+snippet cf_param "Define CloudFormation Parameter" !b
 Parameter1:
   Type: String
   Description: Enter Your Description
@@ -641,7 +641,7 @@ Parameter1:
     - $1
 endsnippet
 
-snippet cf_output
+snippet cf_output "Define CloudFormation Output" !b
 Output1:
   Description: "Enter Your Description"
   Value: "${1:Enter value to export}"
@@ -649,7 +649,7 @@ Output1:
     Name: "${2:Enter your export name}"
 endsnippet
 
-snippet cf_tags
+snippet cf_tags "CloudFormation Resource Tags" !b
 Tags:
   - Key: ${1}
     Value: ${2}
