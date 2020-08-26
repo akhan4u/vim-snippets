@@ -46,7 +46,7 @@ resource "terraform_remote_state" "${1}" {
 endsnippet
 
 snippet remote_s3 
-# Terraform Remote State Backend S3
+# Terraform Standard Backend S3 (with locking via DynamoDB)
 terraform {
   backend "s3" {
     bucket = "${1}"
@@ -61,6 +61,7 @@ terraform {
 endsnippet
 
 snippet remote_dynamo
+# Enable S3 Bucket Terraform State file locking via DynamoDB
 resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
   name = "${1:terraform-state-lock-dynamo}"
   hash_key = "LockID"
