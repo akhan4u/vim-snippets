@@ -30,7 +30,7 @@ tags = local.common_tags
 endsnippet
 
 snippet op_for "Looping through Output values with for" !b
-[for instance in aws_instance.${1:-web} : instance.public_ip]
+[for instance in aws_instance.${1:web} : instance.public_ip]
 endsnippet
 
 snippet for "Example for loop" !b
