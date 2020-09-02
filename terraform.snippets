@@ -137,6 +137,15 @@ variable "${1}" {
 
 endsnippet
 
+snippet lifecycle "Define Resource Lifecycle Policies" !b
+lifecycle
+  {
+    #create_before_destroy = true
+    #prevent_destroy = true
+    #ignore_changes = [tags]
+  }
+endsnippet
+
 snippet prov_remote "Add a Remote Provisoner in AWS EC2 Instance" !b
 provisioner "file" {
   source      = "script.sh"
