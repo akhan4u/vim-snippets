@@ -154,7 +154,7 @@ provisioner "file" {
 connection {
   type     = "ssh"
   port     = 22
-  user     = "root"
+  user     = "ubuntu"
   private_key = file("key.pem")
   host     = self.public_ip
   }
