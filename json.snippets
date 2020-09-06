@@ -1,0 +1,12 @@
+snippet cdk_json "Creates a sample cdk.json snippet" !b
+{
+  "app": "python3 app.py",
+  "context": {
+    "project_name": "${1:-cdkdemo}",
+    "env": "${2:-dev}",
+    "@aws-cdk/core:enableStackNameDuplicates": "true",
+    "aws-cdk:enableDiffNoFail": "true",
+    "@aws-cdk/core:stackRelativeExports": "true"
+  }
+}
+endsnippet
