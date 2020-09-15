@@ -39,7 +39,7 @@ server ${ip}
 endsnippet
 
 snippet tags_name "Resource tags with Name tag" !b
-tags = merge(local.common_tags, { Name = "${1}-${var.environment}" })
+tags = merge(local.common_tags, { Name = "${1}-${local.common_tags.environment}" })
 endsnippet
 
 snippet terraform
