@@ -282,3 +282,10 @@ data "aws_ami" "ubuntu" {
   }
 }
 endsnippet
+
+snippet filter "Place a filter in data block resource" !b
+filter {
+  name   = "${1:Name}"
+  values = ["${2:value}"]
+}
+endsnippet
