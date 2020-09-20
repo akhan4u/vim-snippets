@@ -42,6 +42,10 @@ snippet tags_name "Resource tags with Name tag" !b
 tags = merge(local.common_tags, { Name = "${1}-${local.common_tags.environment}" })
 endsnippet
 
+snippet nametag "Name tag for resource" !b
+tags = { Name = "${1}" }
+endsnippet
+
 snippet terraform
 provider "terraform" {
 		
