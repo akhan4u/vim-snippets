@@ -102,8 +102,9 @@ endsnippet
 
 snippet var "Define Terraform Variable" !b
 variable "${1}" {
+  description = "${2}"
   type = string
-  default = "value"
+  default = "${3}"
 }
 
 endsnippet
