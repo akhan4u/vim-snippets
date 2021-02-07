@@ -135,9 +135,8 @@ snippet var_map "Define Variable of Type Map" !b
 variable "${1}" {
   type = map
   default = {
-    key1 = "value1"
-    key2 = "value2"
-    key3 = "value3"
+    "${2:key1}" = "${3:value1}"
+    "${4:key2}" = "${5:value2}"
   }
 }
 
