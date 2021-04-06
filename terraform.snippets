@@ -47,8 +47,13 @@ tags = { Name = "${1}" }
 endsnippet
 
 snippet terraform
-provider "terraform" {
-		
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 2.70"
+    }
+  }
 }
 endsnippet
 
@@ -102,8 +107,9 @@ endsnippet
 
 snippet var "Define Terraform Variable" !b
 variable "${1}" {
+  description = "${2}"
   type = string
-  default = "value"
+  default = "${3}"
 }
 
 endsnippet
@@ -129,14 +135,15 @@ snippet var_map "Define Variable of Type Map" !b
 variable "${1}" {
   type = map
   default = {
-    key1 = "value1"
-    key2 = "value2"
-    key3 = "value3"
+    "${2:key1}" = "${3:value1}"
+    "${4:key2}" = "${5:value2}"
   }
 }
 
 # Getting Key value from variable of Map type with lookup() function : lookup(var.$1, var.key, error)
-# Example Lookup of AMI, with Region as Key and AMI Id as value      : ami = "lookup(var.$1, var.region, error)"
+# Example Lookup of AMI, with Region as Key and AMI Id as value
+#       ami = "lookup(var.$1, var.region, error)"
+# OR    ami = var.amis[var.region]
 
 endsnippet
 
