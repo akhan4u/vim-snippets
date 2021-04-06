@@ -293,3 +293,11 @@ filter {
   values = ["${2:value}"]
 }
 endsnippet
+
+snippet ssh-key "Generate ssh private keypair in pem format" !b
+resource "tls_private_key" "ssh" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+endsnippet
+
