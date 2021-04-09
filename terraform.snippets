@@ -308,3 +308,9 @@ resource "tls_private_key" "ssh" {
 }
 endsnippet
 
+snippet timeout "Azurerm resource timeouts" !b
+timeouts {
+	create = "15m"
+	delete = "20m"
+}
+endsnippet
