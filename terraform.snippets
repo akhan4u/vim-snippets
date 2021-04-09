@@ -314,3 +314,25 @@ timeouts {
 	delete = "20m"
 }
 endsnippet
+
+snippet random-string "Generate randon name for virtual machine" !b
+resource "random_string" "${1:this}" {
+  length  = 8
+  special = false
+  lower   = true
+  upper   = false
+  number  = true
+}
+endsnippet
+
+snippet random-pass "Generate random password" !b
+resource "random_password" "${1:password}" {
+  length           = 16
+  min_upper        = 2
+  min_lower        = 2
+  min_special      = 2
+  number           = true
+  special          = true
+  override_special = "!@#$%&"
+}
+endsnippet
