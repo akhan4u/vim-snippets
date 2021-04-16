@@ -309,6 +309,14 @@ resource "tls_private_key" "ssh" {
 }
 endsnippet
 
+snippet ssh-key-local "Save the SSH key pem file locally" !b
+resource "local_file" "private_key" {
+  content         = tls_private_key.ssh.private_key_pem
+  filename        = "keys/${1:default}.pem"
+  file_permission = "0600"
+}
+endsnippet
+
 snippet timeout "Azurerm resource timeouts" !b
 timeouts {
 	create = "15m"
