@@ -345,3 +345,14 @@ resource "random_password" "${1:password}" {
   override_special = "!@#$%&"
 }
 endsnippet
+
+snippet user-data "User Data local variable" !b
+locals { 
+	user_data = <<EOF
+	#!/bin/bash
+	echo "Hello Terraform!"
+	EOF
+}
+# Use this with aws_instance resource with below attribute
+# user_data_base64 = base64encode(local.user_data)
+endsnippet
