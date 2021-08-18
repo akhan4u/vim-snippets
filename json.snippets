@@ -15,24 +15,24 @@ endsnippet
 snippet aws_packer "Packer Template for AWS" !b
 {
     "variables": {
-        "aws_profile": "{{env }}",
+        "aws_profile": "{{env `aws_profile`}}",
         "name": "Packer-Image-{{isotime | clean_resource_name}}"
     },
     "builders": [
         {
             "type": "amazon-ebs",
             "name": "awsebs",
-            "aws_profile": "{{user }}",
-            "region": "{{user }}",
-            "source_ami": "{{user }}",
-            "instance_type": "{{user }}",
-            "ssh_username": "{{user }}",
-            "ami_name": "{{user }}",
+            "aws_profile": "{{user `aws_profile`}}",
+            "region": "{{user `aws_region`}}",
+            "source_ami": "{{user `aws_source_ami`}}",
+            "instance_type": "{{user `aws_instance_type`}}",
+            "ssh_username": "{{user `ssh_username`}}",
+            "ami_name": "{{user `name`}}",
             "ami_description": "Amazon AMI Created with Packer",
             "associate_public_ip_address": true,
             "ebs_optimized": true,
             "tags": {
-                "Name": "{{user }}"
+                "Name": "{{user `name`}}"
             }
         }
     ],
@@ -49,7 +49,7 @@ snippet aws_packer "Packer Template for AWS" !b
         {
             "type": "shell",
             "environment_vars": [
-                "CLOUD_PROVIDER={{user }}"
+                "CLOUD_PROVIDER={{user `cloud_provider`}}"
             ],
             "inline": [
                 "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
