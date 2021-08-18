@@ -22,17 +22,17 @@ snippet aws_packer "Packer Template for AWS" !b
         {
             "type": "amazon-ebs",
             "name": "awsebs",
-            "aws_profile": "{{user `aws_profile`}}",
-            "region": "{{user `aws_region`}}",
-            "source_ami": "{{user `aws_source_ami`}}",
-            "instance_type": "{{user `aws_instance_type`}}",
-            "ssh_username": "{{user `ssh_username`}}",
-            "ami_name": "{{user `name`}}",
+            "aws_profile": "{{user \`aws_profile\`}}",
+            "region": "{{user \`aws_region\`}}",
+            "source_ami": "{{user \`aws_source_ami\`}}",
+            "instance_type": "{{user \`aws_instance_type\`}}",
+            "ssh_username": "{{user \`ssh_username\`}}",
+            "ami_name": "{{user \`name\`}}",
             "ami_description": "Amazon AMI Created with Packer",
             "associate_public_ip_address": true,
             "ebs_optimized": true,
             "tags": {
-                "Name": "{{user `name`}}"
+                "Name": "{{user \`name\`}}"
             }
         }
     ],
@@ -49,7 +49,7 @@ snippet aws_packer "Packer Template for AWS" !b
         {
             "type": "shell",
             "environment_vars": [
-                "CLOUD_PROVIDER={{user `cloud_provider`}}"
+                "CLOUD_PROVIDER={{user \`cloud_provider\`}}"
             ],
             "inline": [
                 "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
@@ -100,27 +100,27 @@ snippet gcp_packer "Packer Template for Google Cloud" !b
         {
             "type": "googlecompute",
             "name": "googlecompute",
-            "project_id": "{{user }}",
-            "source_image_family": "{{user }}",
-            "ssh_username": "{{user }}",
-            "zone": "{{user }}",
-            "address": "{{user }}",
-            "machine_type": "{{user }}",
-            "instance_name": "{{user }}",
-            "network_project_id": "{{user }}",
-            "subnetwork": "{{user }}",
+            "project_id": "{{user \`project_id\`}}",
+            "source_image_family": "{{user \`source_image_family\`}}",
+            "ssh_username": "{{user \`ssh_username\`}}",
+            "zone": "{{user \`zone\`}}",
+            "address": "{{user \`static_ip_address\`}}",
+            "machine_type": "{{user \`instance_type\`}}",
+            "instance_name": "{{user \`instance_name\`}}",
+            "network_project_id": "{{user \`network_project_id\`}}",
+            "subnetwork": "{{user \`subnetwork_name\`}}",
             "disk_size": 50,
             "labels": {
-                "name": "packer-{{user }}"
+                "name": "packer-{{user \`instance_name\`}}"
             },
             "tags": [
                 "packer"
             ],
-            "image_name": "{{user }}",
+            "image_name": "{{user \`instance_name\` }}",
             "image_description": "Google Cloud Compute Image Created with Packer",
             "image_family": "packer",
             "image_labels": {
-                "name": "packer-{{user }}"
+                "name": "packer-{{user \`instance_name\`}}"
             }
         }
     ],
@@ -137,7 +137,7 @@ snippet gcp_packer "Packer Template for Google Cloud" !b
         {
             "type": "shell",
             "environment_vars": [
-                "CLOUD_PROVIDER={{user }}"
+                "CLOUD_PROVIDER={{user \`cloud_provider\`}}"
             ],
             "inline": [
                 "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
@@ -193,27 +193,27 @@ snippet azure_packer "Packer Template for Azure" !b
             "type": "azure-arm",
             "name": "azure",
             "use_azure_cli_auth": "true",
-            "image_publisher": "{{user }}",
-            "image_offer": "{{user }}",
-            "image_sku": "{{user }}",
-            "image_version": "{{user }}",
+            "image_publisher": "{{user \`image_publisher\`}}",
+            "image_offer": "{{user \`image_offer\`}}",
+            "image_sku": "{{user \`image_sku\`}}",
+            "image_version": "{{user \`image_version\`}}",
             "os_type": "Linux",
             "os_disk_size_gb": 50,
-            "ssh_username": "{{user }}",
-            "managed_image_resource_group_name": "{{user }}",
-            "managed_image_name": "{{user }}",
-            "build_resource_group_name": "{{user }}",
+            "ssh_username": "{{user \`ssh_username\`}}",
+            "managed_image_resource_group_name": "{{user \`resource_group_name\`}}",
+            "managed_image_name": "{{user \`image_name\`}}",
+            "build_resource_group_name": "{{user \`resource_group_name\`}}",
             "plan_info": {
-                "plan_name": "{{user }}",
-                "plan_product": "{{user }}",
-                "plan_publisher": "{{user }}"
+                "plan_name": "{{user \`image_sku\`}}",
+                "plan_product": "{{user \`image_offer\`}}",
+                "plan_publisher": "{{user \`image_publisher\`}}"
             },
             "shared_image_gallery_destination": {
-                "subscription": "{{user }}",
-                "resource_group": "{{user }}",
-                "gallery_name": "{{user }}",
-                "image_name": "{{user }}",
-                "image_version": "{{user }}",
+                "subscription": "{{user \`sig_subscription_id\`}}",
+                "resource_group": "{{user \`sig_resource_group_name\`}}",
+                "gallery_name": "{{user \`sig_gallery_name\`}}",
+                "image_name": "{{user \`sig_image_name\`}}",
+                "image_version": "{{user \`sig_image_release_version\`}}",
                 "replication_regions": [
                     "East US",
                     "East US 2"
@@ -221,9 +221,9 @@ snippet azure_packer "Packer Template for Azure" !b
                 "storage_account_type": "Standard_LRS"
             },
             "azure_tags": {
-                "Name": "packer-{{user }}"
+                "Name": "packer-{{user \`image_name\`}}"
             },
-            "vm_size": "{{user }}"
+            "vm_size": "{{user \`instance_type\`}}"
         }
     ],
     "provisioners": [
@@ -239,7 +239,7 @@ snippet azure_packer "Packer Template for Azure" !b
         {
             "type": "shell",
             "environment_vars": [
-                "CLOUD_PROVIDER={{user }}"
+                "CLOUD_PROVIDER={{user \`cloud_provider\`}}"
             ],
             "inline": [
                 "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
