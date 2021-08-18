@@ -11,3 +11,280 @@ snippet cdk_json "Creates a sample cdk.json snippet" !b
   }
 }
 endsnippet
+
+snippet aws_packer "Packer Template for AWS" !b
+{
+  "variables": {
+    "aws_profile": "{{env `AWS_PROFILE`}}",
+    "name": "Packer-Image-{{isotime | clean_resource_name}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "name": "awsebs",
+      "aws_profile": "{{user `aws_profile`}}",
+      "region": "{{user `aws_region`}}",
+      "source_ami": "{{user `aws_source_ami`}}",
+      "instance_type": "{{user `aws_instance_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ami_name": "{{user `name`}}",
+      "ami_description": "Amazon AMI Created with Packer",
+      "associate_public_ip_address": true,
+      "ebs_optimized": true,
+      "tags": {
+        "Name": "{{user `name`}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/script1.sh",
+        "scripts/script2.sh"
+      ],
+      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "pause_before": "10s"
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "CLOUD_PROVIDER={{user `cloud_provider`}}"
+      ],
+      "inline": [
+        "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "app.tar.gz",
+      "destination": "/tmp/app.tar.gz"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "./playbook.yml"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "./ubuntu-cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    }
+  ]
+}
+endsnippet 
+
+snippet aws_packer_variables "Packer Variables for AWS Builder" !b
+{
+    "cloud_provider": "aws",
+    "aws_source_ami": "ami-09e67e426f25ce0d7",
+    "aws_region": "us-east-1",
+    "aws_instance_type": "t2.micro",
+    "ssh_username": "ubuntu"
+}
+endsnippet
+
+snippet gcp_packer "Packer Template for Google Cloud" !b
+{
+  "variables": {
+    "instance_name": "Packer-Image-{{isotime | clean_resource_name}}"
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "name": "googlecompute",
+      "project_id": "{{user `project_id`}}",
+      "source_image_family": "{{user `source_image_family`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "zone": "{{user `zone`}}",
+      "address": "{{user `static_ip_address`}}",
+      "machine_type": "{{user `instance_type`}}",
+      "instance_name": "{{user `instance_name`}}",
+      "network_project_id": "{{user `network_project_id`}}",
+      "subnetwork": "{{user `subnetwork_name`}}",
+      "disk_size": 50,
+      "labels": {
+        "name": "packer-{{user `release_build`}}"
+      },
+      "tags": [
+        "packer"
+      ],
+      "image_name": "{{user `instance_name`}}",
+      "image_description": "Google Cloud Compute Image Created with Packer",
+      "image_family": "packer",
+      "image_labels": {
+        "name": "packer-{{user `release_build`}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/script1.sh",
+        "scripts/script2.sh"
+      ],
+      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "pause_before": "10s"
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "CLOUD_PROVIDER={{user `cloud_provider`}}"
+      ],
+      "inline": [
+        "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "app.tar.gz",
+      "destination": "/tmp/app.tar.gz"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "./playbook.yml"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "./ubuntu-cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    }
+  ]
+}
+endsnippet
+
+snippet gcp_packer_variables "Packer Variables for Google Cloud Builder" !b
+{
+    "cloud_provider": "gcp",
+    "project_id": "",
+    "network_project_id": "",
+    "source_image_family": "ubuntu-1604-lts",
+    "ssh_username": "ubuntu",
+    "zone": "us-east4-a",
+    "static_ip_address": "",
+    "instance_type": "n1-standard-2",
+    "subnetwork_name": "default"
+}
+endsnippet
+
+snippet azure_packer "Packer Template for Azure" !b
+{
+  "variables": {
+    "image_name": "Packer-Image-{{isotime | clean_resource_name}}"
+  },
+  "builders": [
+    {
+      "type": "azure-arm",
+      "name": "azure",
+      "use_azure_cli_auth": "true",
+      "image_publisher": "{{user `image_publisher`}}",
+      "image_offer": "{{user `image_offer`}}",
+      "image_sku": "{{user `image_sku`}}",
+      "image_version": "{{user `image_version`}}",
+      "os_type": "Linux",
+      "os_disk_size_gb": 50,
+      "ssh_username": "{{user `ssh_username`}}",
+      "managed_image_resource_group_name": "{{user `resource_group_name`}}",
+      "managed_image_name": "{{user `image_name`}}",
+      "build_resource_group_name": "{{user `resource_group_name`}}",
+      "plan_info": {
+        "plan_name": "{{user `image_sku`}}",
+        "plan_product": "{{user `image_offer`}}",
+        "plan_publisher": "{{user `image_publisher`}}"
+      },
+      "shared_image_gallery_destination": {
+        "subscription": "{{user `sig_subscription_id`}}",
+        "resource_group": "{{user `sig_resource_group_name`}}",
+        "gallery_name": "{{user `sig_gallery_name`}}",
+        "image_name": "{{user `sig_image_name`}}",
+        "image_version": "{{user `sig_image_release_version`}}",
+        "replication_regions": [
+          "East US",
+          "East US 2"
+        ],
+        "storage_account_type": "Standard_LRS"
+      },
+      "azure_tags": {
+        "Name": "packer-{{user `release_version`}}"
+      },
+      "vm_size": "{{user `instance_type`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/script1.sh",
+        "scripts/script2.sh"
+      ],
+      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "pause_before": "10s"
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "CLOUD_PROVIDER={{user `cloud_provider`}}"
+      ],
+      "inline": [
+        "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "app.tar.gz",
+      "destination": "/tmp/app.tar.gz"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "./playbook.yml"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "./ubuntu-cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "manifest",
+      "output": "manifest.json",
+      "strip_path": true
+    }
+  ]
+}
+endsnippet
+
+snippet azure_packer_variables "Packer Variables for Azure Builder" !b
+{
+    "cloud_provider": "azure",
+    "image_publisher": "canonical",
+    "image_offer": "0001-com-ubuntu-pro-focal",
+    "image_sku": "pro-20_04-lts",
+    "image_version": "latest",
+    "ssh_username": "ubuntu",
+    "instance_type": "Standard_B2ms",
+    "resource_group_name": "should-already-exist",
+    "sig_subscription_id": "should-already-exist",
+    "sig_resource_group_name": "should-already-exist",
+    "sig_gallery_name": "should-already-exist",
+    "sig_image_name": "image-name",
+    "sig_image_release_version": "1.0"
+}
+endsnippet
