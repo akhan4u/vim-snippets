@@ -19,3 +19,64 @@ COPY . .
 
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
 endsnippet
+
+snippet nodejs_dockerfile "Dockerfile for Nodejs Application" !b
+FROM node:10-alpine
+WORKDIR /usr/src/app
+COPY package.json package-lock.json ./
+RUN apk update \
+    && apk upgrade \
+    && apk --no-cache add --virtual builds-deps build-base python \
+    && npm install --only=production --build-from-source \
+    && apk del builds-deps build-base python \
+    && rm -rf /var/cache/apk/*
+COPY . .
+EXPOSE 8080
+CMD [ "npm", "run-script", "serve" ]
+HEALTHCHECK CMD curl --fail http://localhost:8080/ || exit 1
+endsnippet
+
+snippet nodejs_dockerfile2 "Dockerfile2 for Nodejs Application" !b
+FROM node:alpine
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app/
+RUN npm install
+COPY . .
+CMD ["npm", "run", "start"]
+endsnippet
+
+snippet angular_dockerfile "Dockerfile for Angular Application" !b
+# Stage 1
+FROM node:10-alpine as build-step
+RUN mkdir -p /app
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+COPY . /app
+RUN npm run build --prod
+
+# Stage 2
+FROM nginx:1.17.1-alpine
+COPY --from=build-step /app/docs /usr/share/nginx/html
+endsnippet
+
+snippet java_dockerfile "Dockerfile for Java Application" !b
+## Spring-boot docker image.
+## minimal base images, use fixed tags for immutability
+## alpine is a Docker Official Imagejava
+FROM alpine:3.11.3
+USER root
+RUN apk add --no-cache openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+
+## create appuser, a least privileged user
+RUN addgroup -g 1000 -S appuser && \
+    adduser -u 1000 -S appuser -G appuser
+WORKDIR /home/appuser/app
+
+## switch user to appuser
+USER appuser
+
+EXPOSE 8991
+COPY service/target/*exec.jar app.jar
+ENTRYPOINT ["java", "-jar", "./app.jar"]
+endsnippet
