@@ -8,11 +8,14 @@ CMD ["app.py"]
 endsnippet
 
 snippet flask_dockerfile "Dockerfile for Python Flask application" !b
-FROM python:alpine3.7
-COPY . /app
+FROM python:3.8-slim-buster
+
 WORKDIR /app
-RUN pip install --no-cache-dir -r requirements.txt
-EXPOSE 5001
-ENTRYPOINT [ "python" ]
-CMD [ "demo.py" ]
+
+COPY requirements.txt requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
 endsnippet
