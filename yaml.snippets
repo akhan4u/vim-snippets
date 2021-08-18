@@ -272,13 +272,6 @@ snippet env "Environment template" !b
   value: ${2:value}
 endsnippet
 
-snippet secref "env SecretRef" !b
-valueFrom:
-	secretKeyRef:
-		name: ${1:secret-name}
-		key: ${2:key-name}
-endsnippet
-
 snippet pvol "Pod Volume Object"
 - name: ${1:name}
 	${2:source}:
@@ -332,8 +325,8 @@ endsnippet
 snippet skr "SecretKeyRef" 
 valueFrom:
 	secretKeyRef:
-		name: ${1:secret}
-		key: ${2:key}
+		name: ${1:secret-name}
+		key: ${2:key-name}
 endsnippet
 
 snippet cert "cert-manager certificate" !b
