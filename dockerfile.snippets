@@ -25,11 +25,11 @@ FROM node:10-alpine
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN apk update \
-    && apk upgrade \
-    && apk --no-cache add --virtual builds-deps build-base python \
-    && npm install --only=production --build-from-source \
-    && apk del builds-deps build-base python \
-    && rm -rf /var/cache/apk/*
+        && apk upgrade \
+        && apk --no-cache add --virtual builds-deps build-base python \
+        && npm install --only=production --build-from-source \
+        && apk del builds-deps build-base python \
+        && rm -rf /var/cache/apk/*
 COPY . .
 EXPOSE 8080
 CMD [ "npm", "run-script", "serve" ]
@@ -61,19 +61,19 @@ COPY --from=build-step /app/docs /usr/share/nginx/html
 endsnippet
 
 snippet java_dockerfile "Dockerfile for Java Application" !b
-## Spring-boot docker image.
-## minimal base images, use fixed tags for immutability
-## alpine is a Docker Official Imagejava
+## Spring-Boot Docker Image.
+## Minimal Base Images, Use Fixed Tags For Immutability
+## Alpine Is A Docker Official Imagejava
 FROM alpine:3.11.3
 USER root
 RUN apk add --no-cache openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 
-## create appuser, a least privileged user
+## Create appuser, A Least Privileged User
 RUN addgroup -g 1000 -S appuser && \
-    adduser -u 1000 -S appuser -G appuser
+        adduser -u 1000 -S appuser -G appuser
 WORKDIR /home/appuser/app
 
-## switch user to appuser
+## Switch User To appuser
 USER appuser
 
 EXPOSE 8991
