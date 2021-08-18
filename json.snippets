@@ -15,7 +15,7 @@ endsnippet
 snippet aws_packer "Packer Template for AWS" !b
 {
     "variables": {
-        "aws_profile": "{{env `aws_profile`}}",
+        "aws_profile": "{{env \`aws_profile\`}}",
         "name": "Packer-Image-{{isotime | clean_resource_name}}"
     },
     "builders": [
