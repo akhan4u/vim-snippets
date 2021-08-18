@@ -14,70 +14,70 @@ endsnippet
 
 snippet aws_packer "Packer Template for AWS" !b
 {
-  "variables": {
-    "aws_profile": "{{env `AWS_PROFILE`}}",
-    "name": "Packer-Image-{{isotime | clean_resource_name}}"
-  },
-  "builders": [
-    {
-      "type": "amazon-ebs",
-      "name": "awsebs",
-      "aws_profile": "{{user `aws_profile`}}",
-      "region": "{{user `aws_region`}}",
-      "source_ami": "{{user `aws_source_ami`}}",
-      "instance_type": "{{user `aws_instance_type`}}",
-      "ssh_username": "{{user `ssh_username`}}",
-      "ami_name": "{{user `name`}}",
-      "ami_description": "Amazon AMI Created with Packer",
-      "associate_public_ip_address": true,
-      "ebs_optimized": true,
-      "tags": {
-        "Name": "{{user `name`}}"
-      }
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "scripts": [
-        "scripts/script1.sh",
-        "scripts/script2.sh"
-      ],
-      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
-      "pause_before": "10s"
+    "variables": {
+        "aws_profile": "{{env }}",
+        "name": "Packer-Image-{{isotime | clean_resource_name}}"
     },
-    {
-      "type": "shell",
-      "environment_vars": [
-        "CLOUD_PROVIDER={{user `cloud_provider`}}"
-      ],
-      "inline": [
-        "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
-      ]
-    },
-    {
-      "type": "file",
-      "source": "app.tar.gz",
-      "destination": "/tmp/app.tar.gz"
-    },
-    {
-      "type": "ansible",
-      "playbook_file": "./playbook.yml"
-    },
-    {
-      "type": "shell",
-      "scripts": [
-        "./ubuntu-cleanup.sh"
-      ]
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "manifest",
-      "output": "manifest.json",
-      "strip_path": true
-    }
-  ]
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "name": "awsebs",
+            "aws_profile": "{{user }}",
+            "region": "{{user }}",
+            "source_ami": "{{user }}",
+            "instance_type": "{{user }}",
+            "ssh_username": "{{user }}",
+            "ami_name": "{{user }}",
+            "ami_description": "Amazon AMI Created with Packer",
+            "associate_public_ip_address": true,
+            "ebs_optimized": true,
+            "tags": {
+                "Name": "{{user }}"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/script1.sh",
+                "scripts/script2.sh"
+            ],
+            "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+            "pause_before": "10s"
+        },
+        {
+            "type": "shell",
+            "environment_vars": [
+                "CLOUD_PROVIDER={{user }}"
+            ],
+            "inline": [
+                "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "app.tar.gz",
+            "destination": "/tmp/app.tar.gz"
+        },
+        {
+            "type": "ansible",
+            "playbook_file": "./playbook.yml"
+        },
+        {
+            "type": "shell",
+            "scripts": [
+                "./ubuntu-cleanup.sh"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest.json",
+            "strip_path": true
+        }
+    ]
 }
 endsnippet 
 
@@ -93,79 +93,79 @@ endsnippet
 
 snippet gcp_packer "Packer Template for Google Cloud" !b
 {
-  "variables": {
-    "instance_name": "Packer-Image-{{isotime | clean_resource_name}}"
-  },
-  "builders": [
-    {
-      "type": "googlecompute",
-      "name": "googlecompute",
-      "project_id": "{{user `project_id`}}",
-      "source_image_family": "{{user `source_image_family`}}",
-      "ssh_username": "{{user `ssh_username`}}",
-      "zone": "{{user `zone`}}",
-      "address": "{{user `static_ip_address`}}",
-      "machine_type": "{{user `instance_type`}}",
-      "instance_name": "{{user `instance_name`}}",
-      "network_project_id": "{{user `network_project_id`}}",
-      "subnetwork": "{{user `subnetwork_name`}}",
-      "disk_size": 50,
-      "labels": {
-        "name": "packer-{{user `release_build`}}"
-      },
-      "tags": [
-        "packer"
-      ],
-      "image_name": "{{user `instance_name`}}",
-      "image_description": "Google Cloud Compute Image Created with Packer",
-      "image_family": "packer",
-      "image_labels": {
-        "name": "packer-{{user `release_build`}}"
-      }
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "scripts": [
-        "scripts/script1.sh",
-        "scripts/script2.sh"
-      ],
-      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
-      "pause_before": "10s"
+    "variables": {
+        "instance_name": "Packer-Image-{{isotime | clean_resource_name}}"
     },
-    {
-      "type": "shell",
-      "environment_vars": [
-        "CLOUD_PROVIDER={{user `cloud_provider`}}"
-      ],
-      "inline": [
-        "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
-      ]
-    },
-    {
-      "type": "file",
-      "source": "app.tar.gz",
-      "destination": "/tmp/app.tar.gz"
-    },
-    {
-      "type": "ansible",
-      "playbook_file": "./playbook.yml"
-    },
-    {
-      "type": "shell",
-      "scripts": [
-        "./ubuntu-cleanup.sh"
-      ]
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "manifest",
-      "output": "manifest.json",
-      "strip_path": true
-    }
-  ]
+    "builders": [
+        {
+            "type": "googlecompute",
+            "name": "googlecompute",
+            "project_id": "{{user }}",
+            "source_image_family": "{{user }}",
+            "ssh_username": "{{user }}",
+            "zone": "{{user }}",
+            "address": "{{user }}",
+            "machine_type": "{{user }}",
+            "instance_name": "{{user }}",
+            "network_project_id": "{{user }}",
+            "subnetwork": "{{user }}",
+            "disk_size": 50,
+            "labels": {
+                "name": "packer-{{user }}"
+            },
+            "tags": [
+                "packer"
+            ],
+            "image_name": "{{user }}",
+            "image_description": "Google Cloud Compute Image Created with Packer",
+            "image_family": "packer",
+            "image_labels": {
+                "name": "packer-{{user }}"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/script1.sh",
+                "scripts/script2.sh"
+            ],
+            "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+            "pause_before": "10s"
+        },
+        {
+            "type": "shell",
+            "environment_vars": [
+                "CLOUD_PROVIDER={{user }}"
+            ],
+            "inline": [
+                "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "app.tar.gz",
+            "destination": "/tmp/app.tar.gz"
+        },
+        {
+            "type": "ansible",
+            "playbook_file": "./playbook.yml"
+        },
+        {
+            "type": "shell",
+            "scripts": [
+                "./ubuntu-cleanup.sh"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest.json",
+            "strip_path": true
+        }
+    ]
 }
 endsnippet
 
@@ -185,89 +185,89 @@ endsnippet
 
 snippet azure_packer "Packer Template for Azure" !b
 {
-  "variables": {
-    "image_name": "Packer-Image-{{isotime | clean_resource_name}}"
-  },
-  "builders": [
-    {
-      "type": "azure-arm",
-      "name": "azure",
-      "use_azure_cli_auth": "true",
-      "image_publisher": "{{user `image_publisher`}}",
-      "image_offer": "{{user `image_offer`}}",
-      "image_sku": "{{user `image_sku`}}",
-      "image_version": "{{user `image_version`}}",
-      "os_type": "Linux",
-      "os_disk_size_gb": 50,
-      "ssh_username": "{{user `ssh_username`}}",
-      "managed_image_resource_group_name": "{{user `resource_group_name`}}",
-      "managed_image_name": "{{user `image_name`}}",
-      "build_resource_group_name": "{{user `resource_group_name`}}",
-      "plan_info": {
-        "plan_name": "{{user `image_sku`}}",
-        "plan_product": "{{user `image_offer`}}",
-        "plan_publisher": "{{user `image_publisher`}}"
-      },
-      "shared_image_gallery_destination": {
-        "subscription": "{{user `sig_subscription_id`}}",
-        "resource_group": "{{user `sig_resource_group_name`}}",
-        "gallery_name": "{{user `sig_gallery_name`}}",
-        "image_name": "{{user `sig_image_name`}}",
-        "image_version": "{{user `sig_image_release_version`}}",
-        "replication_regions": [
-          "East US",
-          "East US 2"
-        ],
-        "storage_account_type": "Standard_LRS"
-      },
-      "azure_tags": {
-        "Name": "packer-{{user `release_version`}}"
-      },
-      "vm_size": "{{user `instance_type`}}"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "shell",
-      "scripts": [
-        "scripts/script1.sh",
-        "scripts/script2.sh"
-      ],
-      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
-      "pause_before": "10s"
+    "variables": {
+        "image_name": "Packer-Image-{{isotime | clean_resource_name}}"
     },
-    {
-      "type": "shell",
-      "environment_vars": [
-        "CLOUD_PROVIDER={{user `cloud_provider`}}"
-      ],
-      "inline": [
-        "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
-      ]
-    },
-    {
-      "type": "file",
-      "source": "app.tar.gz",
-      "destination": "/tmp/app.tar.gz"
-    },
-    {
-      "type": "ansible",
-      "playbook_file": "./playbook.yml"
-    },
-    {
-      "type": "shell",
-      "scripts": [
-        "./ubuntu-cleanup.sh"
-      ]
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "manifest",
-      "output": "manifest.json",
-      "strip_path": true
-    }
-  ]
+    "builders": [
+        {
+            "type": "azure-arm",
+            "name": "azure",
+            "use_azure_cli_auth": "true",
+            "image_publisher": "{{user }}",
+            "image_offer": "{{user }}",
+            "image_sku": "{{user }}",
+            "image_version": "{{user }}",
+            "os_type": "Linux",
+            "os_disk_size_gb": 50,
+            "ssh_username": "{{user }}",
+            "managed_image_resource_group_name": "{{user }}",
+            "managed_image_name": "{{user }}",
+            "build_resource_group_name": "{{user }}",
+            "plan_info": {
+                "plan_name": "{{user }}",
+                "plan_product": "{{user }}",
+                "plan_publisher": "{{user }}"
+            },
+            "shared_image_gallery_destination": {
+                "subscription": "{{user }}",
+                "resource_group": "{{user }}",
+                "gallery_name": "{{user }}",
+                "image_name": "{{user }}",
+                "image_version": "{{user }}",
+                "replication_regions": [
+                    "East US",
+                    "East US 2"
+                ],
+                "storage_account_type": "Standard_LRS"
+            },
+            "azure_tags": {
+                "Name": "packer-{{user }}"
+            },
+            "vm_size": "{{user }}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "scripts/script1.sh",
+                "scripts/script2.sh"
+            ],
+            "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+            "pause_before": "10s"
+        },
+        {
+            "type": "shell",
+            "environment_vars": [
+                "CLOUD_PROVIDER={{user }}"
+            ],
+            "inline": [
+                "echo $CLOUD_PROVIDER | sudo tee -a /opt/cloud_provider"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "app.tar.gz",
+            "destination": "/tmp/app.tar.gz"
+        },
+        {
+            "type": "ansible",
+            "playbook_file": "./playbook.yml"
+        },
+        {
+            "type": "shell",
+            "scripts": [
+                "./ubuntu-cleanup.sh"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest.json",
+            "strip_path": true
+        }
+    ]
 }
 endsnippet
 
