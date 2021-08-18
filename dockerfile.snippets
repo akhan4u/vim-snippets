@@ -1,0 +1,18 @@
+snippet python_dockerfile "Dockerfile for Python Application" !b
+FROM python:3.6-alpine
+COPY . /app
+WORKDIR /app
+RUN apk add --update alpine-sdk mariadb-dev && cp /app/mysql_config /usr/local/bin && pip install --no-cache-dir -r requirements.txt
+ENTRYPOINT ["/usr/local/bin/python"]
+CMD ["app.py"]
+endsnippet
+
+snippet flask_dockerfile "Dockerfile for Python Flask application" !b
+FROM python:alpine3.7
+COPY . /app
+WORKDIR /app
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 5001
+ENTRYPOINT [ "python" ]
+CMD [ "demo.py" ]
+endsnippet
