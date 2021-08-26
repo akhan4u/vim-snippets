@@ -80,3 +80,31 @@ EXPOSE 8991
 COPY service/target/*exec.jar app.jar
 ENTRYPOINT ["java", "-jar", "./app.jar"]
 endsnippet
+
+snippet gradle_dockerfile "Dockerfile for Java Gradle Application" !b
+# Build in Gradle Container as Builder
+FROM gradle:4.7.0-jdk8-alpine AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
+
+# Use Centos Base Image
+FROM centos:7
+RUN yum install java-1.8.0-openjdk -y && yum clean all
+
+## Create appuser, A Least Privileged User
+RUN groupadd -g 1000 appuser && \
+        useradd -u 1000 -g appuser -s /bin/sh appuser
+WORKDIR /home/appuser/app
+
+## Switch User To appuser
+USER appuser
+
+# Expose Port 8080 For App
+EXPOSE 8080
+
+# Copy Java Artifact from Build
+COPY --from=build /home/gradle/src/build/libs/*.jar spring-boot-application.jar
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","spring-boot-application.jar"]
+endsnippet
