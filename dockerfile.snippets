@@ -108,3 +108,26 @@ COPY --from=build /home/gradle/src/build/libs/*.jar spring-boot-application.jar
 
 ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","spring-boot-application.jar"]
 endsnippet
+
+snippet buildkit_dockerfile "Buildkit for managing secrets during docker build" !b
+# syntax=docker/dockerfile:1.2
+FROM ubuntu
+
+
+RUN apt-get update && \
+        apt-get upgrade && \
+            apt-get install -y curl --no-install-recommends
+
+
+# Mounting a Secret, '/tmp/secret' is the file present on 'docker build' host machine with following content
+# ❯ cat /tmp/secret
+# admin:admin
+RUN --mount=type=secret,id=mysecret,dst=/tmp/secret cat /tmp/secret
+
+# Using the secret in underlying RUN command
+RUN --mount=type=secret,id=mysecret,dst=/tmp/secret curl -o /tmp/getsecret.txt -u $(cat /tmp/secret) http://192.168.56.1:9090/secret.txt
+
+
+# This above Dockerfile can be built, using below command:
+# DOCKER_BUILDKIT=1 docker build --no-cache --progress=plain -t secret:buildkit --secret id=mysecret,src=/tmp/secret .
+endsnippet
