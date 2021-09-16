@@ -356,3 +356,21 @@ locals {
 # aws_instance argument reference
 # user_data_base64 = base64encode(local.user_data)
 endsnippet
+
+# Teikametrics snippets
+snippet common_tags_tk "Teikametrics Tags" !b
+locals {
+    common_tags = {
+        "teikametrics.com/app"               = "dev-docs"
+        "teikametrics.com/deploy/stage"      = var.deploy_stage
+        "teikametrics.com/team"              = "platform-services"
+        "teikametrics.com/terraform/gitpath" = "teikametrics/dev-docs/docs/dev-practices"
+        "teikametrics.com/notes"             = "The gitpath tag does not point to an actual Terraform directory"
+    }
+}
+endsnippet
+
+
+snippet tags_tk "Teikametrics Resource Tags" !b
+tags = local.common_tags
+endsnippet
