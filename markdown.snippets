@@ -2,7 +2,7 @@ snippet pr "Teikametrics PR template" !b
 ## Why?
 ---
 
-[DEVOPS-${1}](https://teikametrics.atlassian.net/browse/DEVOPS-${1})
+${1:[DEVOPS-1234]}(https://teikametrics.atlassian.net/browse/${1})
 
 ## This PR
 ---
@@ -12,6 +12,9 @@ snippet pr "Teikametrics PR template" !b
 <p>
 ```terraform
 ------------------------------------------------------------------------
+An execution plan has been generated and is shown below.
+(blah blah blah)
+Plan: 1 to add, 2 to change, 3 to destroy.
 ------------------------------------------------------------------------
 ```
 </p>
