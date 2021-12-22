@@ -5,15 +5,17 @@ snippet pr "Teikametrics PR template" !b
 
 ## This PR
 
-\`\`\`<details><summary>Terraform plan (${1:ENVIRONMENT})</summary>
+<details><summary>Terraform plan (${2:ENVIRONMENT})</summary>
 <p>
-${2:backtick}terraform
+
+\`\`\`terraform
 -----------------------------------------------------------------------
 ${3: Paste terraform plan here from your clipboard}
 -----------------------------------------------------------------------
+\`\`\`
+
 </p>
 </details>
-\`\`\`
 
 endsnippet
 
