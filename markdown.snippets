@@ -48,8 +48,12 @@ ${3: Paste terraform plan here from your clipboard}
 * Anyone else with an interest in search/rummager/manuals 👍
 endsnippet
 
-snippet gc "git commit summary" !b
-`/tmp/git.sh`
+snippet gcm "git commit summary for master/main" !b
+`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master.. || git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s' main..`
+endsnippet
+
+snippet gcd "git commit summary for develop" !b
+`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  develop..`
 endsnippet
 
 snippet pr "Teikametrics PR template" !b
