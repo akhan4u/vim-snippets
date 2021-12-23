@@ -49,10 +49,12 @@ ${3: Paste terraform plan here from your clipboard}
 endsnippet
 
 snippet gcm "git commit summary for master/main" !b
+<!--- Summary of commits compared to master branch as base -->
 `git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master.. || git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s' main..`
 endsnippet
 
 snippet gcd "git commit summary for develop" !b
+<!--- Summary of commits compared to develop branch as base -->
 `git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  develop..`
 endsnippet
 
