@@ -49,13 +49,7 @@ ${3: Paste terraform plan here from your clipboard}
 endsnippet
 
 snippet gc "git commit summary" !b
-`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master..` 1> /dev/null 
-if [ "$?" -eq "0" ]
-then
-	echo "No Master branch "
-else
-	`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  develop..`
-fi
+$(source /tmp/git.sh)
 endsnippet
 
 snippet pr "Teikametrics PR template" !b
