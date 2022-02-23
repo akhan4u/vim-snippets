@@ -50,6 +50,58 @@ ${4: Paste terraform plan here from your clipboard}
 * Anyone else with an interest in search/rummager/manuals 👍
 endsnippet
 
+snippet prmd "Teikametrics PR template for megalodon terraform" !b
+## Why?
+
+[DEVOPS-${1:1234}](https://teikametrics.atlassian.net/browse/DEVOPS-$1)
+
+## This PR
+
+<!--- More detailed explanatory text, if necessary. Wrap it to about 72 characters or so. -->
+${2:Short Brief}
+
+## Summary of commits 🔝
+
+`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master..`
+
+## Terraform Plans 🦈
+
+<details><summary>Terraform plan (STAGING)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${3: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+
+<details><summary>Terraform plan (PRODUCTION)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${4: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+## Notes for Reviewers
+
+* 🦈 Megalodon Terraform version is `v0.12.24`
+* Review terraform plans (_Especially_ **PRODUCTION**)
+
+## Who should review this PR
+
+* Anyone in the core team is especially encouraged to pile in.
+* Anyone else with an interest in search/rummager/manuals 👍
+endsnippet
+
 snippet gcm "git commit summary for master/main" !b
 <!--- Summary of commits compared to master branch as base -->
 `git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master.. || git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s' main..`
