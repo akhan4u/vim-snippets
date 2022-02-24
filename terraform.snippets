@@ -370,6 +370,18 @@ locals {
 }
 endsnippet
 
+# Teikametrics snippets
+snippet common_tk "Teikametrics Tags" !b
+locals {
+    common_tags = {
+        "teikametrics.com/app"               = var.app
+        "teikametrics.com/deploy/stage"      = var.deploy_stage
+        "teikametrics.com/team"              = var.team
+        "teikametrics.com/terraform/gitpath" = var.terraform_gitpath
+    }
+}
+endsnippet
+
 
 snippet tags_tk "Teikametrics Resource Tags" !b
 tags = local.common_tags
