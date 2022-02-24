@@ -313,3 +313,45 @@ snippet pullquote
 	${1:text} {" ${2:quote} "} ${0:text}
 	{% endpullquote %}
 endsnippet
+
+snippet prtag "Teikametrics PR template for terraform" !b
+## Why?
+
+[DEVOPS-1675](https://teikametrics.atlassian.net/browse/DEVOPS-1675)
+
+## This PR
+
+<!--- More detailed explanatory text, if necessary. Wrap it to about 72 characters or so. -->
+Fix tags for resources to estimate COGS of our AWS infra of different teams.
+
+## Summary of commits 🔝
+
+`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master..`
+
+## Terraform Plans
+
+<details><summary>Terraform plan (STAGING)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${3: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+
+<details><summary>Terraform plan (PRODUCTION)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${4: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+endsnippet
