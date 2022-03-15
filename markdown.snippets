@@ -369,3 +369,33 @@ snippet table "Adds a 2Column/5row table to markdown" !b
 | Even   | Tables |
 
 endsnippet
+
+snippet tmplan "Add terraform plan placeholder" !b
+
+## Terraform Plans
+
+<details><summary>Terraform plan (STAGING)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${3: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+
+<details><summary>Terraform plan (PRODUCTION)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${4: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+endsnippet
