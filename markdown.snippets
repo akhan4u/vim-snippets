@@ -123,7 +123,8 @@ snippet pr "Teikametrics PR template" !b
 
 ## Summary of commits 🔝
 
-!git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master..
+<!--- Summary of commits compared to master branch as base -->
+`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master.. || git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s' main..`
 
 ## Who should review this PR
 
