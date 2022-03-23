@@ -412,7 +412,7 @@ snippet prper "Personal PR template" !b
 ## Summary of commits 🔝
 
 <!--- Summary of commits compared to master branch as base -->
-`git-journal | ansi2txt | tr -d "B$"`
+`git-journal master..HEAD | ansi2txt | tr -d "B$"`
 
 ## Who should review this PR
 
