@@ -8,7 +8,10 @@ snippet prtf "Teikametrics PR template with terraform plans" !b
 <!--- More detailed explanatory text, if necessary. Wrap it to about 72 characters or so. -->
 ${2:Short Brief}
 
-`git-journal master..HEAD | ansi2txt | tr -d "B$" || git-journal main..HEAD | ansi2txt | tr -d "B$"`
+## Commit Summary
+
+<!--- Summary of commits compared to master branch as base -->
+`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master.. || git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s' main..`
 
 ## Terraform Plans
 
