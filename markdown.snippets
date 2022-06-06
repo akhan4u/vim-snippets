@@ -417,3 +417,60 @@ snippet prper "Personal PR template" !b
 * Anyone in the core team is especially encouraged to pile in.
 * Anyone else with an interest in search/rummager/manuals 👍
 endsnippet
+
+snippet prtd "Teikametrics PR template with terraform plans (UPDATED)" !b
+## Why?
+
+[DEVOPS-${1:1234}](https://teikametrics.atlassian.net/browse/DEVOPS-$1)
+
+## This PR
+
+<!--- More detailed explanatory text, if necessary. Wrap it to about 72 characters or so. -->
+${2:Short Brief}
+
+<details><summary>Commit Summary</summary>
+<p>
+
+<!--- Summary of commits compared to master branch as base -->
+`git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s'  master.. || git log --no-merges --pretty='%C(yellow)%h %Creset%an:%Creset %s' main..`
+
+</p>
+</details>
+
+## Terraform Plans
+
+<details><summary>Terraform plan (STAGING)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${3: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+
+<details><summary>Terraform plan (PRODUCTION)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${4: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+## Notes for Reviewers
+
+* Terraform plans are now [concise](https://www.terraform.io/language/upgrade-guides/0-14#concise-terraform-plan-output) 😃
+* Review terraform plans (_Especially_ **PRODUCTION**)
+
+## Who should review this PR
+
+* Anyone in the core team is especially encouraged to pile in.
+* Anyone else with an interest in search/rummager/manuals 👍
+endsnippet
