@@ -433,3 +433,31 @@ snippet prper "Personal PR template" !b
 * Anyone in the core team is especially encouraged to pile in.
 * Anyone else with an interest in search/rummager/manuals 👍
 endsnippet
+
+snippet versionstf "Versions.tf file template" !b
+terraform {
+  required_providers {
+    datadog = {
+      source  = "datadog/datadog"
+      version = "~> 3.10.0"
+    }
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.2.0"
+    }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.8.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.1.1"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.1.3"
+    }
+  }
+  required_version = ">= 0.14"
+}
+endsnippet
