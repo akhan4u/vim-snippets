@@ -5,6 +5,24 @@ provider "aws" {
 }
 endsnippet
 
+snippet tkaws "AWS Provider for teika terraform" !b
+provider "aws" {
+  region = var.region
+  default_tags {
+    tags = local.base_tags
+  }
+}
+endsnippet
+
+snippet tkcircleci "CircleCI Provider for teika terraform" !b
+provider "circleci" {
+  api_token    = data.aws_ssm_parameter.circleci_token.value
+  vcs_type     = "github"
+  organization = "teikametrics"
+}
+endsnippet
+
+
 snippet azure "Azure Provider for terraform" !b
 provider "azurerm" {
   subscription_id = "xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
@@ -347,7 +365,7 @@ resource "random_password" "${1:password}" {
 endsnippet
 
 snippet user-data "User Data local variable" !b
-locals { 
+locals {
 	user_data = <<EOF
 	#!/bin/bash
 	echo "Hello Terraform!"
@@ -389,17 +407,17 @@ endsnippet
 snippet versionstf "Versions.tf file template" !b
 terraform {
   required_providers {
-    datadog = {
-      source  = "datadog/datadog"
-      version = "~> 3.10.0"
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.8.0"
     }
     archive = {
       source  = "hashicorp/archive"
       version = "~> 2.2.0"
     }
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.8.0"
+    datadog = {
+      source  = "datadog/datadog"
+      version = "~> 3.10.0"
     }
     null = {
       source  = "hashicorp/null"
