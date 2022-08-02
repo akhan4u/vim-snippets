@@ -94,6 +94,83 @@ ${4: Paste terraform plan here from your clipboard}
 
 endsnippet
 
+snippet prdb "Teikametrics PR template for Adding User to Databricks workspaces" !b
+## Why?
+
+[DEVOPS-${1:1234}](https://teikametrics.atlassian.net/browse/DEVOPS-$1)
+
+## This PR
+
+<!--- More detailed explanatory text, if necessary. Wrap it to about 72 characters or so. -->
+${2:Short Brief}
+
+<details><summary>Summary of Commits 🔝</summary>
+<p>
+
+<!--- Summary of commits compared to master branch as base -->
+`git log --no-merges --pretty='%C(yellow)%h %Creset %s'  master.. || git log --no-merges --pretty='%C(yellow)%h %Creset %s' main..`
+
+</p>
+</details>
+
+## Terraform Plans
+
+<!--- databricks_group_member group_id should be 6085474065319605 -->
+<details><summary>Terraform plan (DATABRICKS DataEngineering Workspace - DEVELOPMENT)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${3: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+<!--- databricks_group_member group_id should be 5026542720609543 -->
+<details><summary>Terraform plan (DATABRICKS DataEngineering Workspace - STAGING)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${3: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+
+<!--- databricks_group_member group_id should be 2513748178507557 -->
+<details><summary>Terraform plan (DATABRICKS DataEngineering Workspace - PRODUCTION)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${4: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+<!--- databricks_group_member group_id should be 1031763883192206 -->
+<details><summary>Terraform plan (DATABRICKS AI Workspace - PRODUCTION)</summary>
+<p>
+
+\`\`\`terraform
+-----------------------------------------------------------------------
+${4: Paste terraform plan here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+endsnippet
+
+snippet gcmd "Dropdown for git commit summary for master/main" !b
 
 snippet gcmd "Dropdown for git commit summary for master/main" !b
 <details><summary>Summary of Commits</summary>
