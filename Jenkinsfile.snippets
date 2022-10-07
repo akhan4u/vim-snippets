@@ -1,0 +1,7 @@
+snippet stage "Jenkinsfile stage" !b
+        stage('${1:Stage}') {
+            container('alpine') {
+                sh 'echo "hello world"'
+            }
+        }
+endsnippet
