@@ -297,7 +297,7 @@ endsnippet
 snippet pvol "Pod Volume Object"
 - name: ${1:name}
 	${2:source}:
-		name: 
+		name:
 endsnippet
 
 snippet job "Kubernetes Job" !b
@@ -316,7 +316,7 @@ spec:
 			- name: ${3:containerName}
 				image: ${4: image}
 				imagePullPolicy: Always
-				command: 
+				command:
 				- ${5:"override"
 				- "--the"
 				- "entrypoint"}
@@ -344,7 +344,7 @@ spec:
 					restartPolicy: OnFailure
 endsnippet
 
-snippet skr "SecretKeyRef" 
+snippet skr "SecretKeyRef"
 valueFrom:
 	secretKeyRef:
 		name: ${1:secret-name}
@@ -570,7 +570,7 @@ snippet pvolm "Volume Mount and spec" !b
 	- name: ${1:volume}
 		mountPath: ${2:/etc/mount/path}
 		${3:subPath: ${4: key}}
-volumes: 
+volumes:
 - name: $1
 	${5:configMap}:
 		${6:name}: ${7:someName}
@@ -602,7 +602,7 @@ pod${1:Anti}Affinity:
 					values:
 					- ${4:appname}
 			topologyKey: ${5:kubernetes.io/hostname}
-endsnippet 
+endsnippet
 
 snippet hpa "Horizontal Pod Autoscaler" !b
 apiVersion: autoscaling/v2beta1
