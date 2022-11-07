@@ -550,7 +550,7 @@ roleRef:
 	apiGroup: rbac.authorization.k8s.io
 endsnippet
 
-snippet hpa "HorizontalPodAutoscaler" !b
+snippet hpa "HorizontalPodAutoscaler (apiVersion: autoscaling/v1)" !b
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -604,7 +604,7 @@ pod${1:Anti}Affinity:
 			topologyKey: ${5:kubernetes.io/hostname}
 endsnippet
 
-snippet hpa "Horizontal Pod Autoscaler" !b
+snippet hpa "Horizontal Pod Autoscaler (apiVersion: autoscaling/v2beta1)" !b
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -626,6 +626,51 @@ spec:
     resource:
       name: memory
       targetAverageValue: 1000Mi
+endsnippet
+
+snippet hpa "Horizontal Pod Autoscaler (apiVersion: autoscaling/v2)" !b
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 250Mi
+  - type: Pods
+    pods:
+      metric:
+        name: packets-per-second
+      target:
+        type: AverageValue
+        averageValue: 1k
+  - type: Object
+    object:
+      metric:
+        name: requests-per-second
+      describedObject:
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        name: main-route
+      target:
+        type: Value
+        value: 10k
 endsnippet
 
 snippet cf_init "Blank CloudFormation Template" !b
