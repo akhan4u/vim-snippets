@@ -26,3 +26,35 @@ NC=\`tput sgr0\`
 # echo -e "${BRed}Your Text in Bold Red${NC}"
 # echo -e "${BYellow}Your Text in Bold Yellow${NC}"
 endsnippet
+
+snippet heredoc "Heredoc Example" !b
+# Pass multi-line string to a file (heredoc)
+# cat  >filename ... - overwrite the file
+# cat >>filename ... - append to a file
+cat > filename << EOF
+data data data
+EOF
+endsnippet
+
+snippet forloop "For Loop Example" !b
+# Using for loop in shellscripts
+for((i=0; i<=5; i++)); do echo $i ; done
+# Using seq
+seq 0 5
+# seq [OPTION]... FIRST INCREMENT LAST
+seq 0 2 10
+# Counting With Decimals
+seq 1 0.2 2
+# Creating files with seq
+touch $(seq -f "file-%g.txt" 1 10)
+endsnippet
+
+snippet pipefail "Using pipefail in scripts" !b
+# Setting pipefail in shell scripts (best-practice)
+set -Eeuo pipefail
+# set -e          : If a command fails, set -e will make the whole script exit, instead of just resuming on the next line
+# set -u          : Treat unset variables as an error, and immediately exit
+# set -f          : Disable filename expansion (globbing) upon seeing *, ?, etc..
+# set -o pipefail : set -o pipefail causes a pipeline (for example, curl -s https://sipb.mit.edu/ | grep foo) to produce a failure return code if any command errors
+endsnippet
+
