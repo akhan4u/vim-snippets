@@ -6,12 +6,11 @@ metadata:
   name: ${1:nginx}
   namespace: ${2:default}
   labels:
-	app: ${1:nginx}
+	app: $1
 spec:
   containers:
-    - name: ${1:nginx}
-	  image: ${3:nginx:latest}
-      image: nginx
+    - name: $1
+      image: ${3:nginx:latest}
       ports:
         - containerPort: 80
       volumeMounts:
