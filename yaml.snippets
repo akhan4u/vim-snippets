@@ -42,7 +42,7 @@ spec:
       emptyDir: {}
 endsnippet
 
-snippet limits "Provides constrains to limit MEMORY resource consumption per container or pods in a Namespace" !b
+snippet limits "Configure Default Memory Requests and Limits for a Namespace" !b
 ---
 apiVersion: v1
 kind: LimitRange
@@ -57,7 +57,7 @@ spec:
       type: Container
 endsnippet
 
-snippet limits "Provides constrains to limit CPU resource consumption per container or pods in a Namespace" !b
+snippet limits "Configure Default CPU Requests and Limits for a Namespace" !b
 ---
 apiVersion: v1
 kind: LimitRange
