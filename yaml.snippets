@@ -1,3 +1,66 @@
+snippet pod "Pod" !b
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ${1:nginx}
+  namespace: ${2:default}
+  labels:
+	app: ${1:nginx}
+spec:
+  containers:
+    - name: ${1:nginx}
+	  image: ${3:nginx:latest}
+      image: nginx
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: workdir
+          mountPath: /usr/share/nginx/html
+      resources:
+        limits:
+          memory: '1Gi'
+          cpu: '800m'
+        requests:
+          memory: '700Mi'
+          cpu: '400m'
+  # These containers are run during pod initialization
+  initContainers:
+    - name: install
+      image: busybox
+      command:
+        - wget
+        - '-O'
+        - '/work-dir/index.html'
+        - http://kubernetes.io
+      volumeMounts:
+        - name: workdir
+          mountPath: '/work-dir'
+  dnsPolicy: Default
+  volumes:
+    - name: workdir
+      emptyDir: {}
+endsnippet
+
+snippet limits "Provides constrains to limit resource consumption per container or pods in a Namespace" !b
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-mem-limit-range
+spec:
+  limits:
+	- default:
+		cpu: 1
+	  defaultRequest:
+		cpu: 0.5
+    - default:
+        memory: 512Mi
+      defaultRequest:
+        memory: 256Mi
+      type: Container
+endsnippet
+
 snippet rc "Replication Controller" !b
 # WARNING, use Deployments -- ReplicationController is being replaced.
 apiVersion: v1
