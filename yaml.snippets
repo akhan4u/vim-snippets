@@ -156,6 +156,9 @@ spec:
 				image: ${5:nginx}
 				imagePullPolicy: Always
 				resources:
+					limits:
+						cpu: 800m
+						memory: 800Mi
 					requests:
 						cpu: 100m
 						memory: 200Mi
@@ -201,6 +204,9 @@ spec:
 				image: ${5:nginx}
 				imagePullPolicy: Always
 				resources:
+					limits:
+						cpu: 800m
+						memory: 800Mi
 					requests:
 						cpu: 100m
 						memory: 200Mi
@@ -241,6 +247,9 @@ spec:
 				image: ${5:nginx}
 				imagePullPolicy: Always
 				resources:
+					limits:
+						cpu: 800m
+						memory: 800Mi
 					requests:
 						cpu: 100m
 						memory: 200Mi
