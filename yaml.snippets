@@ -41,6 +41,29 @@ spec:
       emptyDir: {}
 endsnippet
 
+snippet limits "Configure Default/MIN/MAX CPU & Memory Requests & Limits for a Namespace" !b
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-mem-limit-range
+spec:
+  limits:
+    - default:
+        cpu: 600m
+        memory: 100Mib
+      defaultRequest:
+        cpu: 100m
+        memory: 50Mib
+      max:
+        cpu: 1000m
+        memory: 200Mib
+      min:
+        cpu: 10m
+        memory: 10Mib
+      type: Container
+endsnippet
+
 snippet limits "Configure Default Memory Requests and Limits for a Namespace" !b
 # When you add a LimitRange:
 
