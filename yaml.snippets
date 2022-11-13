@@ -43,6 +43,11 @@ spec:
 endsnippet
 
 snippet limits "Configure Default Memory Requests and Limits for a Namespace" !b
+# When you add a LimitRange:
+
+# If any Pod in that namespace that includes a container does not specify its own MEMORY limit, the control plane applies default MEMORY limit to that container, 
+# and the Pod can be allowed to run in a namespace that is restricted by a MEMORY ResourceQuota.
+
 ---
 apiVersion: v1
 kind: LimitRange
@@ -58,6 +63,11 @@ spec:
 endsnippet
 
 snippet limits "Configure Default CPU Requests and Limits for a Namespace" !b
+# When you add a LimitRange:
+
+# If any Pod in that namespace that includes a container does not specify its own CPU limit, the control plane applies the default CPU limit to that container, 
+# and the Pod can be allowed to run in a namespace that is restricted by a CPU ResourceQuota.
+
 ---
 apiVersion: v1
 kind: LimitRange
