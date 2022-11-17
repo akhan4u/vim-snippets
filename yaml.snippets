@@ -166,7 +166,7 @@ spec:
 				- containerPort: 8080
 endsnippet
 
-snippet svc "Service" !b
+snippet svc "Service ClusterIP (default)" !b
 apiVersion: v1
 kind: Service
 metadata:
@@ -181,6 +181,30 @@ spec:
 	selector:
 		app: $3
 		tier: $4
+endsnippet
+
+snippet svc "Service NodePort" !b
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${1:frontend}
+  namespace: ${2:default}
+  labels:
+    app: ${3:someApp}
+    tier: ${4:frontend}
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: MyApp
+    app: $3
+    tier: $4
+  ports:
+      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+    - port: 80
+      targetPort: 80
+      # Optional field
+      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+      nodePort: 30007
 endsnippet
 
 snippet depsvc "Deployment and service" !b
