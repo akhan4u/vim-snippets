@@ -20,6 +20,18 @@ for i in range(4):
 for i in range(2, 4):
 	print(i) #2, 3
 
-for i in range(1, 7, 2):
+for i in range(1, 7, 2): #Increment the sequence with 2 (default is 1)
 	print(i) #1, 3, 5
+
+fruits = ["apple", "banana", "cherry"]
+for x in fruits:
+	print(x)
+	if x == "banana":
+		break	#With the break statement we can stop the loop before it has looped through all the items
+
+fruits = ["apple", "banana", "cherry"]
+for x in fruits:
+	if x == "banana":
+		continue #With the continue statement we can stop the current iteration of the loop, and continue with the next
+	print(x)
 endsnippet
