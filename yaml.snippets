@@ -463,7 +463,7 @@ spec:
 				- ${5:"override"
 				- "--the"
 				- "entrypoint"}
-			restartPolicy: OnFailure
+			restartPolicy: OnFailure|Never
 endsnippet
 
 snippet cron "Kubernetes Cronjob" !b
@@ -484,7 +484,7 @@ spec:
 						- /bin/sh
 						- -c
 						- date; echo Hello from the Kubernetes cluster}
-					restartPolicy: OnFailure
+					restartPolicy: OnFailure|Never
 endsnippet
 
 snippet skr "SecretKeyRef"
