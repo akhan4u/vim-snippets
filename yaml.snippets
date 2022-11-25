@@ -472,6 +472,18 @@ kind: CronJob
 metadata:
   name: ${1:name}
 spec:
+  # Specifies how to treat concurrent executions of a Job. Valid values are:
+  # - "Allow" allows CronJobs to run concurrently
+  # - "Forbid" forbids concurrent runs, skipping next run if previous hasn't finished yet
+  # - "Replace" cancels currently running job and replaces it with a new one
+  concurrencyPolicy: Allow
+  # Optional deadline in seconds for starting the job if it misses scheduled time for any reason.
+  # Missed jobs executions will be counted as failed ones
+  startingDeadlineSeconds: 30
+  # The number of failed finished jobs to retain. Value must be non-negative integer. Defaults to 1
+  failedJobsHistoryLimit: 1
+  # The number of successful finished jobs to retain. Value must be non-negative integer. Defaults to 3
+  successfulJobsHistoryLimit: 3
   schedule: '${2:*/5} * * * *'
   jobTemplate:
     metadata:
@@ -482,6 +494,7 @@ spec:
           containers:
           - name: $1
             image: ${3:busybox}
+            imagePullPolicy: Always
             args:
             - /bin/sh
             - -c
