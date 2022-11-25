@@ -483,8 +483,8 @@ spec:
           - name: $1
             image: ${3:busybox}
             args:
-		  	- /bin/sh
-		    - -c
+            - /bin/sh
+            - -c
             - date; echo Hello from the Kubernetes cluster}
           restartPolicy: ${4:OnFailure|Never}
 endsnippet
