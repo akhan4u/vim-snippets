@@ -341,6 +341,10 @@ metadata:
 		tier: ${3:tier}
 spec:
 	${4:storageClassName: ${5:standard}}
+    # accessModes:
+    # • ReadWriteOnce (RWO) - Volume allows read/write by only one node at the same time.
+    # • ReadWriteMany (RWX) - Volume allows read/write by multiple nodes at the same time.
+    # • ReadOnlyMany  (ROX) - Volume allows read-only mode by many nodes at the same time.
 	accessModes:
 		- ${6:ReadWriteOnce}
 	resources:
