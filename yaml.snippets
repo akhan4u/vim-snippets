@@ -493,6 +493,8 @@ spec:
     metadata:
       name: $1
     spec:
+      # Specifies the number of retries before marking this job failed. Defaults to 6
+      backoffLimit: 3
       template:
         spec:
           containers:
