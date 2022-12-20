@@ -207,6 +207,24 @@ spec:
       nodePort: 30007
 endsnippet
 
+snippet svcns "Access Service in Another Namespace" !b
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-y
+  namespace: namespace-a
+spec:
+  type: ExternalName
+  externalName: service-y.namespace-b.svc.cluster.local
+  ports:
+  - port: 80
+
+# Use : <service name> (Use if in same namespace)
+# Use : <service.name>.<namespace name> (Use if across namespace)
+# Use : <service.name>.<namespace name>.svc.cluster.local (FQDN)
+# More details: https://stackoverflow.com/questions/37221483/service-located-in-another-namespace
+endsnippet
+
 snippet depsvc "Deployment and service" !b
 apiVersion: apps/v1
 kind: Deployment
