@@ -979,33 +979,33 @@ jobs:
   steps:
     # Checkout the repository so that workflow can access the code
     - name: Checkout code
-    uses: actions/checkout@v2
+      uses: actions/checkout@v2
 
     # Set up Node.js environment
     - name: Set up Node.js
-    uses: actions/setup-node@v2
-    with:
-      node-version: '14'
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
 
     # Install dependencies using npm
     - name: Install Dependencies
-    run: npm ci
+      run: npm ci
 
     # Build the project
     - name: Build
-    run: npm build
+      run: npm build
 
     # Run unit tests
     - name: Run Tests
-    run: npm test
+      run: npm test
 
     # Publish code coverage report using codecov
     - name: Publish Code Coverage
-    uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v2
 
     # Deploy the application to a server
     - name: Deploy to Server
-    run: ssh user@server 'cd /path/to/project && git pull'
+      run: ssh user@server 'cd /path/to/project && git pull'
 endsnippet
 
 snippet ghactions "Github Actions file (Python)" !b
