@@ -1368,3 +1368,59 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/avalanche-nightly:latest
             ghcr.io/continualai/avalanche-nightly:latest
 endsnippet
+
+snippet pod "Pod Spec honouring IndexExchange's Admission Webhook Rules" !b
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: index-test
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 3000
+    fsGroup: 2000
+    supplementalGroups: [0]
+  containers:
+    - name: index-test
+      image: registry.indexexchange.com:5000/python:3.6-alpine
+      command:
+        - sh
+        - -c
+        - |
+          #!/usr/bin/env bash -e
+          python -m http.server 8080 &
+          while true ; do sleep 5 && echo "$(date) -> Hello from pod $(hostname)" ; done
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      resources:
+        limits:
+          memory: '600Mi'
+          cpu: '500m'
+        requests:
+          memory: '400Mi'
+          cpu: '300m'
+      livenessProbe:
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 1
+        httpGet:
+          host:
+          scheme: HTTP
+          path: /
+          httpHeaders:
+          - name: Host
+            value: localhost
+          port: 8080
+      readinessProbe:
+        exec:
+          command:
+            - cat
+            - /etc/os-release
+      securityContext:
+        readOnlyRootFilesystem: true
+endsnippet
