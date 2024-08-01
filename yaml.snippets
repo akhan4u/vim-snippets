@@ -1424,3 +1424,128 @@ spec:
       securityContext:
         readOnlyRootFilesystem: true
 endsnippet
+
+snippet pod "Security Hardened Pod manifest" !b
+---
+# Define the API version for the Pod object
+apiVersion: v1
+# Specify the kind of Kubernetes object being defined
+kind: Pod
+# Metadata block for the Pod object
+metadata:
+  # Name of the Pod object
+  name: nginx
+  # Namespace where the Pod will be deployed; not default
+  namespace: custom
+  # Labels assigned to the Pod object
+  labels:
+    # Label indicating the application name
+    app: nginx
+# Specification block for the Pod object
+spec:
+  # Security context for the Pod
+  securityContext:
+    # Type of seccomp profile to apply
+    seccompProfile:
+      type: "RuntimeDefault"
+  # Containers to be run inside the Pod
+  containers:
+    - name: nginx
+      # Pull policy for the container image
+      imagePullPolicy: Always
+      # Specific image to use for the container, pinned by digest for enhanced security
+      image: index.docker.io/library/nginx@sha256:6af79ae5de407283dcea8b00d5c37ace95441fd58a8b1d2aa1ed93f5511bb18c
+      # Ports exposed by the container
+      ports:
+        - containerPort: 80
+      # Volume mounts for the container
+      volumeMounts:
+        - name: workdir
+          mountPath: /usr/share/nginx/html
+      # Resource limits and requests for the container
+      resources:
+        limits:
+          memory: '1Gi'
+          cpu: '800m'
+        requests:
+          memory: '700Mi'
+          cpu: '400m'
+      # Security context for the container
+      # NOTE: Field values of container.securityContext take precedence over field values of PodSecurityContext
+      securityContext:
+        # Run the container as a specific user ID
+        runAsUser: 10001
+        # Run the container as a specific group ID
+        runAsGroup: 10001
+        # Prevent the container from gaining root privileges
+        runAsNonRoot: true
+        # List of supplementary groups to add to the container's group IDs
+        supplementalGroups: [10001]
+        # Mount the container's filesystem as read-only
+        readOnlyRootFilesystem: true
+        # Do not grant extended privileges to the container
+        privileged: false
+        # Disable privilege escalation
+        allowPrivilegeEscalation: false
+        # Capabilities to drop from the container
+        capabilities:
+          drop:
+            - all
+        # Seccomp profile type
+        seccompProfile:
+          type: "RuntimeDefault"
+  # Init containers to run before the main containers
+  initContainers:
+    - name: install
+      # Pull policy for the init container image
+      imagePullPolicy: Always
+      # Specific image to use for the init container, pinned by digest for enhanced security
+      image: index.docker.io/library/busybox@sha256:9ae97d36d26566ff84e8893c64a6dc4fe8ca6d1144bf5b87b2b85a32def253c7
+      # Command to execute in the init container
+      command:
+        - wget
+        - '-O'
+        - '/work-dir/index.html'
+        - http://kubernetes.io
+      # Volume mounts for the init container
+      volumeMounts:
+        - name: workdir
+          mountPath: '/work-dir'
+      # Resource limits and requests for the init container
+      resources:
+        limits:
+          cpu: '300m'
+          memory: '500Mi'
+        requests:
+          cpu: '150m'
+          memory: '200Mi'
+      # Security context for the init container
+      securityContext:
+        # Run the init container as a specific user ID
+        runAsUser: 10001
+        # Run the init container as a specific group ID
+        runAsGroup: 10001
+        # Prevent the init container from gaining root privileges
+        runAsNonRoot: true
+        # List of supplementary groups to add to the init container's group IDs
+        supplementalGroups: [10001]
+        # Mount the init container's filesystem as read-only
+        readOnlyRootFilesystem: true
+        # Do not grant extended privileges to the init container
+        privileged: false
+        # Disable privilege escalation for the init container
+        allowPrivilegeEscalation: false
+        # Capabilities to drop from the init container
+        capabilities:
+          drop:
+            - all
+        # Seccomp profile type for the init container
+        seccompProfile:
+          type: "RuntimeDefault"
+  # DNS policy for the Pod
+  dnsPolicy: Default
+  # Volumes to be mounted into the Pod
+  volumes:
+    - name: workdir
+      emptyDir: {}
+endsnippet
