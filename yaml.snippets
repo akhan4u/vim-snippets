@@ -1445,6 +1445,8 @@ metadata:
 spec:
   # Security context for the Pod
   securityContext:
+    # List of supplementary groups to add to the init container's group IDs
+    supplementalGroups: [10001]
     # Type of seccomp profile to apply
     seccompProfile:
       type: "RuntimeDefault"
@@ -1479,8 +1481,6 @@ spec:
         runAsGroup: 10001
         # Prevent the container from gaining root privileges
         runAsNonRoot: true
-        # List of supplementary groups to add to the container's group IDs
-        supplementalGroups: [10001]
         # Mount the container's filesystem as read-only
         readOnlyRootFilesystem: true
         # Do not grant extended privileges to the container
@@ -1527,8 +1527,6 @@ spec:
         runAsGroup: 10001
         # Prevent the init container from gaining root privileges
         runAsNonRoot: true
-        # List of supplementary groups to add to the init container's group IDs
-        supplementalGroups: [10001]
         # Mount the init container's filesystem as read-only
         readOnlyRootFilesystem: true
         # Do not grant extended privileges to the init container
