@@ -20,7 +20,7 @@ COPY . .
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
 endsnippet
 
-snippet nodejs_dockerfile "Dockerfile for Nodejs Application" !b
+snippet nodejs_dockerfile "Dockerfile for Nodejs Application with HealthCheck Instruction" !b
 FROM node:10-alpine
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
@@ -36,13 +36,34 @@ CMD [ "npm", "run-script", "serve" ]
 HEALTHCHECK CMD curl --fail http://localhost:8080/ || exit 1
 endsnippet
 
-snippet nodejs_dockerfile2 "Dockerfile2 for Nodejs Application" !b
+snippet nodejs_dockerfile2 "Dockerfile for Nodejs Application" !b
 FROM node:alpine
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 RUN npm install
 COPY . .
 CMD ["npm", "run", "start"]
+endsnippet
+
+snippet nodejs_dockerfile3 "Dockerfile for Nodejs Application (MultiStage Build)" !b
+FROM node:22-alpine3.20 as build
+
+WORKDIR /app
+COPY package* json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM node: 22-alpine3.20
+WORKDIR /app
+COPY --from=build /app/build /app/build
+
+COPY package*.json ./
+RUN npm install --production
+RUN npm install -g serve
+
+EXPOSE 3000
+CMD ["serve", "-s"， "build"］
 endsnippet
 
 snippet angular_dockerfile "Dockerfile for Angular Application" !b
