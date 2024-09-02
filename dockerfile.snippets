@@ -59,11 +59,10 @@ WORKDIR /app
 COPY --from=build /app/build /app/build
 
 COPY package*.json ./
-RUN npm install --production
-RUN npm install -g serve
+RUN npm install --production && npm install -g serve@14.2.3
 
 EXPOSE 3000
-CMD ["serve", "-s"， "build"］
+CMD ["serve", "-s", "build"]
 endsnippet
 
 snippet angular_dockerfile "Dockerfile for Angular Application" !b
