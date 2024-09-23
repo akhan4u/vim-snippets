@@ -1390,9 +1390,9 @@ spec:
         - -cx
         - |
           #!/usr/bin/env bash -e
-          # Redirect and Download kubernetes.io webpage in /tmp/index.html
+          # Download kubernetes.io in /tmp/index.html [Log server responses + Redirections; bypass certificate validation]
           wget -S -P /tmp --no-check-certificate www.kubernetes.io
-          # Run webserver to serve /tmp/index.html on port 8080 in foreground (with verbosity enabled)
+          # Run webserver to serve /tmp/index.html on port 8080 in foreground [verbosity enabled]
           httpd -f -p 8080 -h /tmp/ -v
       ports:
         - containerPort: 8080
