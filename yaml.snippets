@@ -1369,6 +1369,63 @@ jobs:
             ghcr.io/continualai/avalanche-nightly:latest
 endsnippet
 
+snippet pod "Check Internet Connection with Pod in default NS" !b
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: index-http-check
+  namespace: default
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 3000
+    fsGroup: 2000
+    supplementalGroups: [0]
+  containers:
+    - name: check-http-connection
+      image: registry.indexexchange.com:5000/busybox:1.36.0
+      command:
+        - sh
+        - -cx
+        - |
+          #!/usr/bin/env bash -e
+          # Redirect and Download kubernetes.io webpage in /tmp/index.html
+          wget -S -P /tmp --no-check-certificate www.kubernetes.io
+          # Run webserver to serve /tmp/index.html on port 8080 in foreground (with verbosity enabled)
+          httpd -f -p 8080 -h /tmp/ -v
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      resources:
+        limits:
+          memory: '600Mi'
+          cpu: '500m'
+        requests:
+          memory: '400Mi'
+          cpu: '300m'
+      livenessProbe:
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 1
+        successThreshold: 1
+        failureThreshold: 1
+        httpGet:
+          host:
+          scheme: HTTP
+          path: /
+          httpHeaders:
+          - name: Host
+            value: localhost
+          port: 8080
+      readinessProbe:
+        exec:
+          command:
+            - cat
+            - /etc/hostname
+endsnippet
+
 snippet pod "Pod Spec honouring IndexExchange's Admission Webhook Rules" !b
 ---
 apiVersion: v1
