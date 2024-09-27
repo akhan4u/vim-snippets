@@ -1604,3 +1604,35 @@ spec:
     - name: workdir
       emptyDir: {}
 endsnippet
+
+snippet jira "jira ticket template at Index" !b
+update:
+  comment:
+    - add:
+        body: |~
+
+fields:
+  summary: >-
+    # Add Issue summary here
+  components: # Values: ACL, Ad-hoc, Aerospike, Akamai, Alert Documentation, Ansible, app/demand-data-api, app/reporting/dag/deployment/reporting-api, app/reporting/dag/deployment/telegraf-mysql-exporter, APPMISC, APPRULES, APPSTATS, architecture/edge-roadmap/legacy-flush, architecture/edge-roadmap/loadbalancing, architecture/edge-roadmap/vdc, architecture/event-driven/async-rtb-impressions, architecture/performance/aerospike, architecture/privacy-sandbox, architecture/project-cassandra/capacity/edge, architecture/project-cassandra/data-platform, architecture/project-cassandra/databases/aerospike, architecture/project-cassandra/databases/mongodb, architecture/project-cassandra/databases/vertica, architecture/project-cassandra/databases/viper2, architecture/project-cassandra/dc-wide-failure, architecture/project-cassandra/ransomware, architecture/project-cassandra/sdlc-toolchain, architecture/project-cassandra/ssh-security, architecture/project-cassandra/ssl-management, ArgoCD, Billing, Blackhole (Hadoop), Blackhole2 (Hadoop), BLH, Ceph, Ceph Platform, Cloudflare, Cobbler, Cohort Proxy, DB, DCAPP, DCSTAT, Dell OpenManage, DNS, DW, ELK Stack, Exchange Node, exchange-node/deployment/impression-service-telegraf, exchange-node/rules/monorepo, exchange-node/supply, features/bto_vdc_override_enabled, features/enable_metric_recording, Filedump2, Gitlab, GLP, gprofiler, Grafana, HAProxy, Image Servers, Jenkins, Jira, k8s-dapr, Kafka, Kepler (Vertica), Kubernetes, L2 API, ldap, Legacy Docker, LibreNMS, LibreNMS PoC, liquibase, MAAS, MAAS provisioning, Mimir, MongoDB, MX1, N/A, NetBox, NetScaler, Network, Nexus, Nexus-IQ, none, novus/hubble-common, novus/reporting-vertica, novus/trino-vertica-connector, NS1, OpenLB, OpenNebula, OS platform, Perflab, PINC Process, Pithos (MariaDB, Galera), PostgreSQL, Prometheus, ptv/event-tracker-deployment, Redis, Request Monitor, SFTP, Sidecar, SonarQube, stor, Storage, sw-edge, Tardis InfluxDB, Telegraf, TLS, Trino, UA, Vault, Viper2 (MySQL), Virtualization, VMware, VPN, Warn Server, Zabbix,
+    - name: Kubernetes
+  reporter:
+    name: amaan.khan  # Check your username from https://jira.indexexchange.com/rest/api/2/myself
+    emailAddress: amaan.khan@indexexchange.com
+  priority: # Values: Urgent, High, Normal, Low,
+    name: Normal
+  description: |~
+    # Add a description here
+
+    *Reference Code*
+    {code:bash}
+    # Insert some reference code here
+    {code}
+
+    *Reference links*
+    # Add reference links here
+    • [Ref|https://example.com]
+# votes: 0
+# comments:
+#
+endsnippet
