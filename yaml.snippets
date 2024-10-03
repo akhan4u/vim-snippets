@@ -1676,11 +1676,11 @@ spec:
     helm:
       # DONT DO THIS
       parameters:
-      - name: "my-example-setting-1"
-        value: my-value1
-      - name: "my-example-setting-2"
-        value: "my-value2"
-        forceString: true # ensures that value is treated as a string
+        - name: "my-example-setting-1"
+          value: my-value1
+        - name: "my-example-setting-2"
+          value: "my-value2"
+          forceString: true   # ensures that value is treated as a string
 
       # DONT DO THIS
       values: |
@@ -1718,7 +1718,7 @@ spec:
     helm:
       ## DO THIS (values in Git on their own)
       valueFiles:
-      - values-production.yaml
+        - values-production.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1732,16 +1732,16 @@ metadata:
   namespace: argocd
 spec:
   sources:
-  - repoURL: 'https://my-chart/helm-charts'
-    chart: my-helm-chart
-    targetRevision: 3.7.1
-    helm:
-      valueFiles:
-      - $values/my-chart-values/values-prod.yaml
+    - repoURL: 'https://my-chart/helm-charts'
+      chart: my-helm-chart
+      targetRevision: 3.7.1
+      helm:
+        valueFiles:
+          - $values/my-chart-values/values-prod.yaml
     ## DO THIS (values in Git on their own)
-  - repoURL: 'https://git.example.com/org/value-files.git'
-    targetRevision: dev
-    ref: values
+    - repoURL: 'https://git.example.com/org/value-files.git'
+      targetRevision: dev
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1759,7 +1759,6 @@ spec:
     targetRevision: HEAD
     ## DO THIS. Save all values in the Kustomize Overlay itself
     path: my-app/overlays/prod
-
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1777,11 +1776,11 @@ spec:
     targetRevision: HEAD
     path: my-app
 
-    # DONT DO THIS
+    # DON'T DO THIS
     kustomize:
       namePrefix: prod-
       images:
-      - docker.io/example/my-app:0.2
+        - docker.io/example/my-app:0.2
       namespace: custom-namespace
 
   destination:
