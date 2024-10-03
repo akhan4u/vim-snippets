@@ -1805,12 +1805,14 @@ spec:
     - matrix:
         generators:
           # Git generator, 'child' #1
+          # https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Git
           - git:
               repoURL: https://github.com/codefresh-contrib/gitops-cert-level-2-examples.git
               revision: HEAD
               directories:
                 - path: application-sets/example-apps/*
           # Cluster generator, 'child' #2
+          # https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Cluster
           - clusters: {}
   template:
     metadata:
