@@ -1637,3 +1637,191 @@ fields:
 # votes: 0
 # comments:
 endsnippet
+
+snippet app "ArgoCD App Manifest (Category 1)" !b
+apiVersion: argoproj.io/v1alphal
+kind: Application
+metadata:
+  # Name of application
+  name: guestbook
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # Where to read the Kubernetes manifest from? (Category 1)
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    targetRevision: HEAD
+    path: guestbook
+  destination:
+    # Which cluster to deploy the application to?
+    server: https://kubernetes.default.svc
+    namespace: guestbook
+endsnippet
+
+
+snippet app "ArgoCD App Manifest Helm Templating - Anti-pattern" !b
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-helm-override
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/example-org/example-repo.git
+    targetRevision: HEAD
+    path: my-chart
+
+    helm:
+      # DONT DO THIS
+      parameters:
+      - name: "my-example-setting-1"
+        value: my-value1
+      - name: "my-example-setting-2"
+        value: "my-value2"
+        forceString: true # ensures that value is treated as a string
+
+      # DONT DO THIS
+      values: |
+        ingress:
+          enabled: true
+          path: /
+          hosts:
+            - mydomain.example.com
+
+      # DONT DO THIS
+      valuesObject:
+        image:
+          repository: docker.io/example/my-app
+          tag: 0.1
+          pullPolicy: IfNotPresent
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+endsnippet
+
+snippet app "ArgoCD App Manifest Helm Templating - Recommended (Category 2)" !b
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-helm-override
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/example-org/example-repo.git
+    targetRevision: HEAD
+    path: my-chart
+
+    helm:
+      ## DO THIS (values in Git on their own)
+      valueFiles:
+      - values-production.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+endsnippet
+
+snippet app "ArgoCD App Manifest Helm Templating with External Charts" !b
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-proper-helm-app
+  namespace: argocd
+spec:
+  sources:
+  - repoURL: 'https://my-chart/helm-charts'
+    chart: my-helm-chart
+    targetRevision: 3.7.1
+    helm:
+      valueFiles:
+      - $values/my-chart-values/values-prod.yaml
+    ## DO THIS (values in Git on their own)
+  - repoURL: 'https://git.example.com/org/value-files.git'
+    targetRevision: dev
+    ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+endsnippet
+
+snippet app "ArgoCD App Manifest Kustomize Templating - Recommended (Category 2)" !b
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-proper-kustomize-app
+  namespace: argocd
+spec:
+  source:
+    repoURL: https://github.com/example-org/example-repo.git
+    targetRevision: HEAD
+    ## DO THIS. Save all values in the Kustomize Overlay itself
+    path: my-app/overlays/prod
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+endsnippet
+
+snippet app "ArgoCD App Manifest Kustomize Templating - Anti-pattern" !b
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-kustomize-override
+  namespace: argocd
+spec:
+  source:
+    repoURL: https://github.com/example-org/example-repo.git
+    targetRevision: HEAD
+    path: my-app
+
+    # DONT DO THIS
+    kustomize:
+      namePrefix: prod-
+      images:
+      - docker.io/example/my-app:0.2
+      namespace: custom-namespace
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app
+endsnippet
+
+snippet appset "ArgoCD AppSet Manifest Example" !b
+# This generator says “take all the apps under application-sets/example-apps and deploy them to all clusters currently
+# defined in Argo CD”. It doesn’t matter how many clusters are currently connected or how many applications exist in
+# the Git repo. The Application Set generator will automatically create all the possible combinations and also
+# continuously redeploy as you add new clusters or new applications.
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-git
+spec:
+  generators:
+    # matrix 'parent' generator
+    - matrix:
+        generators:
+          # Git generator, 'child' #1
+          - git:
+              repoURL: https://github.com/codefresh-contrib/gitops-cert-level-2-examples.git
+              revision: HEAD
+              directories:
+                - path: application-sets/example-apps/*
+          # Cluster generator, 'child' #2
+          - clusters: {}
+  template:
+    metadata:
+      name: '{{path.basename}}-{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/codefresh-contrib/gitops-cert-level-2-examples.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: '{{server}}'
+        namespace: '{{path.basename}}'
+endsnippet
