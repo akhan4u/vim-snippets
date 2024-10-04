@@ -1731,6 +1731,7 @@ metadata:
   name: my-proper-helm-app
   namespace: argocd
 spec:
+  project: default
   sources:
     - repoURL: 'https://my-chart/helm-charts'
       chart: my-helm-chart
@@ -1754,6 +1755,7 @@ metadata:
   name: my-kustomize-override
   namespace: argocd
 spec:
+  project: default
   source:
     repoURL: https://github.com/example-org/example-repo.git
     targetRevision: HEAD
@@ -1778,6 +1780,7 @@ metadata:
   name: my-proper-kustomize-app
   namespace: argocd
 spec:
+  project: default
   source:
     repoURL: https://github.com/example-org/example-repo.git
     targetRevision: HEAD
