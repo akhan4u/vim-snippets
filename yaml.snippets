@@ -1646,12 +1646,15 @@ metadata:
   name: guestbook
   namespace: argocd
 spec:
+  # Project is a reference to the project this application belongs to.
+  # The empty string means that application belongs to the 'default' project
   project: default
   source:
     # Where to read the Kubernetes manifest from?
     repoURL: https://github.com/argoproj/argocd-example-apps.git
     targetRevision: HEAD
     path: guestbook
+  # Destination is a reference to the target Kubernetes server and namespace
   destination:
     # Which cluster to deploy the application to?
     server: https://kubernetes.default.svc
@@ -1666,6 +1669,8 @@ metadata:
   name: my-helm-override
   namespace: argocd
 spec:
+  # Project is a reference to the project this application belongs to.
+  # The empty string means that application belongs to the 'default' project
   project: default
 
   source:
@@ -1696,6 +1701,7 @@ spec:
           repository: docker.io/example/my-app
           tag: 0.1
           pullPolicy: IfNotPresent
+  # Destination is a reference to the target Kubernetes server and namespace
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1708,6 +1714,8 @@ metadata:
   name: my-helm-override
   namespace: argocd
 spec:
+  # Project is a reference to the project this application belongs to.
+  # The empty string means that application belongs to the 'default' project
   project: default
 
   source:
@@ -1719,6 +1727,7 @@ spec:
       ## DO THIS (values in Git on their own)
       valueFiles:
         - values-production.yaml
+  # Destination is a reference to the target Kubernetes server and namespace
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1731,6 +1740,8 @@ metadata:
   name: my-proper-helm-app
   namespace: argocd
 spec:
+  # Project is a reference to the project this application belongs to.
+  # The empty string means that application belongs to the 'default' project
   project: default
   sources:
     - repoURL: 'https://my-chart/helm-charts'
@@ -1743,6 +1754,7 @@ spec:
     - repoURL: 'https://git.example.com/org/value-files.git'
       targetRevision: dev
       ref: values
+  # Destination is a reference to the target Kubernetes server and namespace
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1755,6 +1767,8 @@ metadata:
   name: my-kustomize-override
   namespace: argocd
 spec:
+  # Project is a reference to the project this application belongs to.
+  # The empty string means that application belongs to the 'default' project
   project: default
   source:
     repoURL: https://github.com/example-org/example-repo.git
@@ -1768,6 +1782,7 @@ spec:
         - docker.io/example/my-app:0.2
       namespace: custom-namespace
 
+  # Destination is a reference to the target Kubernetes server and namespace
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1780,12 +1795,15 @@ metadata:
   name: my-proper-kustomize-app
   namespace: argocd
 spec:
+  # Project is a reference to the project this application belongs to.
+  # The empty string means that application belongs to the 'default' project
   project: default
   source:
     repoURL: https://github.com/example-org/example-repo.git
     targetRevision: HEAD
     ## DO THIS. Save all values in the Kustomize Overlay itself
     path: my-app/overlays/prod
+  # Destination is a reference to the target Kubernetes server and namespace
   destination:
     server: https://kubernetes.default.svc
     namespace: my-app
@@ -1828,4 +1846,110 @@ spec:
       destination:
         server: '{{server}}'
         namespace: '{{path.basename}}'
+endsnippet
+
+snippet appproj "ArgoCD AppProject Manifest Example (redis-cluster)" !b
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: redis-cluster
+  namespace: argocd
+  labels:
+    inherit-global: "true"
+spec:
+  # Description contains optional project description
+  description: Redis Cluster resources
+  # Destinations contains list of destinations available for deployment
+  destinations:
+    # Namespace specifies the target namespace for the application's resources
+    - namespace: mlo-inference
+      # Server specifies the URL of the target cluster and must be set to the Kubernetes control plane API
+      server: '*'
+  # SourceRepos contains list of repository URLs which can be used for deployment
+  sourceRepos:
+    - 'https://gitlab.indexexchange.com/operations/redis/k8s-deployment/bitnami-redis-cluster.git'
+  # Roles are user defined RBAC roles associated with this project
+  roles:
+    - description: "Access to view applications"
+      # Groups are a list of OIDC group claims bound to this role
+      groups:
+        - Cloud Platform
+        - Architecure
+      # Name is a name for this role
+      name: view
+      # Policies Stores a list of casbin formatted strings that define access policies for the role in the project
+      policies:
+        - p, proj:redis-cluster:view, applications, get, redis-cluster/*, allow
+    - description: "Access to deploy applications"
+      # Groups are a list of OIDC group claims bound to this role
+      groups:
+        - Cloud Platform
+        - Architecure
+      name: deploy
+      # Policies Stores a list of casbin formatted strings that define access policies for the role in the project
+      policies:
+        - p, proj:redis-cluster:deploy, applications, get, redis-cluster/*, allow
+        - p, proj:redis-cluster:deploy, applications, sync, redis-cluster/*, allow
+        - p, proj:redis-cluster:deploy, applications, create, redis-cluster/*, allow
+        - p, proj:redis-cluster:deploy, applications, update, redis-cluster/*, allow
+        - p, proj:redis-cluster:deploy, applications, delete, redis-cluster/*, allow
+endsnippet
+
+snippet appproj "ArgoCD AppProject Manifest Example (Multiple Operators)" !b
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  labels:
+    argocd.argoproj.io/instance: projects
+    inherit-global: "true"
+  name: operators
+  namespace: argocd
+spec:
+  # ClusterResourceWhitelist contains list of whitelisted cluster level resources
+  clusterResourceWhitelist:
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+  # Description contains optional project description
+  description: Operators managed by Cloud Platform
+  # Destinations contains list of destinations available for deployment
+  destinations:
+    # Namespace specifies the target namespace for the application's resources
+    - namespace: operators
+      # Server specifies the URL of the target cluster and must be set to the Kubernetes control plane API
+      server: '*'
+    - namespace: advsearch-es
+      server: '*'
+  # Roles are user defined RBAC roles associated with this project
+  roles:
+    - description: Access to view applications
+      # Groups are a list of OIDC group claims bound to this role
+      groups:
+        - Cloud Platform
+      name: view
+      # Policies Stores a list of casbin formatted strings that define access policies for the role in the project
+      policies:
+        - p, proj:operators:view, applications, get, operators/*, allow
+    - description: Access to deploy applications
+      # Groups are a list of OIDC group claims bound to this role
+      groups:
+        - Cloud Platform
+      name: deploy
+      # Policies Stores a list of casbin formatted strings that define access policies for the role in the project
+      policies:
+        - p, proj:operators:deploy, applications, get, operators/*, allow
+        - p, proj:operators:deploy, applications, sync, operators/*, allow
+        - p, proj:operators:deploy, applications, create, operators/*, allow
+        - p, proj:operators:deploy, applications, update, operators/*, allow
+        - p, proj:operators:deploy, applications, delete, operators/*, allow
+        - p, proj:operators:deploy, exec, create, operators/*, allow
+  # SourceRepos contains list of repository URLs which can be used for deployment
+  sourceRepos:
+    # Deploys ElasticSearch Operator
+    - https://gitlab.indexexchange.com/operations/eck-operator.git
+    # Deploys Zalando PostgreSQL operator (https://github.com/zalando/postgres-operator)
+    - https://gitlab.indexexchange.com/operations/k8s/postgresql/operator.git
 endsnippet
