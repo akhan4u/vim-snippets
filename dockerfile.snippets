@@ -231,3 +231,17 @@ WORKDIR /app
 # Run ugit when the container launches
 CMD ["/bin/bash", "/bin/ugit"]
 endsnippet
+
+snippet go_dockerfile "MultiStage Dockerfile for Go project" !b
+# Build Stage
+FROM golang:1.23 AS build
+COPY . .
+RUN CGO_ENABLED=0 go build -o app cmd/main.go
+
+# Runtime Stage
+FROM gcr.io/distroless/static AS runtime
+
+# Copy a file from the 'build' image (a.k.a stage)
+COPY --from=build app /usr/local/bin
+CMD ["app"]
+endsnippet
