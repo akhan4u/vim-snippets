@@ -1,7 +1,9 @@
 snippet python_dockerfile "Dockerfile for Python Application" !b
+# Alpine-based Python images are much smaller than the standard ones.
 FROM python:3.6-alpine
 COPY . /app
 WORKDIR /app
+# use '--no-cache-dir' - This prevents pip from caching downloaded packages, reducing the image size
 RUN apk add --update alpine-sdk mariadb-dev && cp /app/mysql_config /usr/local/bin && pip install --no-cache-dir -r requirements.txt
 ENTRYPOINT ["/usr/local/bin/python"]
 CMD ["app.py"]
@@ -9,14 +11,11 @@ endsnippet
 
 snippet flask_dockerfile "Dockerfile for Python Flask application" !b
 FROM python:3.8-slim-buster
-
 WORKDIR /app
-
 COPY requirements.txt requirements.txt
+# use '--no-cache-dir' - This prevents pip from caching downloaded packages, reducing the image size
 RUN pip3 install --no-cache-dir -r requirements.txt
-
 COPY . .
-
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
 endsnippet
 
@@ -26,6 +25,7 @@ FROM python:3.11-slim AS builder
 WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 COPY requirements.txt /app/
+# use '--no-cache-dir' - This prevents pip from caching downloaded packages, reducing the image size
 RUN pip install --no-cache-dir --target=/app/requirements -r requirements.txt
 
 # Stage 2: Final Image
@@ -65,6 +65,7 @@ CMD ["npm", "run", "start"]
 endsnippet
 
 snippet nodejs_dockerfile3 "Dockerfile for Nodejs Application (MultiStage Build)" !b
+# Build Stage
 FROM node:22-alpine3.20 as build
 
 WORKDIR /app
@@ -73,6 +74,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+# Final Stage
 FROM node:22-alpine3.20
 WORKDIR /app
 COPY --from=build /app/build /app/build
@@ -84,8 +86,24 @@ EXPOSE 3000
 CMD ["serve", "-s", "build"]
 endsnippet
 
+snippet nodejs_dockerfile4 "Dockerfile for Nodejs Application (MultiStage Build)" !b
+# Build Stage
+FROM node:14-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+# Use 'npm ci' instead of 'npm install'
+# 'npm ci' is faster and more reliable for CI environments. It installs exact versions from package-lock.json
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Final Stage
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+endsnippet
+
 snippet angular_dockerfile "Dockerfile for Angular Application" !b
-# Stage 1
+# Build Stage
 FROM node:10-alpine as build-step
 RUN mkdir -p /app
 WORKDIR /app
@@ -94,7 +112,7 @@ RUN npm install
 COPY . /app
 RUN npm run build --prod
 
-# Stage 2
+# Final Stage
 FROM nginx:1.17.1-alpine
 COPY --from=build-step /app/docs /usr/share/nginx/html
 endsnippet
@@ -118,6 +136,19 @@ USER appuser
 EXPOSE 8991
 COPY service/target/*exec.jar app.jar
 ENTRYPOINT ["java", "-jar", "./app.jar"]
+endsnippet
+
+snippet java_dockerfile2 "Dockerfile for Java Application" !b
+# Use JDK for build, JRE for runtime
+# Build Stage
+FROM openjdk:11 AS builder
+COPY . /app
+RUN javac /app/Main.java
+
+# Final Stage
+FROM openjdk:11-jre
+COPY --from=builder /app/Main.class /app/
+CMD ["java", "-cp", "/app", "Main"]
 endsnippet
 
 snippet gradle_dockerfile "Dockerfile for Java Gradle Application" !b
@@ -232,16 +263,61 @@ WORKDIR /app
 CMD ["/bin/bash", "/bin/ugit"]
 endsnippet
 
-snippet go_dockerfile "MultiStage Dockerfile for Go project" !b
+snippet go_dockerfile "MultiStage Dockerfile for Go (statically linked binaries)" !b
+# Build Statically Linked Binaries
 # Build Stage
-FROM golang:1.23 AS build
+# The first stage uses the golang:1.21-alpine image, which includes the Go compiler and tools
+# We build our application in this stage
+FROM golang:1.21-alpine AS builder
+WORKDIR /app
 COPY . .
-RUN CGO_ENABLED=0 go build -o app cmd/main.go
+# Install any necessary dependencies
+RUN go mod download
+# Build the application
+# NOTE: We use CGO_ENABLED=0 and GOOS=linux to create a statically linked binary that doesn't depend on C libraries
+# This allows us to use a very minimal runtime image
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# Runtime Stage
-FROM gcr.io/distroless/static AS runtime
+# Final Stage
+FROM alpine:3.18
+# We add ca-certificates to ensure our application can make HTTPS connections if needed
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+# Copy the pre-built binary file from the previous stage
+# We only copy the compiled binary from the build stage to the final stage
+# All the Go development tools and source code are left behind
+COPY --from=builder /app/main .
+# Command to run the executable
+CMD ["./main"]
+endsnippet
 
-# Copy a file from the 'build' image (a.k.a stage)
-COPY --from=build app /usr/local/bin
-CMD ["app"]
+snippet go_dockerfile "MultiStage Dockerfile for Go (statically linked binaries - minimal)" !b
+# Build Statically Linked Binaries
+# This creates a binary with no external dependencies, allowing the use of a scratch image
+# Build stage
+FROM golang:1.21-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+# Final stage
+FROM scratch
+COPY --from=builder /app/main /main
+ENTRYPOINT ["/main"]
+endsnippet
+
+snippet go_dockerfile "MultiStage Dockerfile for Go (non-statically linked binaries)" !b
+# Build Non-Statically Linked Binaries
+# Build Stage
+FROM golang:1.21-alpine AS builder
+RUN apk add --no-cache git
+WORKDIR /app
+COPY . .
+RUN go build -o main .
+
+# Final Stage
+FROM alpine:3.18
+RUN apk add --no-cache ca-certificates
+COPY --from=builder /app/main /main
+ENTRYPOINT ["/main"]
 endsnippet
