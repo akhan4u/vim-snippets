@@ -39,7 +39,7 @@ USER appuser
 CMD ["python3", "app.py"]
 endsnippet
 
-snippet nodejs_dockerfile "Dockerfile for Nodejs Application with HealthCheck Instruction" !b
+snippet nodejs_dockerfile1 "Dockerfile for Nodejs Application with HealthCheck Instruction" !b
 FROM node:10-alpine
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
@@ -117,7 +117,7 @@ FROM nginx:1.17.1-alpine
 COPY --from=build-step /app/docs /usr/share/nginx/html
 endsnippet
 
-snippet java_dockerfile "Dockerfile for Java Application" !b
+snippet java_dockerfile1 "Dockerfile for Java Application" !b
 ## Spring-Boot Docker Image.
 ## Minimal Base Images, Use Fixed Tags For Immutability
 ## Alpine Is A Docker Official Imagejava
@@ -263,7 +263,7 @@ WORKDIR /app
 CMD ["/bin/bash", "/bin/ugit"]
 endsnippet
 
-snippet go_dockerfile "MultiStage Dockerfile for Go (statically linked binaries)" !b
+snippet go_dockerfile1 "MultiStage Dockerfile for Go (statically linked binaries)" !b
 # Build Statically Linked Binaries
 # Build Stage
 # The first stage uses the golang:1.21-alpine image, which includes the Go compiler and tools
@@ -291,7 +291,7 @@ COPY --from=builder /app/main .
 CMD ["./main"]
 endsnippet
 
-snippet go_dockerfile "MultiStage Dockerfile for Go (statically linked binaries - minimal)" !b
+snippet go_dockerfile2 "MultiStage Dockerfile for Go (statically linked binaries - minimal)" !b
 # Build Statically Linked Binaries
 # This creates a binary with no external dependencies, allowing the use of a scratch image
 # Build stage
@@ -306,7 +306,7 @@ COPY --from=builder /app/main /main
 ENTRYPOINT ["/main"]
 endsnippet
 
-snippet go_dockerfile "MultiStage Dockerfile for Go (non-statically linked binaries)" !b
+snippet go_dockerfile3 "MultiStage Dockerfile for Go (non-statically linked binaries)" !b
 # Build Non-Statically Linked Binaries
 # Build Stage
 FROM golang:1.21-alpine AS builder
