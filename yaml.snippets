@@ -71,8 +71,9 @@ endsnippet
 snippet limits "Configure Default Memory Requests and Limits for a Namespace" !b
 # When you add a LimitRange:
 
-# If any Pod in that namespace that includes a container does not specify its own MEMORY limit, the control plane applies default MEMORY limit to that container,
-# and the Pod can be allowed to run in a namespace that is restricted by a MEMORY ResourceQuota.
+# If any Pod in that namespace that includes a container does not specify its own MEMORY limit, the control plane applies
+# default MEMORY limit to that container, and the Pod can be allowed to run in a namespace that is restricted by a
+# MEMORY ResourceQuota.
 
 ---
 apiVersion: v1
@@ -91,8 +92,9 @@ endsnippet
 snippet limits "Configure Default CPU Requests and Limits for a Namespace" !b
 # When you add a LimitRange:
 
-# If any Pod in that namespace that includes a container does not specify its own CPU limit, the control plane applies the default CPU limit to that container,
-# and the Pod can be allowed to run in a namespace that is restricted by a CPU ResourceQuota.
+# If any Pod in that namespace that includes a container does not specify its own CPU limit, the control plane applies
+# the default CPU limit to that container, and the Pod can be allowed to run in a namespace that is restricted by a
+# CPU ResourceQuota.
 
 ---
 apiVersion: v1
@@ -1981,4 +1983,28 @@ spec:
     - https://gitlab.indexexchange.com/operations/eck-operator.git
     # Deploys Zalando PostgreSQL operator (https://github.com/zalando/postgres-operator)
     - https://gitlab.indexexchange.com/operations/k8s/postgresql/operator.git
+endsnippet
+
+snippet pod "Pod manifest for GPU requests" !b
+# How can you enable GPUs on a Kubernetes Pod?
+# It comes down to:
+#     ✅ The resource/limits map
+#     ✅ The Node Selector
+# You don't actually need to use the Node Selector, but if you don't, your Pod will get whatever GPU node is up for scheduling.
+# If you want to use a specific GPU for your workload, you'll want to use the Node Selector so you can choose which GPU you want
+# to use. The resource/limits map tells Kubernetes how many GPUs you want for your workload.
+
+apiVersion: apps/v1
+kind: Pod
+metadata:
+  name: nginx-deployment
+spec:
+  containers:
+    - name: ubuntu2004
+      image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+  nodeSelector:
+    nvidia.com/gpu.product: H100-PCIE-80GB
 endsnippet
