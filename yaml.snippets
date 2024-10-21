@@ -2063,3 +2063,48 @@ snippet gitlab "Gitlab variables file for Armada pipeline - K8s Upgrades (IndexE
   }
 ]
 endsnippet
+
+snippet gitlab "Gitlab Pipeline for Cobbler Installation (IndexExchange)" !b
+[
+  {
+    "key": "COBBLER_OPTIONS",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "COBBLER_SERVER",
+    "value": "cobbler.up.win.indexww.com",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "FILE",
+    "value": "blackhole2-stg-data-41.win.indexww.com 10.6.201.55 14:18:77:3b:2c:ad 10.4.0.252",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "INTERFACE",
+    "value": "em1",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "NAMESERVERS",
+    "value": "10.4.0.252",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "NETMASK",
+    "value": "255.252.0.0",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "PROFILE",
+    "value": "SM15-NOVUS-DATA",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "WORKDIR",
+    "value": "/tmp/OPD-XXXX",
+    "variable_type": "env_var"
+  }
+]
+endsnippet
