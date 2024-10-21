@@ -508,35 +508,33 @@ snippet job "Kubernetes Job" !b
 apiVersion: batch/v1
 kind: Job
 metadata:
-	name: ${1:jobname}
-	labels:
-		${2:sometag: somevalue}
+  name: ${1:testjob}
+  labels:
+    ${2:sometag: somevalue}
 spec:
-	template:
-		metadata:
-			name: $1
-		spec:
-			containers:
-			- name: ${3:containerName}
-				image: ${4: image}
-				imagePullPolicy: Always
-				command:
-				- ${5:"override"
-				- "--the"
-				- "entrypoint"}
-			restartPolicy: OnFailure|Never
+  template:
+    metadata:
+      name: $1
+    spec:
+      containers:
+        - name: job-testing
+          image: ${3:busybox}
+          imagePullPolicy: Always
+          command:
+            - ${4:"override the entrypoint"}
+      restartPolicy: ${5:OnFailure|Never}
 endsnippet
 
 snippet job "Kubernetes Job with TTL" !b
-# In Kubernetes, the TTL (Time-To-Live) mechanism for finished jobs is a feature that helps automatically clean up 
+# In Kubernetes, the TTL (Time-To-Live) mechanism for finished jobs is a feature that helps automatically clean up
 # finished Jobs (either Complete or Failed) after a certain period. TTL mechanism provided by a TTL controller.
 
-# This is done to manage resources and avoid clutter in the cluster efficiently. When configuring TTL, it’s important 
+# This is done to manage resources and avoid clutter in the cluster efficiently. When configuring TTL, it’s important
 # to choose a duration that allows sufficient time for any debugging or log retrieval. Set it accordingly as per your use case
 
-# To do this, use the 'ttlSecondsAfterFinished' field in the job manifest. It comes under the spec section. 
-# It is used to set a time duration (in seconds) after which a completed job becomes eligible for deletion. 
-# When the TTL controller cleans up the Job, it deletes its dependent objects as well such as Pods. 
+# To do this, use the 'ttlSecondsAfterFinished' field in the job manifest. It comes under the spec section.
+# It is used to set a time duration (in seconds) after which a completed job becomes eligible for deletion.
+# When the TTL controller cleans up the Job, it deletes its dependent objects as well such as Pods.
 
 # Some benefits of using TTL:
 
@@ -546,7 +544,7 @@ snippet job "Kubernetes Job with TTL" !b
 # • It avoids resource overload in environments with frequent job executions.
 # • It helps us to control costs by releasing resources when no longer needed.
 
-# NOTE: TTL controller is typically enabled by default in many Kubernetes setups. If it is not enabled, 
+# NOTE: TTL controller is typically enabled by default in many Kubernetes setups. If it is not enabled,
 # then enable it manually in the Kubernetes controller manager.
 ---
 apiVersion: batch/v1
@@ -558,12 +556,12 @@ spec:
   template:
     metadata:
       name: my-pod
-  spec:
-    containers:
-      - name: my-container 
-        image: nginx:latest
-        command: ["echo", "This is a sample job to show the TTL usecase"]
-        restartPolicy: Never
+    spec:
+      containers:
+        - name: my-container
+          image: nginx:latest
+          command: ["echo", "This is a sample job to show the TTL usecase"]
+      restartPolicy: Never
 endsnippet
 
 snippet cron "Kubernetes Cronjob" !b
