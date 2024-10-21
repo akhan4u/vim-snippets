@@ -1199,7 +1199,7 @@ workflows:
             - hold
 endsnippet
 
-snippet gitlab "Gitlab Config file (BASH)" !b
+snippet gitlab "Gitlab Pipeline Config (BASH)" !b
 # You can copy and paste this template into a new `.gitlab-ci.yml` file.
 # You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
 #
@@ -2007,4 +2007,59 @@ spec:
           nvidia.com/gpu: 1
   nodeSelector:
     nvidia.com/gpu.product: H100-PCIE-80GB
+endsnippet
+
+snippet gitlab "Gitlab variables file for Armada pipeline - K8s Upgrades (IndexExchange)" !b
+[
+  {
+    "key": "ANSIBLE_LIMIT",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "CLUSTER_ADD_WORKER_NODE_EXTRA_ARGS",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "CLUSTER_BUILD_EXTRA_ARGS",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "CLUSTER_POST_EXTRA_ARGS",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "CLUSTER_PRE_EXTRA_ARGS",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "CLUSTER_REMOVE_NODE_EXTRA_ARGS",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "CLUSTER_UPGRADE_EXTRA_ARGS",
+    "value": "${2:--skip-tags=multus,pre-upgrade,node-taint -e serial=1 --limit k8sintw187.tor3.indexww.com}",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "IX_HOSTNAME_PATTERN",
+    "value": "${1:Ansible Group Name pattern for K8s cluster from inventory; example: k8sint.*}",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "NODE",
+    "value": "",
+    "variable_type": "env_var"
+  },
+  {
+    "key": "NODE_STATUS",
+    "value": "ONLINE",
+    "variable_type": "env_var"
+  }
+]
 endsnippet
