@@ -645,7 +645,7 @@ metadata:
 endsnippet
 
 snippet netp "NetworkPolicy (Ingress for pod with label)" !b
-# • This NetworkPolicy named example-access-nginx is applied to the "prod" namespace
+# • This NetworkPolicy named example-access-nginx is applied to the "default" namespace
 # • It selects Pods with the label "app=nginx" and allows incoming (ingress) traffic from Pods with the label "access=true"
 # • This means that only Pods with the label "access=true" can communicate with the selected Pods
 ---
