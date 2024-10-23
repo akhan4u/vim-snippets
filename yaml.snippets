@@ -653,19 +653,19 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: example-access-nginx
-  namespace: prod
+  namespace: default
   # The namespace where the NetworkPolicy is applied
 spec:
   podSelector:
     matchLabels:
       app: nginx
       # The NetworkPolicy applies to Pods with the label "app=nginx"
- ingress:
-  - from:
-     - podSelector:
-         matchLabels:
-           access: "true"
-         # Traffic is allowed from Pods with the label "access=true"
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              access: "true"
+              # Traffic is allowed from Pods with the label "access=true"
 endsnippet
 
 snippet netp "NetworkPolicy (Disable Ingress & Egress traffic in a Namespace)" !b
@@ -680,7 +680,7 @@ spec:
   podSelector: {}
   # No specific Pods are selected by this NetworkPolicy
   # Hence applied to all pods in the namespace where this policy is applied
-  policyType:
+  policyTypes:
     - Ingress
     # This NetworkPolicy is of type Ingress
     # It effectively denies all incoming traffic to all pods
@@ -696,7 +696,7 @@ spec:
   podSelector: {}
   # No specific Pods are selected by this NetworkPolicy
   # Hence applied to all pods in the namespace where this policy is applied
-  policyType:
+  policyTypes:
     - Egress
     # This NetworkPolicy is of type Egress
     # It effectively denies all outgoing traffic from all pods
