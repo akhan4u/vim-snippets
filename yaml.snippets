@@ -808,34 +808,69 @@ annotations:
 	external-dns.alpha.kubernetes.io/hostname: ${1:myname.mydomain.com}
 endsnippet
 
-snippet role "Role" !b
-kind: ${1:Cluster}Role
+snippet role "Role & Role Binding" !b
+# • Role is a way of defining what actions users can perform within a namespace. This defines which actions such as get,
+# list, create, delete, etc., can be performed on specific resources like pods, services, and deployments.
+# Here, We have permitted pods to get, list, update, delete, and create the resources.
+---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-	${2:namespace: ${3:default}
-	}name: ${4:configmap-updater}
+  name: developer
+  namespace: default
 rules:
-- apiGroups: ["${5:}"]
-	resources: ["${6:configmaps}"]
-	resourceNames: ["${7:my-configmap}"]
-	verbs: [${8:"update", "get"}]
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "list", "update", "delete", "create"]
+
+# • RoleBinding binds the role with one or more users, groups, and service accounts in a particular namespace.
+# In this way, whatever permissions we have defined in a role get allotted to the users, groups, or service accounts.
+# Below RoleBinding binds the developer Role to a user named "dev-user" in the "default" namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: devuser-developer-binding
+subjects:
+- kind: User
+  name: dev-user # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
 endsnippet
 
-snippet rb "RoleBinding" !b
-# This role binding allows "jane" to read pods in the "default" namespace.
-kind: ${1:Cluster}RoleBinding
+snippet clusterrole "ClusterRole & ClusterRoleBinding" !b
+# • ClusterRole is similar to the role, but it is used for cluster-wide permissions. It means it is not limited to a
+# specific namespace and can be used in all namespaces of the cluster.
+# Here We have permitted nodes to get, list, delete, and create the resources.
+---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
-	name: ${2:read-pods}
-	${3:namespace: ${4:pods}
-}subjects:
-- kind: ${5:User|ServiceAccount|Group}
-	name: ${6:jane} # Name is case sensitive
-	apiGroup: rbac.authorization.k8s.io
+  name: cluster-administrator
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["nodes"]
+  verbs: ["get", "list", "delete", "create"]
+
+# • ClusterRoleBinding binds the ClusterRole to one or more users, groups, and service accounts throughout the cluster.
+# This allows the permissions defined in ClusterRole to be assigned to users in all namespaces of the cluster.
+# Below ClusterRoleBinding binds the "cluster-administrator" ClusterRole to a user named "cluster-admin" in all namespaces
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-admin-role-binding
+subjects:
+- kind: User
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
 roleRef:
-	kind: ${7:Cluster}Role #this must be Role or ClusterRole
-	name: ${8:pod-reader} # this must match the name of the Role or ClusterRole you wish to bind to
-	apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-administrator
+  apiGroup: rbac.authorization.k8s.io
 endsnippet
 
 snippet rbac "Role and Binding" !b
