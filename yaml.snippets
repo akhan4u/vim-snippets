@@ -630,7 +630,6 @@ spec:
 		kind: ClusterIssuer
 endsnippet
 
-
 snippet netp "NetworkPolicy" !b
 kind: NetworkPolicy
 apiVersion: extensions/v1beta1
@@ -643,6 +642,64 @@ metadata:
 				${3:{}}
 }	ingress:
 			- {}
+endsnippet
+
+snippet netp "NetworkPolicy (Ingress for pod with label 'access=true') !b
+# • This NetworkPolicy named example-access-nginx is applied to the "prod" namespace
+# • It selects Pods with the label "app=nginx" and allows incoming (ingress) traffic from Pods with the label "access=true"
+# • This means that only Pods with the label "access=true" can communicate with the selected Pods
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: example-access-nginx
+  namespace: prod
+  # The namespace where the NetworkPolicy is applied
+spec:
+  podSelector:
+    matchLabels:
+      app: nginx
+      # The NetworkPolicy applies to Pods with the label "app=nginx"
+ ingress:
+  - from:
+     - podSelector:
+         matchLabels:
+           access: "true"
+         # Traffic is allowed from Pods with the label "access=true"
+endsnippet
+
+snippet netp "NetworkPolicy (Disable Ingress & Egress traffic in a Namespace)" !b
+# To Disable All Ingress Traffic In A Pod Network Space
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  # The name of the NetworkPolicy
+spec:
+  podSelector: {}
+  # No specific Pods are selected by this NetworkPolicy
+  # Hence applied to all pods in the namespace where this policy is applied
+  policyType:
+    - Ingress
+    # This NetworkPolicy is of type Ingress
+    # It effectively denies all incoming traffic to all pods
+
+# To Disable All Egress Traffic In A Pod Network Space
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-egress
+  # The name of the NetworkPolicy
+spec:
+  podSelector: {}
+  # No specific Pods are selected by this NetworkPolicy
+  # Hence applied to all pods in the namespace where this policy is applied
+  policyType:
+    - Egress
+    # This NetworkPolicy is of type Egress
+    # It effectively denies all outgoing traffic from all pods
 endsnippet
 
 snippet probe "Liveness/Readiness Probes" !b
