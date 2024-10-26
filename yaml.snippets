@@ -964,6 +964,7 @@ snippet hpa "Horizontal Pod Autoscaler (with Stabilization window)" !b
 
 # type is the type of metric source
 # It should be one of "ContainerResource", "External", "Object", "Pods" or "Resource", each mapping to a matching field in the object
+# • k explain horizontalPodAutoscaler.spec.metrics
 # Note: "ContainerResource" type is available on when the feature-gate HPAContainerMetrics is enabled
 ---
 apiVersion: autoscaling/v2
@@ -995,6 +996,7 @@ endsnippet
 snippet hpa "Horizontal Pod Autoscaler (Custom Metrics - Ingress Req/s)" !b
 # type is the type of metric source
 # It should be one of "ContainerResource", "External", "Object", "Pods" or "Resource", each mapping to a matching field in the object
+# • k explain horizontalPodAutoscaler.spec.metrics
 # Note: "ContainerResource" type is available on when the feature-gate HPAContainerMetrics is enabled
 ---
 apiVersion: autoscaling/v2
@@ -1045,6 +1047,7 @@ endsnippet
 snippet hpa "Horizontal Pod Autoscaler (Custom Metrics - Job Queue Length)" !b
 # type is the type of metric source
 # It should be one of "ContainerResource", "External", "Object", "Pods" or "Resource", each mapping to a matching field in the object
+# • k explain horizontalPodAutoscaler.spec.metrics
 # Note: "ContainerResource" type is available on when the feature-gate HPAContainerMetrics is enabled
 ---
 apiVersion: autoscaling/v2
@@ -1077,6 +1080,7 @@ snippet hpa "Horizontal Pod Autoscaling (Container Resource Metrics)" !b
 # (CPU, memory, etc.) of a specific container within the pod.
 # type is the type of metric source
 # It should be one of "ContainerResource", "External", "Object", "Pods" or "Resource", each mapping to a matching field in the object
+# • k explain horizontalPodAutoscaler.spec.metrics
 # Note: "ContainerResource" type is available on when the feature-gate HPAContainerMetrics is enabled
 ---
 apiVersion: autoscaling/v2
