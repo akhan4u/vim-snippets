@@ -955,31 +955,40 @@ pod${1:Anti}Affinity:
 			topologyKey: ${5:kubernetes.io/hostname}
 endsnippet
 
-snippet hpa "Horizontal Pod Autoscaler (apiVersion: autoscaling/v2beta1)" !b
-apiVersion: autoscaling/v2beta1
+snippet hpa "Horizontal Pod Autoscaler (with Stabilization window)" !b
+# Stabilization window : Due to the dynamic nature there can be rapid scaling up and down (known as "flapping")
+# HPA uses a stabilization window, allowing time for the system to stabilise before making further adjustments
+# If not set, use the default values:
+# • scale up: 0 (i.e. no stabilization is done)
+# • scale down: 300 (i.e. the stabilization window is 300 seconds long)
+---
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: ${1:hpa-name}
   namespace: ${2:default}
 spec:
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 200
+    scaleDown:
+      stabilizationWindowSeconds: 300
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: ${3:deployment-name}
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 5
   metrics:
   - type: Resource
     resource:
       name: cpu
-      targetAverageUtilization: 10
-  - type: Resource
-    resource:
-      name: memory
-      targetAverageValue: 1000Mi
+      target:
+        type: Utilization
+        averageUtilization: 50
 endsnippet
 
-snippet hpa "Horizontal Pod Autoscaler (apiVersion: autoscaling/v2)" !b
+snippet hpa "Horizontal Pod Autoscaler (Custom Metrics - Ingress Req/s)" !b
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -1025,7 +1034,32 @@ spec:
         value: 10k
 endsnippet
 
-snippet hpa "Horizontal Pod Autoscaling with Container Resource Metrics (apiVersion: autoscaling/v2)" !b
+snippet hpa "Horizontal Pod Autoscaler (Custom Metrics - Job Queue Length)" !b
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-application-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-application
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: External
+    external:
+      metric:
+        name: my_queue_length
+        selector:
+          matchLabels:
+            queue: "jobs"
+      target:
+        type: Value
+        value: 10
+endsnippet
+
+snippet hpa "Horizontal Pod Autoscaling (Container Resource Metrics)" !b
 # Introduced in Kubernetes v1.20 and now graduated to stable in v1.30, the Container resource metrics feature allows HPA to
 # target individual container metrics within a pod. You can define the HPA to scale based on the resource utilization
 # (CPU, memory, etc.) of a specific container within the pod.
@@ -1042,10 +1076,10 @@ spec:
   minReplicas: 1
   maxReplicas: 10
   metrics:
-  - type: ContainerResource #new-metrics-source
+  - type: ContainerResource # new-metrics-source
     containerResource:
       name: cpu
-      container: cpu-stressor #container-name
+      container: cpu-stressor # container-name
       target:
         type: Utilization
         averageUtilization: 50
