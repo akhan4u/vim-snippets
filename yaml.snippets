@@ -1204,6 +1204,64 @@ spec:
         averageUtilization: 50
 endsnippet
 
+snippet vpa "Vertical Pod Autoscaling (Auto-Update Mode)" !b
+# Kubernetes VPA Auto-Update Mode
+# There are multiple valid options for updateMode in VPA. They are:
+# Off       – VPA will only provide the recommendations, and it will not automatically change resource requirements
+# Initial   – VPA only assigns resource requests on pod creation and never changes them later
+# Recreate  – VPA assigns resource requests on pod creation time and updates them on existing pods by evicting and recreating them
+# Auto mode – It recreates the pod based on the recommendation
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: nginx-vpa
+  namespace: default
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: nginx
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: "nginx"
+        minAllowed:
+          cpu: "250m"
+          memory: "100Mi"
+        maxAllowed:
+          cpu: "500m"
+          memory: "600Mi"
+endsnippet
+
+snippet vpa "Vertical Pod Autoscaling (Excluding a Container from scaling)" !b
+# Excluding Scaling for a Container
+# Let’s assume we have a pod running two containers, and we want only one container to scale based on VPA.
+# The other container (say a container used to host a performance monitoring agent) should not scale, because
+# it does not require scaling.
+
+# We can achieve this by opting out the containers which do not need scaling. In this case, we should
+# set mode: "Off" for the container hosting the performance monitoring tool’s agent, which does not require
+# the scaling
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: my-opt-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: my-vpa-deployment
+  updatePolicy:
+    updateMode: "Auto"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: newrelic-sidecar-container
+        mode: "Off"
+endsnippet
+
 snippet cf_init "Blank CloudFormation Template" !b
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ${1: Welcome to CFn template!!}
