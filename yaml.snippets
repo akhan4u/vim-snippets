@@ -1262,6 +1262,62 @@ spec:
         mode: "Off"
 endsnippet
 
+snippet vpa "Vertical Pod Autoscaling (Created by Goldilocks - AutoUpdate 'false')" !b
+# VPA for argo-rollouts deployment
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  labels:
+    creator: Fairwinds
+    source: goldilocks
+  name: goldilocks-argo-rollouts
+  namespace: k8s-core-components
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: argo-rollouts
+  updatePolicy:
+    updateMode: "Off"
+
+# VPA for grafana deployment
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  labels:
+    creator: Fairwinds
+    source: goldilocks
+  name: goldilocks-grafana
+  namespace: k8s-core-components
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: grafana
+  updatePolicy:
+    updateMode: "Off"
+
+# VPA for kube-state-metrics deployment
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  labels:
+    creator: Fairwinds
+    source: goldilocks
+  name: goldilocks-kube-state-metrics
+  namespace: k8s-core-components
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kube-state-metrics
+  updatePolicy:
+    updateMode: "Off"
+endsnippet
+
 snippet cf_init "Blank CloudFormation Template" !b
 AWSTemplateFormatVersion: "2010-09-09"
 Description: ${1: Welcome to CFn template!!}
