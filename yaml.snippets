@@ -398,10 +398,10 @@ metadata:
 		tier: ${3:tier}
 spec:
 	${4:storageClassName: ${5:standard}}
-    # accessModes:
-    # • ReadWriteOnce (RWO) - Volume allows read/write by only one node at the same time.
-    # • ReadWriteMany (RWX) - Volume allows read/write by multiple nodes at the same time.
-    # • ReadOnlyMany  (ROX) - Volume allows read-only mode by many nodes at the same time.
+  # accessModes:
+  # • ReadWriteOnce (RWO) - Volume allows read/write by only one node at the same time.
+  # • ReadWriteMany (RWX) - Volume allows read/write by multiple nodes at the same time.
+  # • ReadOnlyMany  (ROX) - Volume allows read-only mode by many nodes at the same time.
 	accessModes:
 		- ${6:ReadWriteOnce}
 	resources:
@@ -410,25 +410,125 @@ spec:
 			storage: ${7:20Gi}
 endsnippet
 
-snippet ing "Ingress" !b
-apiVersion: extensions/v1beta1
+snippet ing "Ingress - Exposing 2 services" !b
+---
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-	name: ${1:name}
-	namespace: ${2:default}
+  name: my-services
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/group.name: "main-elb"
 spec:
-	${5:tls:
-	- secretName: ${4:$3.tls}
-		hosts:
-		- $3
-	}rules:
-	- host: ${3:host.tld}
-		http:
-			paths:
-			- path: ${7:/}
-				backend:
-					serviceName: ${8:service}
-					servicePort: ${9:portNumberOrName}
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          # Custom path prefix
+          - path: /service1
+            pathType: Prefix
+            backend:
+              service:
+                name: blue-service
+                port:
+                  number: 8888
+          # Custom path prefix
+          - path: /service2
+            pathType: Prefix
+            backend:
+              service:
+                name: green-service
+                port:
+                  number: 8888
+endsnippet
+
+snippet ing "Ingress - Exposing 2 services with Host Headers" !b
+# You can use host conditions to define rules that route requests based on the 
+# host name in the host header (also known as host-based routing). This enables 
+# you to support multiple subdomains & different top-level domains using a single load balancer.
+
+# Example request pattern:
+# curl --header 'Host: blue.example.com' <string>.<region>.elb.amazonaws.com
+# {"message":"I am blue service"}
+# curl --header 'Host: green.example.com' <string>.<region>.elb.amazonaws.com
+# {"message":"I am GREEN service"}
+
+# Request Flow
+# [client] => NLB => Ingress Nginx Controller pods => application pods
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-services
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/group.name: "main-elb"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: blue.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: blue-service
+                port:
+                  number: 8888
+    - host: green.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: green-service
+                port:
+                  number: 8888
+endsnippet
+
+snippet ing "Ingress - Ingress nginx rewrite feature to rewrite /service1 to /" !b
+# DOCS: https://kubernetes.github.io/ingress-nginx/examples/rewrite/#rewrite
+# Ingress nginx rewrite feature to rewrite /service1 to /
+# Furthermore, this configuration will preserve anything after /service1
+# for example, if we send /service1/health our backend will receive /health
+
+# • "rewrite.bar.com/service1" rewrites to "rewrite.bar.com/"
+# • "rewrite.bar.com/service1/health" rewrites to "rewrite.bar.com/health"
+
+# Example request pattern:
+# curl my-services-<string>.elb.<region>.amazonaws.com/service1
+# {"message":"I am blue service"}
+# curl my-services-<string>.elb.<region>.amazonaws.com/service1/health
+# OK
+
+# Request Flow
+# [client] => NLB => Ingress Nginx Controller pods => application pods
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blue-service
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /\$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /service1(/|$)(.*)
+            backend:
+              service:
+                name: blue-service
+                port:
+                  number: 8888
 endsnippet
 
 snippet ns "Namespace" !b
