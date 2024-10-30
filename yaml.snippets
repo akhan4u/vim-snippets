@@ -2657,11 +2657,10 @@ spec:
 #       scaleDownDelayRevisionLimit: *int32
 endsnippet
 
-snippet rollout "Argo Rollout App Manifest - Canary Strategy" !b
+snippet rollout "Argo Rollout App Manifest - Canary Strategy (Simple)" !b
 # Argo Rollout spec is similar to the deployment object, the Argo Rollouts controller will manage the creation, scaling, and
 # deletion of ReplicaSets. These ReplicaSets are defined by the spec.template field inside the Rollout resource, which uses
 # the same pod template as the deployment object.
-
 # • A canary rollout is a deployment strategy where the operator releases a new version of their application to a small percentage
 #   of the production traffic.
 ---
@@ -2716,6 +2715,72 @@ spec:
 #       maxUnavailable: stringOrInt
 #       # Defaults to nil
 #       trafficRouting: object
+endsnippet
+
+snippet rollout "Argo Rollout App Manifest - Canary Strategy (Traffic Routing via Nginx Ingress)" !b
+# Argo Rollout spec is similar to the deployment object, the Argo Rollouts controller will manage the creation, scaling, and
+# deletion of ReplicaSets. These ReplicaSets are defined by the spec.template field inside the Rollout resource, which uses
+# the same pod template as the deployment object.
+# • A canary rollout is a deployment strategy where the operator releases a new version of their application to a small percentage
+#   of the production traffic.
+# DOCS: https://argo-rollouts.readthedocs.io/en/stable/features/traffic-management/nginx/
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: example-rollout
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.15.4
+        ports:
+        - containerPort: 80
+  minReadySeconds: 30
+  revisionHistoryLimit: 3
+  strategy:
+    canary:
+      canaryService: canary-service  # required
+      stableService: stable-service  # required
+      trafficRouting:
+        nginx:
+          # Either stableIngress or stableIngresses must be configured, but not both
+          stableIngress: primary-ingress
+          stableIngresses:
+            - primary-ingress
+            - secondary-ingress
+            - tertiary-ingress
+          annotationPrefix: customingress.nginx.ingress.kubernetes.io # optional
+          additionalIngressAnnotations:   # optional
+            canary-by-header: X-Canary
+            canary-by-header-value: iwantsit
+      # delay scaling down the old ReplicaSet after the active Service is switched to the new ReplicaSet
+      scaleDownDelaySeconds: 30
+      steps:
+      # Set Canary service to scale of 3 pods initially
+      - setCanaryScale:
+          replicas: 3
+      - setWeight: 20
+      - pause:
+          duration: 10s
+      - setWeight: 40
+      - pause:
+          duration: 10s
+      - setWeight: 60
+      - pause:
+          duration: 10s
+      - setWeight: 80
+      - pause:
+          duration: 10s
+      - setWeight: 100
 endsnippet
 
 snippet pc "PriorityClass Manifest" !b
