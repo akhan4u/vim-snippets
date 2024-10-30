@@ -445,8 +445,8 @@ spec:
 endsnippet
 
 snippet ing "Ingress - Exposing 2 services with Host Headers" !b
-# You can use host conditions to define rules that route requests based on the 
-# host name in the host header (also known as host-based routing). This enables 
+# You can use host conditions to define rules that route requests based on the
+# host name in the host header (also known as host-based routing). This enables
 # you to support multiple subdomains & different top-level domains using a single load balancer.
 
 # Example request pattern:
@@ -2421,6 +2421,8 @@ kind: Pod
 metadata:
   name: nginx-deployment
 spec:
+  # Assign priority levels to pods, which determines how they are scheduled and evicted
+  priorityClassName: system-node-critical
   containers:
     - name: ubuntu2004
       image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1-ubuntu20.04
@@ -2714,4 +2716,22 @@ spec:
 #       maxUnavailable: stringOrInt
 #       # Defaults to nil
 #       trafficRouting: object
+endsnippet
+
+snippet pc "PriorityClass Manifest" !b
+# This YAML manifest defines a PriorityClass resource in Kubernetes. It's used to assign priority levels to pods, which
+# determines how they are scheduled and evicted
+# This PriorityClass is likely used for system-critical pods that should remain on their current node unless absolutely necessary.
+# The high priority value ensures these pods are not easily evicted or rescheduled.
+---
+apiVersion: scheduling.k8s.io/v1
+description: "Used for system critical pods that must not be moved from their current node"
+kind: PriorityClass
+metadata:
+  name: system-node-critical
+  namespace: default
+# Policy for handling preemption requests
+preemptionPolicy: PreemptLowerPriority
+# Value representing the priority level (higher values indicate higher priority)
+value: 2000001000
 endsnippet
