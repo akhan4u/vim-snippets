@@ -41,6 +41,57 @@ spec:
       emptyDir: {}
 endsnippet
 
+snippet pod "Custom DNS configurations on the pod spec" !b
+# In the Kubernetes cluster, by default, when running a pod with default DNS policy (ClusterFirst) nameserver will 
+# have a 10.96.0.10 value, which is an IP address of kube-dns Service that load balances TCP and UDP traffic to CoreDNS.
+# When using the default ClusterFirst DNS Policy, Kubelet will generate the following /etc/resolv.conf
+# 
+#     search <pod-namespace>.svc.cluster.local svc.cluster.local cluster.local
+#     options ndots:5
+# 
+# The search option provides a search list of host-name lookups. DNS queries with fewer dots than specified in the ndots option
+# will be attempted using each element of the search field until a match is found. For example, your Pod queries DNS for app.kube-system.
+# Then the DNS client checks “1 dot is less than 5 dots” and attempts to lookup -
+#     1. app.kube-system.<pod-namespace>.cluster.local.
+#     2. app.kube-system.svc.cluster.local.
+#     3. app.kube-system.cluster.local.
+#     4. app.kube-system.
+# Note that if your query ends with a dot, it’s considered a Fully Qualified Domain Name. In this case, the DNS client will resolve
+# the DNS entry exactly as it is without using the elements in the search option.
+# 
+# Kubernetes Pod DNS Policy
+# Kubernetes additionally supports the following DNS Policies -
+# 
+#     • Default - The Pod inherits the /etc/resolv.conf from the node it runs on. For instance, a CoreDNS Pod typically uses this policy
+#       to forward external domain name requests to the node’s nameserver.
+#     • ClusterFirstWithHostNet - This policy is for pods with host network enabled, applying ClusterFirst behavior. Otherwise, these pods
+#       default to the Default policy.
+#     • None - This policy allows custom DNS configurations on the pod spec. Here’s an example:
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dns-example
+spec:
+  containers:
+    - name: test
+      image: nginx
+  dnsPolicy: "None"
+  dnsConfig:
+    nameservers:
+      - 10.96.0.10
+    searches:
+      - suffix1.povilasv.me
+      - suffix2.povilasv.me
+      - suffix3.povilasv.me
+      - kube-system.svc.cluster.local
+      - svc.cluster.local
+      - cluster.local
+    options:
+      - name: ndots
+        value: "5"
+endsnippet
+
 snippet limits "Configure Default/MIN/MAX CPU & Memory Requests & Limits for a Namespace" !b
 ---
 apiVersion: v1
