@@ -42,13 +42,13 @@ spec:
 endsnippet
 
 snippet pod "Custom DNS configurations on the pod spec" !b
-# In the Kubernetes cluster, by default, when running a pod with default DNS policy (ClusterFirst) nameserver will 
+# In the Kubernetes cluster, by default, when running a pod with default DNS policy (ClusterFirst) nameserver will
 # have a 10.96.0.10 value, which is an IP address of kube-dns Service that load balances TCP and UDP traffic to CoreDNS.
 # When using the default ClusterFirst DNS Policy, Kubelet will generate the following /etc/resolv.conf
-# 
+#
 #     search <pod-namespace>.svc.cluster.local svc.cluster.local cluster.local
 #     options ndots:5
-# 
+#
 # The search option provides a search list of host-name lookups. DNS queries with fewer dots than specified in the ndots option
 # will be attempted using each element of the search field until a match is found. For example, your Pod queries DNS for app.kube-system.
 # Then the DNS client checks “1 dot is less than 5 dots” and attempts to lookup -
@@ -58,10 +58,10 @@ snippet pod "Custom DNS configurations on the pod spec" !b
 #     4. app.kube-system.
 # Note that if your query ends with a dot, it’s considered a Fully Qualified Domain Name. In this case, the DNS client will resolve
 # the DNS entry exactly as it is without using the elements in the search option.
-# 
+#
 # Kubernetes Pod DNS Policy
 # Kubernetes additionally supports the following DNS Policies -
-# 
+#
 #     • Default - The Pod inherits the /etc/resolv.conf from the node it runs on. For instance, a CoreDNS Pod typically uses this policy
 #       to forward external domain name requests to the node’s nameserver.
 #     • ClusterFirstWithHostNet - This policy is for pods with host network enabled, applying ClusterFirst behavior. Otherwise, these pods
@@ -2137,6 +2137,34 @@ fields:
     # TODO: Add reference links here
     • [Link1|https://example.com]
     • [Link2|https://example.com]
+
+# votes: 0
+# comments:
+endsnippet
+
+snippet jira "jira ticket template at IndexExchange for DSP Adspend alert (DEM project)" !b
+# Should be created in DEM project
+# Example: # issue: DEM-14168 - created: 3 hours ago
+fields:
+  summary: >-
+    # TODO: Add Issue summary here
+    # Example: NOC-Media Smart- DSP 187 Ad spend Alert: FR - November 12, 2024
+  reporter:
+    name: amaan.khan  # TODO: Check your username from https://jira.indexexchange.com/rest/api/2/myself
+    emailAddress: amaan.khan@indexexchange.com
+  priority: # Values: Urgent, High, Normal, Low,
+    name: Normal
+  labels:
+    name: DSP, Support, spendflagNOC
+  issuetype:
+    name: Operations
+  description: |~
+    # TODO: Add a description here
+
+    *Reference Code*
+    {code:bash}
+    # TODO: Insert some reference code here
+    {code}
 
 # votes: 0
 # comments:
