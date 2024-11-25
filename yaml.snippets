@@ -1255,6 +1255,43 @@ spec:
         averageUtilization: 50
 endsnippet
 
+snippet hpa "Horizontal Pod Autoscaling (ArgoRollout Custom Resource)" !b
+# You would expect that if the CPU utilisation stay above 70% the Rollout will be increased with
+# 4 pods every minute and it will decrease with 1 pod every 15 minutes if the CPU utilisation drop below 70%
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-hpa
+spec:
+  behavior:
+    scaleDown:
+      policies:
+        - periodSeconds: 900
+          type: Pods
+          value: 1
+      selectPolicy: Min
+    scaleUp:
+      policies:
+        - periodSeconds: 60
+          type: Pods
+          value: 4
+      selectPolicy: Max
+  maxReplicas: 48
+  minReplicas: 16
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 70
+        type: Utilization
+    type: Resource
+  scaleTargetRef:
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: my-rollout
+endsnippet
+
 snippet vpa "Vertical Pod Autoscaling (Auto-Update Mode)" !b
 # Kubernetes VPA Auto-Update Mode
 # There are multiple valid options for updateMode in VPA. They are:
