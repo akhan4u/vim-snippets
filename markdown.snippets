@@ -46,6 +46,39 @@ ${4: Paste terraform plan here from your clipboard}
 
 endsnippet
 
+snippet prio "IoNet PR template" !b
+## Why?
+
+[CLOUD-${1:1234}](https://linear.app/ionet/issue/CLOUD-$1)
+
+## This PR
+
+<!--- More detailed explanatory text, if necessary. Wrap it to about 72 characters or so. -->
+${2:Short Brief}
+
+<details><summary>Summary of Commits</summary>
+<p>
+
+<!--- Summary of commits compared to master branch as base -->
+`git log --no-merges --pretty='%C(yellow)%h %Creset %s'  dev.. || git log --no-merges --pretty='%C(yellow)%h %Creset %s' main..`
+
+</p>
+</details>
+
+<details><summary>validate.sh output</summary>
+<p>
+
+\`\`\`bash
+-----------------------------------------------------------------------
+${3: Paste your validate.sh output here from your clipboard}
+-----------------------------------------------------------------------
+\`\`\`
+
+</p>
+</details>
+
+endsnippet
+
 snippet prmd "Teikametrics PR template for Megalodon" !b
 ## Why?
 
