@@ -2914,3 +2914,216 @@ preemptionPolicy: PreemptLowerPriority
 # Value representing the priority level (higher values indicate higher priority)
 value: 2000001000
 endsnippet
+
+snippet flux-gitrepo "Flux GitRepository with Kustomization (Install velero)" !b
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: velero-crd-repo
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://github.com/vmware-tanzu/helm-charts
+  ref:
+    tag: velero-8.1.0
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: velero-crd
+  namespace: flux-system
+spec:
+  interval: 1m
+  targetNamespace: flux-system
+  sourceRef:
+    kind: GitRepository
+    name: velero-crd-repo
+  path: "./charts/velero/crds"
+  prune: true
+  timeout: 1m
+endsnippet
+
+snippet flux-gitrepo "Flux GitRepository (Install VictoriaMetrics HelmChart as GitRepo)" !b
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: victoria-metrics
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: https://github.com/VictoriaMetrics/helm-charts
+  ref:
+    branch: master
+  ignore: |
+    # exclude all
+    /*
+    # include deploy dir
+    !/charts/victoria-metrics-operator/charts/crds
+endsnippet
+
+snippet flux-helmrelease "Flux HelmRelease CRD (Install VictoriaMetrics)" !b
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics-crds
+  namespace: flux-system
+spec:
+  interval: 60m
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      # Name of the Helm chart to use
+      chart: ./charts/victoria-metrics-operator/charts/crds
+      reconcileStrategy: Revision
+      sourceRef:
+        kind: GitRepository
+        name: victoria-metrics
+        namespace: flux-system
+      # Interval between automatic updates of the chart (5 minutes)
+      interval: 5m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+endsnippet
+
+snippet flux-helmrelease "Flux HelmRelease CRD (Install velero)" !b
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-apps
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  url: https://github.com/akhan4u/flux-apps
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: flux-apps
+  namespace: flux-system
+spec:
+  interval: 30m0s
+  path: ./kustomize
+  prune: true
+  retryInterval: 2m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-apps
+  timeout: 3m0s
+  wait: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config-main
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+spec:
+  interval: 15m
+  timeout: 15m
+  chart:
+    spec:
+      chart: velero
+      sourceRef:
+        kind: HelmRepository
+        name: velero
+        namespace: velero
+      interval: 5m
+  releaseName: velero
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  # Default values: https://github.com/vmware-tanzu/helm-charts/blob/velero-8.1.0/charts/velero/values.yaml
+  values:
+    metrics:
+      serviceMonitor:
+        enabled: true
+    configuration:
+      backupStorageLocation:
+        - bucket: ${velero_backup_s3_bucket}
+          provider: aws
+      volumeSnapshotLocation:
+        - config:
+            region: ${velero_snapshot_aws_region}
+          provider: aws
+    initContainers:
+      - name: velero-plugin-for-aws
+        image: velero/velero-plugin-for-aws:v1.11.0
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
+    credentials:
+      useSecret: true
+      secretContents:
+        cloud: |
+          [default]
+          aws_access_key_id=${velero_aws_access_key_id}
+          aws_secret_access_key=${velero_aws_secret_access_key}
+endsnippet
+
+snippet flux-helmrepo "Flux HelmRepo CRD (Install prometheus-operator-crds)" !b
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: prometheus-community
+  namespace: flux-system
+spec:
+  # Interval between automatic updates of the repository (24 hours)
+  interval: 24h
+  # URL of the Helm repository
+  url: https://prometheus-community.github.io/helm-charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus-operator-crds
+  namespace: flux-system
+spec:
+  # Interval between automatic updates (60 minutes)
+  interval: 60m
+  chart:
+    spec:
+      # Name of the Helm chart to use
+      chart: prometheus-operator-crds
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+      # Interval between automatic updates of the chart (5 minutes)
+      interval: 5m
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # List of resources to be included in the Kustomization
+  - helm-repo.yaml
+  - helm-release.yaml
+endsnippet
+
+snippet flux-kustomization "Flux Kustomization CRD (Install cert-manager)" !b
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Use a specific version instead 'latest' if you want to install a specific version
+  - https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.crds.yaml
+endsnippet
+
+snippet flux-kustomization "Flux Kustomization CRD (Install external-secrets)" !b
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Use a specific version instead 'main' if you want to install a specific version
+  - https://raw.githubusercontent.com/external-secrets/external-secrets/main/deploy/crds/bundle.yaml
+endsnippet
