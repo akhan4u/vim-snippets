@@ -1910,6 +1910,79 @@ jobs:
             ghcr.io/continualai/avalanche-nightly:latest
 endsnippet
 
+snippet ghactions "Github Actions file (Repository Dispatch event - Raise PR for Helm chart update with Flux)" !b
+name: Promotion HR
+on:
+  repository_dispatch:
+    types:
+      - HelmRelease/**
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  promote:
+    name: promotion
+    runs-on: ubuntu-latest
+    if: |
+      github.event.client_payload.metadata.env == 'dev' &&
+      github.event.client_payload.severity == 'info'
+    steps:
+      # Checkout main branch.
+      - uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      # Parse the event metadata to determine the chart version deployed on dev.
+      - name: Get chart version from dev
+        id: dev
+        run: |
+          HELMRELEASE=$(echo ${{ github.event.client_payload.involvedObject.name }})
+          NAMESPACE=$(echo ${{ github.event.client_payload.involvedObject.namespace }})
+          VERSION=$(echo ${{ github.event.client_payload.metadata.revision }} | cut -d '@' -f1)
+          TYPE=$(echo ${{ github.event.client_payload.metadata.type }})
+          echo VERSION=${VERSION} >> $GITHUB_OUTPUT
+          echo HELMRELEASE=${HELMRELEASE} >> $GITHUB_OUTPUT
+          echo NAMESPACE=${NAMESPACE} >> $GITHUB_OUTPUT
+          echo TYPE=${TYPE} >> $GITHUB_OUTPUT
+
+      # Patch the chart version in the production Helm release manifest.
+      - name: Set chart version in production
+        id: production
+        env:
+          HELM_RELEASE: ${{ steps.dev.outputs.helmrelease }}
+          NAMESPACE: ${{ steps.dev.outputs.namespace }}
+          CHART_VERSION: ${{ steps.dev.outputs.version }}
+          TYPE: ${{ steps.dev.outputs.type }}
+        run: |
+          echo "Set ${NAMESPACE}/${HELM_RELEASE} chart version to ${CHART_VERSION} in ${TYPE}-stable"
+          curv=$(yq '. | select(.metadata.name==env(HELM_RELEASE) and .metadata.namespace==env(NAMESPACE)) | .spec.chart.spec.version' apps/bundles/$TYPE-stable/$TYPE-stable.yaml)
+          echo "Current Version: $curv"
+          echo "    New Version: $CHART_VERSION"
+          if [ -n "$curv" ] && [ "$CHART_VERSION" != "$curv" ]; then
+            yq -i '(. | select(.metadata.name == env(HELM_RELEASE) and .metadata.namespace==env(NAMESPACE)) | .spec.chart.spec.version ) = env(CHART_VERSION) ' apps/bundles/$TYPE-stable/$TYPE-stable.yaml
+            echo CHANGES=true >> $GITHUB_OUTPUT
+          else
+            echo "No candidates found"
+          fi
+
+      # Open a Pull Request if an upgraded is needed in production.
+      - name: Open promotion PR
+        uses: peter-evans/create-pull-request@v6
+        if: ${{ steps.production.outputs.changes }}
+        with:
+          branch: dev-promotion-${{ github.run_number }}
+          delete-branch: true
+          token: ${{ secrets.CICD_GITHUB_TOKEN }}
+          commit-message: Update ${{ steps.dev.outputs.helmrelease }} to v${{ steps.dev.outputs.version }}
+          title: "feat: Promote ${{ steps.dev.outputs.namespace }}/${{ steps.dev.outputs.helmrelease }} release to ${{ steps.dev.outputs.version }} in ${{ steps.dev.outputs.type }}-stable"
+          body: |
+            **Automated PR**
+            HelmRelease ${{ steps.dev.outputs.namespace }}/${{ steps.dev.outputs.helmrelease }} was upgraded to version ${{ steps.dev.outputs.version }} in ${{ steps.dev.outputs.type }}-flex.
+            Promote to stable.
+endsnippet
+
 snippet pod "Check Internet Connection with Pod in default NS" !b
 ---
 apiVersion: v1
