@@ -3202,6 +3202,12 @@ resources:
 endsnippet
 
 snippet prom-servicemonitor "Prometheus Service Monitor resource" !b
+# The Prometheus Operator includes a Custom Resource Definition that allows the definition of 
+# the ServiceMonitor. The ServiceMonitor is used to define an application you wish to scrape metrics
+# from within Kubernetes, the controller will action the ServiceMonitors we define and automatically
+# build the required Prometheus configuration. Within the ServiceMonitor we specify the Kubernetes 
+# Labels that the Operator can use to identify the Kubernetes Service which in turn then identifies the Pods, that we wish to monitor.
+
 # This Kubernetes Resource uses the monitoring.coreos.com/v1 API Version that was installed into 
 # Kubernetes by the Prometheus Operator, as explained previously. It uses the namespaceSelector 
 # to specify the Kubernetes Namespace in which we wish to locate the Service, in this example 
