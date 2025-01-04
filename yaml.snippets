@@ -3061,6 +3061,141 @@ spec:
     crds: CreateReplace
 endsnippet
 
+snippet flux-helmrelease "Flux HelmRelease CRD (Nginx Ingress - CIS Compliant)" !b
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  targetNamespace: ingress-nginx
+  releaseName: ingress-nginx
+  interval: 15m
+  chart:
+    spec:
+      chart: ingress-nginx
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
+        namespace: ingress-nginx
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      image:
+        registry: registry.k8s.io
+    serviceAccount:
+      create: true
+      automountServiceAccountToken: false
+    fullnameOverride: ingress-nginx
+    controller:
+      extraVolumes:
+        - name: kube-api-access-cm
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 3607
+                  path: token
+              - configMap:
+                  items:
+                    - key: ca.crt
+                      path: ca.crt
+                  name: kube-root-ca.crt
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: v1
+                        fieldPath: metadata.namespace
+                      path: namespace
+      extraVolumeMounts:
+        - name: kube-api-access-cm
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          readOnly: true
+      image:
+        image: ingress-nginx/controller
+        tag: "v1.12.0"
+        digest: sha256:e6b8de175acda6ca913891f0f727bca4527e797d52688cbe9fec9040d6f6b6fa
+        readOnlyRootFilesystem: false
+      admissionWebhooks:
+        patch:
+          image:
+            image: ingress-nginx/kube-webhook-certgen
+            tag: v1.5.0
+            digest: sha256:aaafd456bda110628b2d4ca6296f38731a3aaf0bf7581efae824a41c770a8fc4
+      ingressClassResource:
+        controllerValue: k8s.io/ingress-nginx
+        default: true
+        enabled: true
+        name: nginx
+      config:
+        client-body-buffer-size: 100M
+        client-body-timeout: 120
+        client-header-timeout: 120
+        enable-brotli: "true"
+        enable-real-ip: "true"
+        hsts-max-age: 31449600
+        keep-alive-requests: 10000
+        keep-alive: 120
+        log-format-escape-json: "true"
+        log-format-upstream: >
+          {"time": "$time_iso8601", "remote_addr": "$proxy_protocol_addr", "x_forwarded_for": "$proxy_add_x_forwarded_for",
+          "request_id": "$req_id", "remote_user": "$remote_user", "bytes_sent": $bytes_sent, "request_time": $request_time,
+          "status": $status, "vhost": "$host", "request_proto": "$server_protocol", "path": "$uri", "request_query": "$args",
+          "request_length": $request_length, "duration": $request_time, "method": "$request_method", "http_referrer": "$http_referer",
+          "http_user_agent": "$http_user_agent"}
+        proxy-body-size: 0
+        proxy-buffer-size: 16k
+        ssl-protocols: TLSv1.3 TLSv1.2
+      minAvailable: 1
+      service:
+        externalTrafficPolicy: Local
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: '/healthz'
+          # nginx.ingress.kubernetes.io/force-ssl-redirect: "true" - once cert-manager is configured
+      autoscaling:
+        enabled: true
+        minReplicas: 3
+        maxReplicas: 5
+        targetCPUUtilizationPercentage: 90
+        targetMemoryUtilizationPercentage: 90
+      podSecurityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: 'RuntimeDefault'
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+              app.kubernetes.io/instance: ingress-nginx
+              app.kubernetes.io/component: controller
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          memory: 900Mi
+endsnippet
+
+
 snippet flux-helmrelease "Flux HelmRelease CRD (Install velero)" !b
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
