@@ -1988,7 +1988,7 @@ snippet pod "Check Internet Connection with Pod in default NS" !b
 apiVersion: v1
 kind: Pod
 metadata:
-  name: index-http-check
+  name: http-check
   namespace: default
 spec:
   securityContext:
@@ -1998,7 +1998,7 @@ spec:
     supplementalGroups: [0]
   containers:
     - name: check-http-connection
-      image: registry.indexexchange.com:5000/busybox:1.36.0
+      image: busybox:1.36.0
       command:
         - sh
         - -cx
