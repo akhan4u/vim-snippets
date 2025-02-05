@@ -688,12 +688,11 @@ snippet job "Kubernetes Job with TTL" !b
 # When the TTL controller cleans up the Job, it deletes its dependent objects as well such as Pods.
 
 # Some benefits of using TTL:
-
-# • TTL automatically removes completed jobs and their resources.
-# • It frees up cluster resources promptly after job completion.
-# • TTL prevents clutter for better cluster management.
-# • It avoids resource overload in environments with frequent job executions.
-# • It helps us to control costs by releasing resources when no longer needed.
+#   • TTL automatically removes completed jobs and their resources.
+#   • It frees up cluster resources promptly after job completion.
+#   • TTL prevents clutter for better cluster management.
+#   • It avoids resource overload in environments with frequent job executions.
+#   • It helps us to control costs by releasing resources when no longer needed.
 
 # NOTE: TTL controller is typically enabled by default in many Kubernetes setups. If it is not enabled,
 # then enable it manually in the Kubernetes controller manager.
@@ -3374,18 +3373,6 @@ endsnippet
 
 
 snippet job "Kubernetes Job to check Disk IOPS with FIO" !b
-# Understanding the FIO Parameters
-#   • --rw=write: Test write performance
-#   • --bs=1M: Use 1MB block size for large sequential writes
-#   • --ioengine=libaio: Use Linux async I/O for better performance
-#   • --iodepth=64: Queue depth for async I/O
-#   • --direct=1: Use direct I/O, bypassing the OS cache
-#   • --size=200G: Total size of the test file
-#   • --numjobs=8: Number of parallel processes
-#   • --runtime=300: Run test for 5 minutes
-#   • --time_based: Run for the specified time rather than until size is reached
-#   • --group_reporting: Aggregate results from all jobs
-
 # Create PVC
 # kubectl apply -f pvc.yaml
 ---
@@ -3443,6 +3430,18 @@ spec:
         - name: fio-mount
           persistentVolumeClaim:
             claimName: fio-pvc
+
+# Understanding the FIO Parameters
+#   • --rw=write: Test write performance
+#   • --bs=1M: Use 1MB block size for large sequential writes
+#   • --ioengine=libaio: Use Linux async I/O for better performance
+#   • --iodepth=64: Queue depth for async I/O
+#   • --direct=1: Use direct I/O, bypassing the OS cache
+#   • --size=200G: Total size of the test file
+#   • --numjobs=8: Number of parallel processes
+#   • --runtime=300: Run test for 5 minutes
+#   • --time_based: Run for the specified time rather than until size is reached
+#   • --group_reporting: Aggregate results from all jobs
 
 # Interpreting Results
 # The output will include:
