@@ -3495,3 +3495,27 @@ spec:
 #   • Lower latency suggests better response times
 #   • Higher IOPS shows better small I/O performance
 endsnippet
+
+snippet playbook "Ansible playbook for roles execution" !b
+# Set or export ANSIBLE_ROLES_PATH=/path/to/roles/dir
+---
+  - hosts: all # or 'localhost'
+    become: yes
+    roles:
+      - host-common
+endsnippet
+
+snippet playbook "Ansible playbook with Sample tasks" !b
+---
+  - hosts: localhost
+    gather_facts: yes
+    tasks:
+      - name: Read facts
+        ansible.builtin.setup:
+          filter: ansible_local
+        register: command_output
+
+      - name: Check fact value
+        debug:
+          var: command_output.stdout
+endsnippet
