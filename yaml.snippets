@@ -3510,12 +3510,20 @@ snippet playbook "Ansible playbook with Sample tasks" !b
   - hosts: localhost
     gather_facts: yes
     tasks:
-      - name: Read facts
-        ansible.builtin.setup:
-          filter: ansible_local
-        register: command_output
-
-      - name: Check fact value
-        debug:
-          var: command_output.stdout
+      - debug:
+          msg: '{{ansible_distribution}}'
+        tags:
+          - ansible_facts
+      - debug:
+          msg: '{{ansible_machine}}'
+        tags:
+          - ansible_facts
+      - debug:
+          msg: '{{ansible_system}}'
+        tags:
+          - ansible_facts
+      - debug:
+          msg: '{{ansible_date_time.time}}'
+        tags:
+          - ansible_facts
 endsnippet
