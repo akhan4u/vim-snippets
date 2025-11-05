@@ -3527,3 +3527,83 @@ snippet playbook "Ansible playbook with Sample tasks" !b
         tags:
           - ansible_facts
 endsnippet
+
+snippet mani "Add mani spec" !b
+specs:
+  custom:
+    output: table
+    parallel: true
+
+targets:
+  all:
+    all: true
+
+themes:
+  custom:
+    table:
+      border:
+        around: true
+        columns: true
+        header: true
+        rows: true
+
+tasks:
+  git-status:
+    desc: show working tree status
+    spec: custom
+    target: all
+    cmd: git status
+
+  pull:
+    desc: pull remote changes on local
+    spec: custom
+    cmd: git fetch --all && git pull --all
+
+  git-last-commit-msg:
+    desc: show last commit
+    cmd: |
+      git log -1 --pretty="%h %ad | %an <%ae>" -s --date=short
+      git log -1 --format='%B'
+
+  git-last-commit-date:
+    desc: show last commit date
+    cmd: |
+      git log -1 --format="%cd (%cr)" -n 1 --date=format:"%d  %b %y" \
+      | sed 's/ //'
+    target: all
+
+  git-branch:
+    desc: show current git branch
+    cmd: git rev-parse --abbrev-ref HEAD
+
+  search-mr:
+    desc: Searches Gitlab MRs In A Repo with specified ticket number
+    spec: custom
+    cmd: glab mr list -A --search $SEARCH
+
+  list-pr:
+    desc: List Recent 5 GitHub PRs In A Repo
+    spec: custom
+    cmd: gh pr list --limit 5
+    target: all
+
+  list-mr:
+    desc: List Recent 5 Gitlab MRs In A Repo (Not Draft)
+    spec: custom
+    cmd: glab mr list --not-draft --per-page 5
+
+  list-mrd:
+    desc: List Recent 5 Gitlab MRs In A Repo (Draft)
+    spec: custom
+    cmd: glab mr list --draft --per-page 5
+
+  git-overview:
+    desc: show branch, local and remote diffs, last commit and date
+    spec: custom
+    target: all
+    theme: custom
+    commands:
+      - task: git-branch
+      - task: git-last-commit-msg
+      - task: git-last-commit-date
+endsnippet
