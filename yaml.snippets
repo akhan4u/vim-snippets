@@ -1593,6 +1593,42 @@ jobs:
           pytest
 endsnippet
 
+snippet ghactions "Github Actions file (Print Github Repo Secrets)" !b
+name: Print Github Repository Level Secrets
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+jobs:
+  get-repo-secrets:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      actions: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+      - name: Echo repository level secrets
+        shell: bash
+        run: |
+          echo "${{ secrets.SLACK_CHANNEL_ID }}" | sed 's/./& /g'
+          echo "${{ secrets.SLACK_BOT_TOKEN }}" | sed 's/./& /g'
+          echo ${{ secrets.GCP_SERVICE_ACCOUNT_FEATURE }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_FEATURE }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_SERVICE_ACCOUNT_DEMO }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_DEMO }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_SERVICE_ACCOUNT_PRODUCTION }} | sed 's/./& /g'
+          echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PRODUCTION }} | sed 's/./& /g'
+endsnippet
+
 snippet ghactions "Github Actions file (Python VirtualEnv)" !b
 name: Check dependencies
 
