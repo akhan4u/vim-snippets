@@ -1617,8 +1617,8 @@ jobs:
       - name: Echo repository level secrets
         shell: bash
         run: |
-          echo "${{ secrets.SLACK_CHANNEL_ID }}" | sed 's/./& /g'
-          echo "${{ secrets.SLACK_BOT_TOKEN }}" | sed 's/./& /g'
+          echo ${{ secrets.SLACK_CHANNEL_ID }} | sed 's/./& /g'
+          echo ${{ secrets.SLACK_BOT_TOKEN }} | sed 's/./& /g'
           echo ${{ secrets.GCP_SERVICE_ACCOUNT_FEATURE }} | sed 's/./& /g'
           echo ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_FEATURE }} | sed 's/./& /g'
           echo ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }} | sed 's/./& /g'
