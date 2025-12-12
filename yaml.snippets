@@ -3617,18 +3617,32 @@ tasks:
     spec: custom
     cmd: glab mr list -A --search $SEARCH
 
-  list-pr:
+  search-pr:
+    desc: Searches GitHub PRs In A Repo with specified ticket number
+    spec: custom
+    cmd: |
+      gh pr list --head $SEARCH_PR -s all
+      gh pr list --head $SEARCH_PR -s all --json url | jq .[][] -r
+    target: all
+
+  lspr:
     desc: List Recent 5 GitHub PRs In A Repo
     spec: custom
     cmd: gh pr list --limit 5
     target: all
 
-  list-mr:
+  lsprm:
+    desc: List Recent 5 GitHub PRs In A Repo Created by me
+    spec: custom
+    cmd: gh pr list --author "@me" --assignee "@me" -s all
+    target: all
+
+  lsmr:
     desc: List Recent 5 Gitlab MRs In A Repo (Not Draft)
     spec: custom
     cmd: glab mr list --not-draft --per-page 5
 
-  list-mrd:
+  lsmrd:
     desc: List Recent 5 Gitlab MRs In A Repo (Draft)
     spec: custom
     cmd: glab mr list --draft --per-page 5
