@@ -3647,6 +3647,40 @@ tasks:
     spec: custom
     cmd: glab mr list --draft --per-page 5
 
+  release:
+    desc: List most recent git release & its run status
+    spec: custom
+    cmd: |
+      TAG=$(git describe --tags --abbrev=0)
+      WORKFLOW_ID=$(gh run list -b $TAG --json databaseId | jq '.[].databaseId')
+      STATUS=$(gh run view $WORKFLOW_ID --json status | jq -r '.status')
+      echo -e "✅ Most Recent Tag - $TAG ($STATUS)"
+      gh run view $WORKFLOW_ID --exit-status
+    target:
+      tags: [release]
+
+  qa:
+    desc: List most recent git release in certifyos & its run status (in qa repo)
+    spec: custom
+    cmd: |
+      QA_REPO='https://github.com/CertifyOS/qa/actions/runs'
+      TAG=$(git describe --tags --abbrev=0)
+      WORKFLOW_ID=$(gh run list -b $TAG --json databaseId | jq '.[].databaseId')
+      STATUS=$(gh run view $WORKFLOW_ID --json status | jq -r '.status')
+      E2E_JOB_ID=$(gh run view $WORKFLOW_ID --json jobs | jq '.jobs[] | select(.name == '\"perform_e2e_tests\"') | .databaseId')
+      E2E_RUN_ID=$(gh run view -j $E2E_JOB_ID --log | grep $QA_REPO | awk -F'/' '{print $NF}')
+      LOAD_JOB_ID=$(gh run view $WORKFLOW_ID --json jobs | jq '.jobs[] | select(.name == '\"perform_load_tests\"') | .databaseId')
+      LOAD_RUN_ID=$(gh run view -j $LOAD_JOB_ID --log | grep " $QA_REPO" | awk -F'/' '{print $NF}')
+
+      echo -e "✅ Most Recent Tag - $TAG ($STATUS)"
+      gh run view $WORKFLOW_ID --exit-status
+      echo -e "\n---------------------------------------------- 🚀 End-to-End Test results ----------------------------------------"
+      gh run view $E2E_RUN_ID --exit-status -R CertifyOS/qa
+      echo -e "\n---------------------------------------------- 🔩 Load Test results ----------------------------------------------"
+      gh run view $LOAD_RUN_ID --exit-status -R CertifyOS/qa
+    target:
+      tags: [certifyos]
+
   git-overview:
     desc: show branch, local and remote diffs, last commit and date
     spec: custom
