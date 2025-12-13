@@ -3569,6 +3569,12 @@ specs:
   custom:
     output: table
     parallel: true
+  trim:
+    output: table
+    ignore_non_existing: true
+    parallel: true
+    omit_empty_rows: true
+    omit_empty_columns: true
 
 targets:
   all:
@@ -3594,6 +3600,13 @@ tasks:
     desc: pull remote changes on local
     spec: custom
     cmd: git fetch --all && git pull --all
+    target: all
+
+  runs:
+    desc: Get the 3 most recent actions run
+    spec: trim
+    cmd: gh run list --limit 3 --json displayTitle,event,headBranch,headSha,status,url,startedAt | jq .[]
+    target: all
 
   git-last-commit-msg:
     desc: show last commit
@@ -3614,28 +3627,8 @@ tasks:
 
   search-mr:
     desc: Searches Gitlab MRs In A Repo with specified ticket number
-    spec: custom
+    spec: trim
     cmd: glab mr list -A --search $SEARCH
-
-  search-pr:
-    desc: Searches GitHub PRs In A Repo with specified ticket number
-    spec: custom
-    cmd: |
-      gh pr list --head $SEARCH_PR -s all
-      gh pr list --head $SEARCH_PR -s all --json url | jq .[][] -r
-    target: all
-
-  lspr:
-    desc: List Recent 5 GitHub PRs In A Repo
-    spec: custom
-    cmd: gh pr list --limit 5
-    target: all
-
-  lsprm:
-    desc: List Recent 5 GitHub PRs In A Repo Created by me
-    spec: custom
-    cmd: gh pr list --author "@me" --assignee "@me" -s all
-    target: all
 
   lsmr:
     desc: List Recent 5 Gitlab MRs In A Repo (Not Draft)
@@ -3647,15 +3640,88 @@ tasks:
     spec: custom
     cmd: glab mr list --draft --per-page 5
 
+  search-pr:
+    desc: Searches GitHub PRs In A Repo with specified ticket number
+    spec: trim
+    cmd: |
+      gh pr list --head $SEARCH_PR -s all
+      gh pr list --head $SEARCH_PR -s all --json url | jq .[][] -r
+    target: all
+
+  lspr:
+    desc: List Recent 5 GitHub PRs In A Repo
+    spec: trim
+    cmd: gh pr list --limit 5
+    target: all
+
+  lsprm:
+    desc: List Recent 5 GitHub PRs In A Repo Created by me
+    spec: trim
+    cmd: gh pr list --author "@me" --assignee "@me" -s all
+    target: all
+
+  openpr:
+    desc: List My Open PRs across all repositories
+    spec: trim
+    cmd: gh pr list --author "@me" --assignee "@me" -s open
+    target: all
+
+  recent:
+    desc: List most recent git release
+    spec: trim
+    cmd: |
+      TAG=$(git describe --tags --abbrev=0 2>/dev/null)
+      [ ! -z "$TAG" ] && echo "$TAG" || echo ''
+    target: all
+
   release:
     desc: List most recent git release & its run status
     spec: custom
+    parallel: false
     cmd: |
+      PROD='certifyos-production-platform'
+      PRE_PROD='certifyos-pre-prod-testing'
       TAG=$(git describe --tags --abbrev=0)
+      TAG_REF=$(echo $TAG | tr / - | tr . -)
+      APPS_LIST='application-api\|orchestrator\|data-pipeline'
+      APPS_LIST_FEATURE="$TAG_REF-application-api\|$TAG_REF-orchestrator\|$TAG_REF-data-pipeline"
+      GIT_REPO=$(git rev-parse --show-toplevel | awk -F '/' '{print $NF}')
       WORKFLOW_ID=$(gh run list -b $TAG --json databaseId | jq '.[].databaseId')
       STATUS=$(gh run view $WORKFLOW_ID --json status | jq -r '.status')
+      gcloud run services list --project=$PRE_PROD | grep -i "$APPS_LIST_FEATURE" 1> /dev/null
+      APP_STATUS=$?
+      gcloud app versions list --service=$TAG_REF  --project=$PRE_PROD 1> /dev/null
+      APP_STATUS_WEB_APP=$?
       echo -e "✅ Most Recent Tag - $TAG ($STATUS)"
       gh run view $WORKFLOW_ID --exit-status
+
+      if [[ "$GIT_REPO" = "client-web-app" ]] && [[ "$APP_STATUS_WEB_APP" -eq 0 ]]; then
+
+          echo -e "\n------------ 🚀 Listing AppEngine Service Versions in $PRE_PROD ---------------\n"
+          gcloud app versions list --service=$TAG_REF --project=$PRE_PROD --sort-by "~last_deployed_time" --limit 3 | tabulate -f plain
+
+          echo -e "\n------------ 🚀 Listing AppEngine Service Versions in $PROD ---------------\n"
+          gcloud app versions list --service=client-web-app --project=$PROD --sort-by "~last_deployed_time" --limit 3 | tabulate -f plain
+
+      elif [[ "$GIT_REPO" = "client-web-app" ]] && [[ "$APP_STATUS_WEB_APP" -eq 1 ]]; then
+
+          echo -e "\n------------ 🚀 Listing AppEngine Service Versions in $PROD ---------------\n"
+          gcloud app versions list --service=client-web-app --project=$PROD --sort-by "~last_deployed_time" --limit 3 | tabulate -f plain
+
+      elif [[ "$GIT_REPO" == "certifyos" ]] && [[ "$APP_STATUS" -eq 0 ]]; then
+
+          echo -e "\n------------ 🤖 Listing CloudRun Services in $PRE_PROD ---------------\n"
+          gcloud run services list --project=$PRE_PROD | grep -i "$APPS_LIST_FEATURE" | awk '{print $1,$2,$6}' | tabulate -f plain
+
+          echo -e "\n------------ 🤖 Listing CloudRun Services in $PROD ---------------\n"
+          gcloud run services list --project=$PROD | grep --color=auto -i $APPS_LIST | awk '{print $1,$2,$6}' | tabulate -f plain
+
+      elif [[ "$GIT_REPO" == "certifyos" ]] && [[ "$APP_STATUS" -eq 1 ]]; then
+
+          echo -e "\n------------ 🤖 Listing CloudRun Services in $PROD ---------------\n"
+          gcloud run services list --project=$PROD | grep --color=auto -i $APPS_LIST | awk '{print $1,$2,$6}' | tabulate -f plain
+
+      fi
     target:
       tags: [release]
 
@@ -3663,6 +3729,8 @@ tasks:
     desc: List most recent git release in certifyos & its run status (in qa repo)
     spec: custom
     cmd: |
+      PROD='certifyos-production-platform'
+      APPS_LIST='application-api\|orchestrator\|data-pipeline'
       QA_REPO='https://github.com/CertifyOS/qa/actions/runs'
       TAG=$(git describe --tags --abbrev=0)
       WORKFLOW_ID=$(gh run list -b $TAG --json databaseId | jq '.[].databaseId')
@@ -3678,6 +3746,30 @@ tasks:
       gh run view $E2E_RUN_ID --exit-status -R CertifyOS/qa
       echo -e "\n---------------------------------------------- 🔩 Load Test results ----------------------------------------------"
       gh run view $LOAD_RUN_ID --exit-status -R CertifyOS/qa
+      echo -e "\n------------ 🤖 Listing CloudRun Services in $PROD ---------------\n"
+      gcloud run services list --project=$PROD | grep --color=auto -i $APPS_LIST | awk '{print $1,$2,$6}' | tabulate -f plain
+    target:
+      tags: [certifyos]
+
+  qa-logs:
+    desc: List logs of recent git release in certifyos & its run status (in qa repo)
+    spec: custom
+    cmd: |
+      QA_REPO='https://github.com/CertifyOS/qa/actions/runs'
+      TAG=$(git describe --tags --abbrev=0)
+      WORKFLOW_ID=$(gh run list -b $TAG --json databaseId | jq '.[].databaseId')
+      STATUS=$(gh run view $WORKFLOW_ID --json status | jq -r '.status')
+      E2E_JOB_ID=$(gh run view $WORKFLOW_ID --json jobs | jq '.jobs[] | select(.name == '\"perform_e2e_tests\"') | .databaseId')
+      E2E_RUN_ID=$(gh run view -j $E2E_JOB_ID --log | grep $QA_REPO | awk -F'/' '{print $NF}')
+      LOAD_JOB_ID=$(gh run view $WORKFLOW_ID --json jobs | jq '.jobs[] | select(.name == '\"perform_load_tests\"') | .databaseId')
+      LOAD_RUN_ID=$(gh run view -j $LOAD_JOB_ID --log | grep " $QA_REPO" | awk -F'/' '{print $NF}')
+
+      echo -e "✅ Most Recent Tag - $TAG ($STATUS)"
+      gh run view $WORKFLOW_ID --exit-status --log-failed
+      echo -e "\n---------------------------------------------- 🚀 End-to-End Test result logs ----------------------------------------"
+      gh run view $E2E_RUN_ID --exit-status -R CertifyOS/qa --log-failed
+      echo -e "\n---------------------------------------------- 🔩 Load Test result logs ----------------------------------------------"
+      gh run view $LOAD_RUN_ID --exit-status -R CertifyOS/qa --log-failed
     target:
       tags: [certifyos]
 
