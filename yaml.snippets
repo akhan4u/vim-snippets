@@ -3716,6 +3716,16 @@ tasks:
       [ ! -z "$TAG" ] && echo "$TAG" || echo ''
     target: all
 
+  git-overview:
+    desc: show branch, local and remote diffs, last commit and date
+    spec: custom
+    target: all
+    theme: custom
+    commands:
+      - task: git-branch
+      - task: git-last-commit-msg
+      - task: git-last-commit-date
+
   status:
     desc: Check current release status
     spec: trim
@@ -3938,13 +3948,4 @@ tasks:
     target:
       tags: [certifyos]
 
-  git-overview:
-    desc: show branch, local and remote diffs, last commit and date
-    spec: custom
-    target: all
-    theme: custom
-    commands:
-      - task: git-branch
-      - task: git-last-commit-msg
-      - task: git-last-commit-date
 endsnippet
