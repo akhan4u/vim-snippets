@@ -2702,10 +2702,12 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels: {app: qwen3-8b}
+    matchLabels:
+      app: qwen3-8b
   template:
     metadata:
-      labels: {app: qwen3-8b}
+      labels:
+        app: qwen3-8b
     spec:
       # Required: the serving container reads the model through the sidecar's /proc.
       shareProcessNamespace: true
@@ -2717,8 +2719,12 @@ spec:
           imagePullPolicy: IfNotPresent
           command: ["sh", "-c", "ls /models >/dev/null 2>&1 || exit 1"]
           resources:
-            requests: {cpu: 10m, memory: 64Mi}
-            limits: {cpu: 100m, memory: 128Mi}
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
         # 2. The modelcar itself: a native sidecar (restartPolicy: Always) that
         #    links its own /models into the shared emptyDir and stays up.
         - name: modelcar
@@ -2727,29 +2733,52 @@ spec:
           restartPolicy: Always
           command: ["sh", "-c", "ln -sf /proc/$$/root/models /mnt/models && sleep infinity"]
           resources:
-            requests: {cpu: 10m, memory: 64Mi}
-            limits: {cpu: 100m, memory: 128Mi}
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           volumeMounts:
-            - {name: modelcar, mountPath: /mnt}
+            - name: modelcar
+              mountPath: /mnt
       containers:
         - name: engine
           image: vllm/vllm-openai:<pinned>
           args:
+            # /mnt/models is the symlink the modelcar sidecar creates into its
+            # own filesystem via /proc — no model copy, no extra disk space.
             - --model=/mnt/models
             - --served-model-name=qwen3-8b
             - --host=0.0.0.0
             - --port=8000
           ports:
-            - {containerPort: 8000, name: http}
+            - name: http
+              containerPort: 8000
           resources:
-            requests: {cpu: "8", memory: 24Gi, nvidia.com/gpu: "1"}
-            limits: {cpu: "8", memory: 24Gi, nvidia.com/gpu: "1"}
+            requests:
+              cpu: "8"
+              memory: 24Gi
+              nvidia.com/gpu: "1"
+            limits:
+              cpu: "8"
+              memory: 24Gi
+              nvidia.com/gpu: "1"
           volumeMounts:
-            - {name: modelcar, mountPath: /mnt}
-            - {name: shm, mountPath: /dev/shm}
+            - name: modelcar
+              mountPath: /mnt
+            - name: shm
+              mountPath: /dev/shm
       volumes:
-        - {name: modelcar, emptyDir: {}}
-        - {name: shm, emptyDir: {medium: Memory}}
+        # Bridge between the modelcar sidecar and the engine container.
+        - name: modelcar
+          emptyDir: {}
+        # vLLM/PyTorch use /dev/shm for inter-process tensor sharing; the default
+        # container limit (64Mi) is too small — Memory-backed emptyDir gives the
+        # full node's available memory as the ceiling.
+        - name: shm
+          emptyDir:
+            medium: Memory
 endsnippet
 
 snippet gitlab "Gitlab variables file for Armada pipeline - Upgrade a Node (IndexExchange)" !b
