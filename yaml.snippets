@@ -2694,6 +2694,64 @@ spec:
     nvidia.com/gpu.product: H100-PCIE-80GB
 endsnippet
 
+snippet pod "Pod manifest for GPU (Qwen Model Deployment)" !b
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qwen3-8b
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: qwen3-8b}
+  template:
+    metadata:
+      labels: {app: qwen3-8b}
+    spec:
+      # Required: the serving container reads the model through the sidecar's /proc.
+      shareProcessNamespace: true
+      initContainers:
+        # 1. Fail fast if this is not a model image. Also pulls the image before
+        #    the main containers start, so the sidecar below starts instantly.
+        - name: modelcar-init
+          image: registry.example.com/models/qwen3-8b:<commit sha>
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "ls /models >/dev/null 2>&1 || exit 1"]
+          resources:
+            requests: {cpu: 10m, memory: 64Mi}
+            limits: {cpu: 100m, memory: 128Mi}
+        # 2. The modelcar itself: a native sidecar (restartPolicy: Always) that
+        #    links its own /models into the shared emptyDir and stays up.
+        - name: modelcar
+          image: registry.example.com/models/qwen3-8b:<commit sha>
+          imagePullPolicy: IfNotPresent
+          restartPolicy: Always
+          command: ["sh", "-c", "ln -sf /proc/$$/root/models /mnt/models && sleep infinity"]
+          resources:
+            requests: {cpu: 10m, memory: 64Mi}
+            limits: {cpu: 100m, memory: 128Mi}
+          volumeMounts:
+            - {name: modelcar, mountPath: /mnt}
+      containers:
+        - name: engine
+          image: vllm/vllm-openai:<pinned>
+          args:
+            - --model=/mnt/models
+            - --served-model-name=qwen3-8b
+            - --host=0.0.0.0
+            - --port=8000
+          ports:
+            - {containerPort: 8000, name: http}
+          resources:
+            requests: {cpu: "8", memory: 24Gi, nvidia.com/gpu: "1"}
+            limits: {cpu: "8", memory: 24Gi, nvidia.com/gpu: "1"}
+          volumeMounts:
+            - {name: modelcar, mountPath: /mnt}
+            - {name: shm, mountPath: /dev/shm}
+      volumes:
+        - {name: modelcar, emptyDir: {}}
+        - {name: shm, emptyDir: {medium: Memory}}
+endsnippet
+
 snippet gitlab "Gitlab variables file for Armada pipeline - Upgrade a Node (IndexExchange)" !b
 [
   {
